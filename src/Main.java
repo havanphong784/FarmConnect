@@ -1,5 +1,5 @@
 public class Main {
     static void main(String[] args) {
-        new UI.LoginFrame().setVisible(true);
+        new UI.MainApp().setVisible(true);
     }
 }

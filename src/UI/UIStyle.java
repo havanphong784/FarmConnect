@@ -15,6 +15,7 @@ public class UIStyle {
     public static Font font16 = new Font("Segoe UI", Font.PLAIN, 16);
     public static Font font30 = new Font("Segoe UI", Font.PLAIN, 30);
     public static Font font20 = new Font("Segoe UI", Font.ITALIC, 20);
+    public static Font fontEmoji = new Font("Segoe UI Emoji", Font.BOLD, 10);
 
     // Btn chung
     public static JButton setBtnActive(JButton btn , String text) {
@@ -53,10 +54,25 @@ public class UIStyle {
         return passwordField;
     }
     // Label
-    public void setLabel(JLabel label , String text) {
-        label.setText(text);
-        label.setSize(300,40);
-        label.setForeground(colorTextField);
+    public static JLabel setLabel(JLabel label , String text) {
+        label = new JLabel(text);
+        label.setForeground(Color.white);
         label.setBackground(colorPrimary);
+        label.setFont(font16);
+        return label;
+    }
+
+    public static JButton setButtonDB(JButton button , String text) {
+        button = new JButton(text);
+        button.setPreferredSize(new Dimension(250,50));
+        button.setMaximumSize(new Dimension(250,50));
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setFont(font16);
+        button.setBackground(colorPrimary);
+        button.setForeground(Color.white);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setHorizontalAlignment(JButton.LEFT);
+        return button;
     }
 }
