@@ -2,7 +2,7 @@ import UI.UIStyle;
 
 public class Main {
     static void main(String[] args) {
-        UIStyle.apply();
+        UIStyle.setDefaultsTheme();
         new UI.LoginFrame().setVisible(true);
     }
 }

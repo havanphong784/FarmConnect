@@ -1,6 +1,8 @@
 package UI;
 
 import DBConnect.DBConnect;
+import DBConnect.GetFuction;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -83,46 +85,8 @@ public class RegisterFrame extends LoginFrame {
                     JOptionPane.showMessageDialog(null, "Email không hợp lệ (chỉ chấp nhận @gmail.com)!");
                     return;
                 }
-
                 // 4. Câu lệnh SQL tương ứng với bảng Users trong SQL Server
-                String checkSql  = "SELECT 1 FROM dbo.Users WHERE email = ? OR name = ?";
-                String insertSql = "INSERT INTO dbo.Users (name, passwordHash, email, role) VALUES (?, ?, ?, ?)";
-
-                try (Connection connection = DBConnect.getConnection();
-                     PreparedStatement checkSt = connection.prepareStatement(checkSql)) {
-
-                    // set tham số cho câu check
-                    checkSt.setString(1, email);
-                    checkSt.setString(2, username);
-
-                    // 5. Kiểm tra email/username đã tồn tại chưa
-                    try (ResultSet rs = checkSt.executeQuery()) {
-                        if (rs.next()) {
-                            JOptionPane.showMessageDialog(null, "Email hoặc username đã tồn tại!");
-                            return;
-                        }
-                    }
-
-                    // 6. Không trùng -> tiến hành insert
-                    try (PreparedStatement insertSt = connection.prepareStatement(insertSql)) {
-                        insertSt.setString(1, username);
-                        insertSt.setString(2, password);  // sau này có hash thì thay bằng hash(password)
-                        insertSt.setString(3, email);
-                        if (cmbRole.getSelectedItem().equals("Farmer")) insertSt.setString(4, "FARMER");
-                        else insertSt.setString(4, "CUSTOMER");
-
-                        int rows = insertSt.executeUpdate();
-                        if (rows > 0) {
-                            JOptionPane.showMessageDialog(null, "Đăng ký thành công!");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Đăng ký thất bại, vui lòng thử lại!");
-                        }
-                    }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Lỗi kết nối CSDL!");
-                }
+                Boolean kt = GetFuction.chekRegistration(username, password, email);
             }
         });
 

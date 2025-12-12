@@ -21,17 +21,16 @@ public class UIStyle {
     public static Font fontEmoji = new Font("Segoe UI Emoji", Font.BOLD, 10);
 
     // OptionPane
-    public static void apply() {
+    public static void setDefaultsTheme() {
+        UIManager.put("OptionPane.background", colorBg);
+        UIManager.put("Panel.background", colorBg);
         UIManager.put("OptionPane.messageFont", font16);
-        UIManager.put("OptionPane.buttonFont",font16Bold);
-        UIManager.put("OptionPane.buttonIcon",font16);
-        UIManager.put("OptionPane.background",colorBg);
-        UIManager.put("OptionPane.labelBackground",colorPrimary);
-        UIManager.put("Panel.background",colorBg);
-        UIManager.put("Button.background",colorBg);
-        UIManager.put("Panel.border",new BorderUIResource(BorderFactory.createEmptyBorder(10,10,10,10)));
-        UIManager.put("Button.border",new BorderUIResource(BorderFactory.createEmptyBorder(0,0,0,0)));
-        UIManager.put("Button.FocusPainted",false);
+        UIManager.put("OptionPane.buttonFont", font16Bold);
+        UIManager.put("OptionPane.messageForeground", colorLabel);
+        Border messagePad = BorderFactory.createEmptyBorder(10, 14, 6, 14);
+        Border buttonPad  = BorderFactory.createEmptyBorder(8, 14, 12, 14);
+        UIManager.put("OptionPane.messageAreaBorder", messagePad);
+        UIManager.put("OptionPane.buttonAreaBorder", buttonPad);
     }
 
     // Btn chung

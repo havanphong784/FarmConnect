@@ -1,6 +1,7 @@
 package UI;
 
 import DBConnect.DBConnect;
+import DBConnect.GetFuction;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -107,42 +108,18 @@ public class LoginFrame extends JFrame {
         this.btnRegister.addActionListener(al);
 
         btnLogin.addActionListener(e -> {
-            if (txtUsername.getText().equals("") || txtPassword.getText().equals("")) {
+            String username = txtUsername.getText().trim();
+            String pass = new String(txtPassword.getPassword());
+            if (username.isEmpty() || pass.isEmpty()) {
                 JOptionPane.showMessageDialog(null,"Vui lòng nhập Tên đăng nhập và Password");
                 return;
             }
-            String sql = "SELECT PasswordHash, Role FROM Users WHERE Email=?";
-            try (Connection con = DBConnect.getConnection();
-                 PreparedStatement st = con.prepareStatement(sql)) {
 
-                st.setString(1, txtUsername.getText().trim());
-
-                try (ResultSet rs = st.executeQuery()) {
-
-                    if (!rs.next()) {
-                        JOptionPane.showMessageDialog(null, "User không tồn tại!");
-                        return;
-                    }
-
-                    String pass = new String(txtPassword.getPassword());
-                    if (!rs.getString("PasswordHash").equals(pass)) {
-                        JOptionPane.showMessageDialog(null, "Sai mật khẩu.");
-                        return;
-                    }
-
-                    String role = rs.getString("Role");
-                    JOptionPane.showMessageDialog(null, "Đăng nhập thành công.");
-                    new UI.MainApp().setVisible(true);
-
-                    if ("Admin".equals(role)) System.out.println("ADMIN");
-                    else if ("User".equals(role)) System.out.println("USER");
-                    else if ("Farm".equals(role)) System.out.println("FARM");
-                    else System.out.println("Role không hợp lệ: " + role);
-                }
-
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            Boolean check = GetFuction.checkLogin(username,pass);
+            if (check) {
+                new MainApp().setVisible(true);
+                dispose();
+            }else JOptionPane.showMessageDialog(null,"Tài khoản và mật khẩu không đúng !");
         });
 
     }
