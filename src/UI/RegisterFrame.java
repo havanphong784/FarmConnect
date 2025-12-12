@@ -1,21 +1,16 @@
 package UI;
 
-import DBConnect.DBConnect;
 import DBConnect.GetFuction;
-
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class RegisterFrame extends LoginFrame {
     private JLabel lblAgainPass,lblEmail;
     private JPasswordField txtAgainPass;
     private JTextField txtEmail;
+    private JButton btnBack;
     private JComboBox<String> cmbRole;
     public RegisterFrame() {
         super();
@@ -45,22 +40,21 @@ public class RegisterFrame extends LoginFrame {
         this.txtEmail.setBounds(60, 620, 340, 50);
         pnRight.add(txtEmail);
 
-        // Combo role dưới Email
-        String[] role = new String[] {"Customer","Farmer"};
-        this.cmbRole = new JComboBox<>(role);
-        this.cmbRole.setFont(UIStyle.font16);
-        this.cmbRole.setBounds(60, 690, 150, 40);
-        this.cmbRole.setForeground(UIStyle.colorText);
-        this.cmbRole.setBackground(UIStyle.colorTextField);
-        pnRight.add(this.cmbRole);
+
+//        this.cmbRole.setBounds(60, 690, 150, 40);
 
         // Nút Đăng ký dưới combo, full chiều rộng như ô nhập
-        btnRegister.setBounds(60, 740, 340, 50);
+        btnRegister.setBounds(60, 690, 340, 50);
         pnRight.add(this.btnRegister);
 
+        //nut back
+        this.btnBack = UIStyle.setBtnActive(this.btnBack, "Back");
+        btnBack.setBounds(60,770,100,30);
+        pnRight.add(btnBack);
+
         // Action Listener
-        btnRegister.removeActionListener(al);
-        btnRegister.addActionListener(new ActionListener() {
+        this.btnRegister.removeActionListener(al);
+        this.btnRegister.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = txtEmail.getText().trim();
@@ -85,10 +79,21 @@ public class RegisterFrame extends LoginFrame {
                     JOptionPane.showMessageDialog(null, "Email không hợp lệ (chỉ chấp nhận @gmail.com)!");
                     return;
                 }
-                // 4. Câu lệnh SQL tương ứng với bảng Users trong SQL Server
                 Boolean kt = GetFuction.chekRegistration(username, password, email);
+                if (kt) {
+                    new LoginFrame().setVisible(true);
+                    setVisible(false);
+                    dispose();
+                }
             }
         });
 
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginFrame().setVisible(true);
+                dispose();
+            }
+        });
     }
 }

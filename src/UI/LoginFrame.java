@@ -118,6 +118,7 @@ public class LoginFrame extends JFrame {
             Boolean check = GetFuction.checkLogin(username,pass);
             if (check) {
                 new MainApp().setVisible(true);
+                setVisible(false);
                 dispose();
             }else JOptionPane.showMessageDialog(null,"Tài khoản và mật khẩu không đúng !");
         });
