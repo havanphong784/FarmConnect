@@ -132,6 +132,7 @@ public class LoginFrame extends JFrame {
 
                     String role = rs.getString("Role");
                     JOptionPane.showMessageDialog(null, "Đăng nhập thành công.");
+                    new UI.MainApp().setVisible(true);
 
                     if ("Admin".equals(role)) System.out.println("ADMIN");
                     else if ("User".equals(role)) System.out.println("USER");

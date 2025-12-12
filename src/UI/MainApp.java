@@ -3,6 +3,8 @@ package UI;
 import javax.swing.*;
 import javax.swing.text.StyledEditorKit;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainApp extends JFrame  {
     private JPanel pnNavigation,pnContent,pnHeader,pnDes;
@@ -73,5 +75,13 @@ public class MainApp extends JFrame  {
         this.pnHeader.add(lblAvatar);
         this.pnContent.add(this.pnHeader,BorderLayout.NORTH);
         this.add(this.pnContent,BorderLayout.CENTER);
+
+        // Action
+        btnFour.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new LoginFrame().setVisible(true);
+                dispose();
+            }
+        });
     }
 }

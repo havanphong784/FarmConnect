@@ -1,5 +1,8 @@
+import UI.UIStyle;
+
 public class Main {
     static void main(String[] args) {
-        new UI.MainApp().setVisible(true);
+        UIStyle.apply();
+        new UI.LoginFrame().setVisible(true);
     }
 }

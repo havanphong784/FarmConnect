@@ -1,6 +1,8 @@
 package UI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 
 
@@ -13,9 +15,24 @@ public class UIStyle {
     public static Color colorLabel = new Color(71, 85, 105);
         // Các loại Font
     public static Font font16 = new Font("Segoe UI", Font.PLAIN, 16);
+    public static Font font16Bold = new Font("Segoe UI", Font.BOLD, 16);
     public static Font font30 = new Font("Segoe UI", Font.PLAIN, 30);
     public static Font font20 = new Font("Segoe UI", Font.ITALIC, 20);
     public static Font fontEmoji = new Font("Segoe UI Emoji", Font.BOLD, 10);
+
+    // OptionPane
+    public static void apply() {
+        UIManager.put("OptionPane.messageFont", font16);
+        UIManager.put("OptionPane.buttonFont",font16Bold);
+        UIManager.put("OptionPane.buttonIcon",font16);
+        UIManager.put("OptionPane.background",colorBg);
+        UIManager.put("OptionPane.labelBackground",colorPrimary);
+        UIManager.put("Panel.background",colorBg);
+        UIManager.put("Button.background",colorBg);
+        UIManager.put("Panel.border",new BorderUIResource(BorderFactory.createEmptyBorder(10,10,10,10)));
+        UIManager.put("Button.border",new BorderUIResource(BorderFactory.createEmptyBorder(0,0,0,0)));
+        UIManager.put("Button.FocusPainted",false);
+    }
 
     // Btn chung
     public static JButton setBtnActive(JButton btn , String text) {
