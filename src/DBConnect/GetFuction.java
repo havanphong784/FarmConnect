@@ -1,5 +1,6 @@
 package DBConnect;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class GetFuction {

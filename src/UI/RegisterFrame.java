@@ -54,7 +54,7 @@ public class RegisterFrame extends LoginFrame {
 
         // Action Listener
         this.btnRegister.removeActionListener(al);
-        this.btnRegister.addActionListener(new ActionListener() {
+        al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = txtEmail.getText().trim();
@@ -81,19 +81,20 @@ public class RegisterFrame extends LoginFrame {
                 }
                 Boolean kt = GetFuction.chekRegistration(username, password, email);
                 if (kt) {
+                    JOptionPane.showMessageDialog(null,"Đăng kí thành công !");
                     new LoginFrame().setVisible(true);
-                    setVisible(false);
                     dispose();
                 }
             }
-        });
+        };
 
-        btnBack.addActionListener(new ActionListener() {
+        al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new LoginFrame().setVisible(true);
                 dispose();
             }
-        });
+        };
+        this.btnRegister.addActionListener(al);
     }
 }
