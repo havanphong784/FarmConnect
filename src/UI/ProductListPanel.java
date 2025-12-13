@@ -20,7 +20,7 @@ public class ProductListPanel extends JPanel {
     public ProductListPanel() {
         this.setLayout(new BorderLayout(5, 5));
         this.setBackground(UIStyle.colorBg);
-        this.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        this.setBorder(BorderFactory.createEmptyBorder(10,30,10,30));
 
         // Panel Top
         this.pnTop = new JPanel();
@@ -42,6 +42,7 @@ public class ProductListPanel extends JPanel {
         this.pnTop.add(this.btnSearch);
         this.pnTop.add(Box.createHorizontalGlue());
         String[] xs = {
+                "Chọn kiểu sắp xếp",
                 "Xắp xếp theo tên tăng dần",
                 "Xắp xếp theo tên giảm dần",
                 "Xắp xếp theo số lượng tăng dần",
@@ -51,7 +52,7 @@ public class ProductListPanel extends JPanel {
         };
         this.cmbArrangement =  new JComboBox<>(xs);
         this.cmbArrangement.setMaximumSize(new Dimension(300, 30));
-        this.cmbArrangement.setBackground(UIStyle.colorBg);
+        this.cmbArrangement.setBackground(new Color(158, 248, 121));
         this.cmbArrangement.setFont(UIStyle.font16);
         this.pnTop.add(this.cmbArrangement);
         this.pnTop.add(Box.createHorizontalStrut(10));
@@ -101,6 +102,43 @@ public class ProductListPanel extends JPanel {
                         break;
                     case "Xắp xếp theo giá giảm dần":
                         newData = ProductsServer.toTableData(ProductsDAO.getOderPriceDESC());
+                        break;
+                    default:
+                        newData = ProductsServer.toTableData(ProductsDAO.getAll());
+                }
+
+                model.setDataVector(newData, cols); // cập nhật dữ liệu + header
+                // không cần repaint() thủ công
+            }
+        });
+
+        this.btnSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nameSearch = txtSearch.getText();
+                String selected = String.valueOf(cmbArrangement.getSelectedItem());
+                Object[][] newData;
+                switch (selected) {
+                    case "Chọn kiểu sắp xếp":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch));
+                        break;
+                    case "Xắp xếp theo tên tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch));
+                        break;
+                    case "Xắp xếp theo tên giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch));
+                        break;
+                    case "Xắp xếp theo số lượng tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch));
+                        break;
+                    case "Xắp xếp theo số lượng giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch));
+                        break;
+                    case "Xắp xếp theo giá tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch));
+                        break;
+                    case "Xắp xếp theo giá giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch));
                         break;
                     default:
                         newData = ProductsServer.toTableData(ProductsDAO.getAll());

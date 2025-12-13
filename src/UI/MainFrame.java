@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame  {
-    private JPanel pnNavigation,pnContent,pnHeader,pnDes,pnProducts,pnCard,pnHistory,pnStatitics;
+    private JPanel pnNavigation,pnContent,pnHeader,pnDes,pnCard;
     private JButton btnOne, btnTwo, btnThree, btnFour;
     private JLabel lblNameApp,lblAvatar,lblRole,lblName;
     public MainFrame() {
