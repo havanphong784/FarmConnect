@@ -88,13 +88,12 @@ public class RegisterFrame extends LoginFrame {
             }
         };
 
-        al = new ActionListener() {
+        this.btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new LoginFrame().setVisible(true);
                 dispose();
             }
-        };
-        this.btnRegister.addActionListener(al);
+        });
     }
 }

@@ -13,12 +13,14 @@ public class UIStyle {
     public static Color colorBg = new Color(248, 248, 250);
     public static Color colorText = new Color(30, 41, 59);
     public static Color colorLabel = new Color(71, 85, 105);
+    public static Color colorHeader = new Color(235, 236, 236);
         // Các loại Font
+    public static Font font14 = new Font("Segoe UI", Font.PLAIN, 14);
     public static Font font16 = new Font("Segoe UI", Font.PLAIN, 16);
     public static Font font16Bold = new Font("Segoe UI", Font.BOLD, 16);
     public static Font font30 = new Font("Segoe UI", Font.PLAIN, 30);
     public static Font font20 = new Font("Segoe UI", Font.ITALIC, 20);
-    public static Font fontEmoji = new Font("Segoe UI Emoji", Font.BOLD, 10);
+    public static Font fontEmoji = new Font("Segoe UI Emoji", Font.PLAIN, 14);
 
     // OptionPane
     public static void setDefaultsTheme() {

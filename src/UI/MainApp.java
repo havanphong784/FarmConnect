@@ -1,13 +1,12 @@
 package UI;
 
 import javax.swing.*;
-import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainApp extends JFrame  {
-    private JPanel pnNavigation,pnContent,pnHeader,pnDes;
+    private JPanel pnNavigation,pnContent,pnHeader,pnDes,pnBtnAction;
     private JButton btnOne, btnTwo, btnThree, btnFour;
     private JLabel lblNameApp,lblAvatar,lblRole,lblName;
     public MainApp() {
@@ -31,7 +30,7 @@ public class MainApp extends JFrame  {
         this.lblNameApp.setVerticalAlignment(JLabel.TOP);
         this.pnNavigation.add(this.lblNameApp);
 
-        this.btnOne = UIStyle.setButtonDB(this.btnOne,"Home");
+        this.btnOne = UIStyle.setButtonDB(this.btnOne,"Sản phẩm");
         this.pnNavigation.add(this.btnOne);
         this.btnTwo = UIStyle.setButtonDB(this.btnTwo,"Login");
         this.pnNavigation.add(this.btnTwo);
@@ -48,19 +47,20 @@ public class MainApp extends JFrame  {
 
         // Panel content bên trái
         this.pnContent = new JPanel(new BorderLayout());
-        this.pnContent.setBackground(Color.white);
         this.pnHeader = new JPanel();
         this.pnHeader.setLayout(new BoxLayout(this.pnHeader,BoxLayout.X_AXIS));
+        this.pnHeader.setBackground(UIStyle.colorHeader);
         this.pnHeader.add(Box.createHorizontalGlue());
         this.pnDes = new JPanel();
         this.pnDes.setLayout(new BoxLayout(this.pnDes,BoxLayout.Y_AXIS));
+        this.pnDes.setBackground(UIStyle.colorHeader);
         this.pnDes.setPreferredSize(new Dimension(300,80));
         this.lblName = new JLabel("Nguyen Van A");
         this.lblName.setMaximumSize(new Dimension(300,24));
         this.lblName.setHorizontalAlignment(JLabel.RIGHT);
         this.lblName.setFont(UIStyle.font16);
         this.pnDes.add(this.lblName);
-        this.lblRole = new JLabel("Role");
+        this.lblRole = new JLabel("Admin");
         this.lblRole.setMaximumSize(new Dimension(300,24));
         this.lblRole.setHorizontalAlignment(JLabel.RIGHT);
         this.lblRole.setFont(UIStyle.font16);
@@ -76,11 +76,22 @@ public class MainApp extends JFrame  {
         this.pnContent.add(this.pnHeader,BorderLayout.NORTH);
         this.add(this.pnContent,BorderLayout.CENTER);
 
+        //Panel khi bam cac btn
+        this.pnBtnAction = new ProductListPanel();
+        pnContent.add(this.pnBtnAction,BorderLayout.CENTER);
+
+
+
         // Action
         btnFour.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new LoginFrame().setVisible(true);
                 dispose();
+            }
+        });
+
+        btnOne.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
             }
         });
     }
