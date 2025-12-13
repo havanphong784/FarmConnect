@@ -13,7 +13,7 @@ public class UIStyle {
     public static Color colorBg = new Color(248, 248, 250);
     public static Color colorText = new Color(30, 41, 59);
     public static Color colorLabel = new Color(71, 85, 105);
-    public static Color colorHeader = new Color(235, 236, 236);
+    public static Color colorHeader = new Color(101, 166, 75);
     public static Color colorRed  = new Color(234, 72, 72);
         // Các loại Font
     public static Font font14 = new Font("Segoe UI", Font.PLAIN, 14);
@@ -89,7 +89,7 @@ public class UIStyle {
         button.setBorderPainted(false);
         button.setFont(font16);
         button.setBackground(colorPrimary);
-        button.setForeground(Color.white);
+        button.setForeground(new Color(240, 245, 250));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setHorizontalAlignment(JButton.LEFT);
         return button;

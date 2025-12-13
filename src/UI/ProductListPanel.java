@@ -52,7 +52,7 @@ public class ProductListPanel extends JPanel {
         };
         this.cmbArrangement =  new JComboBox<>(xs);
         this.cmbArrangement.setMaximumSize(new Dimension(300, 30));
-        this.cmbArrangement.setBackground(new Color(158, 248, 121));
+        this.cmbArrangement.setBackground(UIStyle.colorHeader);
         this.cmbArrangement.setFont(UIStyle.font16);
         this.pnTop.add(this.cmbArrangement);
         this.pnTop.add(Box.createHorizontalStrut(10));
