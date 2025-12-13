@@ -5,12 +5,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class ProductListPanel extends JPanel {
-    private JTable table;
-    private JTextField txtSearch;
-    private JComboBox<String> cmbArrangement;
-    private JButton btnSearch,btnAdd,btnUpdate;
-    private JPanel pnTop, pnCenter,pnBottom;
-    private JScrollPane scrollPane;
+    protected JTable table;
+    protected JTextField txtSearch;
+    protected JComboBox<String> cmbArrangement;
+    protected JButton btnSearch,btnAdd,btnUpdate;
+    protected JPanel pnTop, pnCenter,pnBottom;
+    protected JScrollPane scrollPane;
     public ProductListPanel() {
         this.setLayout(new BorderLayout(5, 5));
         this.setBackground(UIStyle.colorBg);
@@ -110,13 +110,14 @@ public class ProductListPanel extends JPanel {
         this.pnBottom.setPreferredSize(new Dimension(900,40));
         this.pnBottom.setLayout(new BoxLayout(this.pnBottom, BoxLayout.X_AXIS));
         this.pnBottom.add(Box.createHorizontalGlue());
-        this.btnAdd = UIStyle.setBtnActive(this.btnAdd,"Update");
-        this.btnAdd.setBorder(BorderFactory.createEmptyBorder(4,12,4,12));
+        this.btnAdd = UIStyle.setBtnActive(this.btnAdd,"Thêm");
+        this.btnAdd.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
         this.pnBottom.add(this.btnAdd);
         this.pnBottom.add(Box.createHorizontalStrut(20));
-        this.btnAdd = UIStyle.setBtnActive(this.btnAdd,"Thêm");
-        this.btnAdd.setBorder(BorderFactory.createEmptyBorder(4,12,4,12));
-        this.pnBottom.add(this.btnAdd);
+        this.btnUpdate = UIStyle.setBtnActive(this.btnUpdate,"Bán");
+        this.btnUpdate.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
+        this.btnUpdate.setBackground(UIStyle.colorRed);
+        this.pnBottom.add(this.btnUpdate);
 
         this.pnBottom.add(Box.createHorizontalStrut(40));
         this.add(this.pnBottom, BorderLayout.SOUTH);

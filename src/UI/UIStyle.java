@@ -14,6 +14,7 @@ public class UIStyle {
     public static Color colorText = new Color(30, 41, 59);
     public static Color colorLabel = new Color(71, 85, 105);
     public static Color colorHeader = new Color(235, 236, 236);
+    public static Color colorRed  = new Color(234, 72, 72);
         // Các loại Font
     public static Font font14 = new Font("Segoe UI", Font.PLAIN, 14);
     public static Font font16 = new Font("Segoe UI", Font.PLAIN, 16);

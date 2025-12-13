@@ -1,19 +1,14 @@
 package UI;
 
-import DBConnect.DBConnect;
 import DBConnect.GetFuction;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class LoginFrame extends JFrame {
     protected JPanel pnLeft,pnRight;
-    protected JLabel lblTitle,lblAvatar,lblAppName,lblUsername,lblPassword,lblOr;
+    protected JLabel lblTitle,lblAppName,lblUsername,lblPassword,lblOr;
     protected JTextField txtUsername;
     protected JPasswordField txtPassword;
     protected JButton btnLogin,btnRegister;
@@ -42,17 +37,10 @@ public class LoginFrame extends JFrame {
         this.pnRight.setBackground(UIStyle.colorBg);
         this.add(this.pnRight);
 
-        this.lblAvatar = new JLabel("");
-        this.lblAvatar.setIcon(new ImageIcon(LoginFrame.class.getResource("/Image/avatar.png")));
-        this.lblAvatar.setBounds(50,80,60,60);
-        this.lblAvatar.setBackground(UIStyle.colorBg);
-        this.lblAvatar.setForeground(UIStyle.colorPrimary);
-        this.pnRight.add(lblAvatar);
-
         this.lblAppName = new JLabel("Farm Connect");
         this.lblAppName.setFont(UIStyle.font30);
         this.lblAppName.setForeground(UIStyle.colorPrimary);
-        this.lblAppName.setBounds(120,95,200,30);
+        this.lblAppName.setBounds(130,95,200,30);
         this.pnRight.add(lblAppName);
 
         this.lblTitle = new JLabel("Chào mừng đã trở lại !");
@@ -118,7 +106,7 @@ public class LoginFrame extends JFrame {
 
             Boolean check = GetFuction.checkLogin(username,pass);
             if (check) {
-                new MainApp().setVisible(true);
+                new MainFrame().setVisible(true);
                 dispose();
             }else JOptionPane.showMessageDialog(null,"Tài khoản và mật khẩu không đúng !");
         });
