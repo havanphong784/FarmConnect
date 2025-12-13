@@ -1,8 +1,12 @@
 package UI;
 
+import Server.ProductsServer;
+import DBConnect.ProductsDAO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ProductListPanel extends JPanel {
     protected JTable table;
@@ -11,6 +15,8 @@ public class ProductListPanel extends JPanel {
     protected JButton btnSearch,btnAdd,btnUpdate;
     protected JPanel pnTop, pnCenter,pnBottom;
     protected JScrollPane scrollPane;
+    public Object[][] data;
+    public String[] cols;
     public ProductListPanel() {
         this.setLayout(new BorderLayout(5, 5));
         this.setBackground(UIStyle.colorBg);
@@ -52,48 +58,59 @@ public class ProductListPanel extends JPanel {
         this.add(this.pnTop, BorderLayout.NORTH);
 
         //panel center
-        this.pnCenter = new JPanel(new BorderLayout());
-        String[] cols = {"Mã", "Tên", "Số lượng", "Giá"};
-        Object[][] data = {
-                {"SP01", "Bút", 10, 5000},
-                {"SP02", "Vở", 20, 12000},
-                {"SP03", "Thước", 5, 8000},
-                {"SP04", "Tẩy", 15, 3000},
-                {"SP05", "Sổ tay", 12, 25000},
-                {"SP06", "Bìa hồ sơ", 30, 6000},
-                {"SP07", "Kẹp giấy", 100, 1500},
-                {"SP08", "Bút chì", 25, 4000},
-                {"SP09", "Bút bi xanh", 40, 5000},
-                {"SP10", "Bút bi đỏ", 35, 5000},
-                {"SP11", "Bút highlight", 18, 12000},
-                {"SP12", "Gôm", 22, 3000},
-                {"SP13", "Compa", 7, 18000},
-                {"SP14", "Thước 20cm", 16, 7000},
-                {"SP15", "Thước 30cm", 14, 9000},
-                {"SP16", "Giấy A4", 50, 65000},
-                {"SP17", "Giấy note", 45, 10000},
-                {"SP18", "Bì thư", 60, 2000},
-                {"SP19", "Tập giấy", 28, 11000},
-                {"SP20", "Bảng kẹp", 9, 35000},
-                {"SP21", "Dao rọc giấy", 11, 15000},
-                {"SP22", "Kéo", 8, 22000},
-                {"SP23", "Hồ dán", 19, 9000},
-                {"SP24", "Băng keo", 17, 12000},
-                {"SP25", "Bấm kim", 6, 45000},
-                {"SP26", "Kim bấm", 26, 8000},
-                {"SP27", "Máy tính bỏ túi", 4, 120000},
-                {"SP28", "Sổ lò xo", 13, 30000},
-                {"SP29", "File nhựa", 55, 4000},
-                {"SP30", "Túi đựng hồ sơ", 32, 6000}
-        };
 
-        DefaultTableModel model = new  DefaultTableModel(data,cols);
+        this.pnCenter = new JPanel(new BorderLayout());
+        cols = new String[]{"Tên", "Giá","Đơn vị","Tồn kho","Mô tả"};
+        data = ProductsServer.toTableData(ProductsDAO.getAll());
+        DefaultTableModel model = new  DefaultTableModel(data,cols) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         this.table = new JTable(model) {
             @Override
             public boolean getScrollableTracksViewportWidth() {
                 return true; // set width theo kich thuoc cua ScrollPane
             }
         };
+
+        // su kien khi thay doi xap xep
+        this.cmbArrangement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selected = String.valueOf(cmbArrangement.getSelectedItem());
+
+                Object[][] newData;
+
+                switch (selected) {
+                    case "Xắp xếp theo tên tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.getOderNameASC());
+                        break;
+                    case "Xắp xếp theo tên giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.getOderNameDESC());
+                        break;
+                    case "Xắp xếp theo số lượng tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.getOderQuantityASC());
+                        break;
+                    case "Xắp xếp theo số lượng giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.getOderQuantityDESC());
+                        break;
+                    case "Xắp xếp theo giá tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.getOderPriceASC());
+                        break;
+                    case "Xắp xếp theo giá giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.getOderPriceDESC());
+                        break;
+                    default:
+                        newData = ProductsServer.toTableData(ProductsDAO.getAll());
+                }
+
+                model.setDataVector(newData, cols); // cập nhật dữ liệu + header
+                // không cần repaint() thủ công
+            }
+        });
+
         this.table.setDefaultEditor(Object.class, null);
         this.table.setFont(UIStyle.font16);
         this.table.setBackground(UIStyle.colorBg);
@@ -103,6 +120,7 @@ public class ProductListPanel extends JPanel {
         this.scrollPane.setPreferredSize(new Dimension(1400, 770));
         this.pnCenter.add(this.scrollPane);
         this.add(this.pnCenter, BorderLayout.CENTER);
+
 
         // pane bottom
         this.pnBottom = new JPanel();

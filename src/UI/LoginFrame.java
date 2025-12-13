@@ -13,6 +13,7 @@ public class LoginFrame extends JFrame {
     protected JPasswordField txtPassword;
     protected JButton btnLogin,btnRegister;
     protected ActionListener al;
+    public static String username; //usename bỏ public để có sd trong ct
     public LoginFrame() {
         this.setSize(1200,850);
         this.setLocationRelativeTo(null);
@@ -97,7 +98,7 @@ public class LoginFrame extends JFrame {
         this.btnRegister.addActionListener(al);
 
         btnLogin.addActionListener(e -> {
-            String username = txtUsername.getText().trim();
+            username = txtUsername.getText().trim();
             String pass = new String(txtPassword.getPassword());
             if (username.isEmpty() || pass.isEmpty()) {
                 JOptionPane.showMessageDialog(null,"Vui lòng nhập Tên đăng nhập và Password");
