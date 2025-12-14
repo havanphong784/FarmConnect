@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static UI.LoginFrame.username;
+
 public class MainFrame extends JFrame  {
     private JPanel pnNavigation,pnContent,pnHeader,pnDes,pnCard;
     private JButton btnOne, btnTwo, btnThree, btnFour;
@@ -22,7 +24,7 @@ public class MainFrame extends JFrame  {
         this.pnNavigation.setBackground(UIStyle.colorPrimary);
         this.add(this.pnNavigation,BorderLayout.WEST);
 
-        this.lblNameApp = UIStyle.setLabel(this.lblNameApp,"Farm Connect");
+        this.lblNameApp = UIStyle.setLabelPrimary(this.lblNameApp,"Farm Connect");
         this.lblNameApp.setFont(UIStyle.font30);
         this.lblNameApp.setPreferredSize(new Dimension(240,80));
         this.lblNameApp.setMaximumSize(new Dimension(240,80));
@@ -60,7 +62,7 @@ public class MainFrame extends JFrame  {
         this.pnDes.setBackground(UIStyle.colorHeader);
         this.pnDes.setPreferredSize(new Dimension(300,80));
 
-        this.lblName = new JLabel("Nguyen Van A");
+        this.lblName = new JLabel(username);
         this.lblName.setMaximumSize(new Dimension(300,24));
         this.lblName.setHorizontalAlignment(JLabel.RIGHT);
         this.lblName.setFont(UIStyle.font16);

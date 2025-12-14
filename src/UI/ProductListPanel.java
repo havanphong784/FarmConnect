@@ -4,6 +4,7 @@ import Server.ProductsServer;
 import DBConnect.ProductsDAO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -149,11 +150,11 @@ public class ProductListPanel extends JPanel {
             }
         });
 
-        this.table.setDefaultEditor(Object.class, null);
-        this.table.setFont(UIStyle.font16);
-        this.table.setBackground(UIStyle.colorBg);
-        this.table.setRowHeight(25);
-        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setDefaultEditor(Object.class, null);
+        table.setFont(UIStyle.font16);
+        table.setBackground(UIStyle.colorBg);
+        table.setRowHeight(25);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.scrollPane = new JScrollPane(this.table);
         this.scrollPane.setPreferredSize(new Dimension(1400, 770));
         this.pnCenter.add(this.scrollPane);
@@ -177,5 +178,32 @@ public class ProductListPanel extends JPanel {
 
         this.pnBottom.add(Box.createHorizontalStrut(40));
         this.add(this.pnBottom, BorderLayout.SOUTH);
+
+        this.btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductsFromInsert form = new ProductsFromInsert();
+                JOptionPane.showMessageDialog(
+                        null,
+                        form,
+                        "Thêm sản phẩm",
+                        JOptionPane.PLAIN_MESSAGE
+                );
+            }
+        });
+
+        this.btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int indexRow = table.getSelectedRow();
+                int row = table.convertRowIndexToModel(indexRow);
+                TableModel model = table.getModel();
+                if (row == -1) {
+                    JOptionPane.showMessageDialog(null,"Vui lòng chọn sản phẩm cần bán !");
+                }
+                ProductsFormUpdate form = new ProductsFormUpdate(model,row);
+                JOptionPane.showMessageDialog(null,form,"Bán sản phẩm",JOptionPane.PLAIN_MESSAGE);
+            }
+        });
     }
 }

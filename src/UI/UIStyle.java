@@ -2,7 +2,6 @@ package UI;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 
 
@@ -73,10 +72,17 @@ public class UIStyle {
         return passwordField;
     }
     // Label
-    public static JLabel setLabel(JLabel label , String text) {
+    public static JLabel setLabelPrimary(JLabel label , String text) {
         label = new JLabel(text);
         label.setForeground(Color.white);
         label.setBackground(colorPrimary);
+        label.setFont(font16);
+        return label;
+    }
+    public static JLabel setLabel(JLabel label , String text) {
+        label = new JLabel(text);
+        label.setForeground(colorPrimary);
+        label.setBackground(colorBg);
         label.setFont(font16);
         return label;
     }
