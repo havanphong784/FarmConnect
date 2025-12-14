@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static DBConnect.UserDAO.getUserIdByEmail;
 import static UI.LoginFrame.username;
 
 public class ProductsDAO {
@@ -19,12 +20,23 @@ public class ProductsDAO {
             p.Quantity,
             p.Price,
             p.Unit,
-            p.UserID
+            p.[UserID]
         FROM dbo.Product AS p
         JOIN dbo.[User] AS u    
             ON p.UserID = u.ID
         WHERE u.Email = ?
+        AND p.Quantity > 0
         """;
+
+    private static final String sqlUpdate = """
+        UPDATE dbo.Product
+        SET [Des] = ?,
+            [Quantity] = ?,
+            [Price] = ?,
+            [Unit] = ?,
+            [UserID] = ?
+        WHERE [ProId] = ?
+     """;
 
     // Search sp
     private static final String sqlSearch = """
@@ -156,6 +168,42 @@ public class ProductsDAO {
             st.setInt(6, p.getUserId());
 
             st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static int getProductIdByName(String productName) {
+        String sql = "SELECT ProId FROM dbo.Product WHERE ProName = ?";
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, productName.trim());
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("ProId");
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public static boolean update (Products p) {
+        try {
+            Connection con = DBConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sqlUpdate);
+            ps.setString(1, p.getDes());
+            ps.setInt(2, p.getQuantity());
+            ps.setBigDecimal(3, p.getPrice());
+            ps.setString(4, p.getUnit());
+            ps.setInt(5,getUserIdByEmail(username));
+            ps.setInt(6, p.getProId());
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

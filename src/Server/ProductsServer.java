@@ -1,10 +1,12 @@
 package Server;
 
+import DBConnect.ProductsDAO;
 import Model.Products;
-
-import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import static DBConnect.ProductsDAO.getProductIdByName;
+import static DBConnect.UserDAO.getUserIdByEmail;
+import static UI.LoginFrame.username;
 
 public class ProductsServer {
 
@@ -25,8 +27,14 @@ public class ProductsServer {
         return data;
     }
 
-    public static boolean convertToProduct(String name,String desc,int Quantity, BigDecimal price,String unit,int userID) {
+    public static boolean insertProduct(String name, String desc, int Quantity, BigDecimal price, String unit, int userID) {
         Products products = new Products(name,desc,Quantity,price,unit,userID);
-        return DBConnect.ProductsDAO.insertProduct(products);
+        return ProductsDAO.insertProduct(products);
     }
+
+    public static boolean updateProduct(String name ,String desc,int Quantity, BigDecimal price,String unit) {
+        Products products = new Products(getProductIdByName(name),name,desc,Quantity,price,unit,getUserIdByEmail(username));
+        return ProductsDAO.update(products);
+    }
+
 }

@@ -100,7 +100,7 @@ public class ProductsFromInsert extends JOptionPane {
                     int id = UserDAO.getUserIdByEmail(username);
                     System.out.println(id);
 
-                    Boolean check = ProductsServer.convertToProduct(name,des,quantity,price,unit,id);
+                    Boolean check = ProductsServer.insertProduct(name,des,quantity,price,unit,id);
                     if (check) {
                         JOptionPane.showMessageDialog(null,"Thêm sản phẩm thành công !");
                     } else {

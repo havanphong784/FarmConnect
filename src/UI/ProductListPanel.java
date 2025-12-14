@@ -13,7 +13,7 @@ public class ProductListPanel extends JPanel {
     protected JTable table;
     protected JTextField txtSearch;
     protected JComboBox<String> cmbArrangement;
-    protected JButton btnSearch,btnAdd,btnUpdate;
+    protected JButton btnSearch,btnAdd,btnUpdate,btnSell;
     protected JPanel pnTop, pnCenter,pnBottom;
     protected JScrollPane scrollPane;
     public Object[][] data;
@@ -170,10 +170,17 @@ public class ProductListPanel extends JPanel {
         this.btnAdd.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
         this.pnBottom.add(this.btnAdd);
         this.pnBottom.add(Box.createHorizontalStrut(20));
-        this.btnUpdate = UIStyle.setBtnActive(this.btnUpdate,"Bán");
+        this.btnUpdate = UIStyle.setBtnActive(this.btnUpdate,"Cập nhật");
         this.btnUpdate.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
-        this.btnUpdate.setBackground(UIStyle.colorRed);
+        this.btnUpdate.setBackground(new Color(251, 250, 145));
+        this.btnUpdate.setForeground(UIStyle.colorText);
         this.pnBottom.add(this.btnUpdate);
+        this.pnBottom.add(Box.createHorizontalStrut(20));
+        this.btnSell = UIStyle.setBtnActive(this.btnSell,"Bán hàng");
+        this.btnSell.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
+        this.btnSell.setBackground(UIStyle.colorRed);
+        this.pnBottom.add(this.btnSell);
+
 
         this.pnBottom.add(Box.createHorizontalStrut(40));
         this.add(this.pnBottom, BorderLayout.SOUTH);
@@ -198,10 +205,25 @@ public class ProductListPanel extends JPanel {
                 int row = table.convertRowIndexToModel(indexRow);
                 TableModel model = table.getModel();
                 if (row == -1) {
-                    JOptionPane.showMessageDialog(null,"Vui lòng chọn sản phẩm cần bán !");
+                    JOptionPane.showMessageDialog(null,"Vui lòng chọn sản phẩm cần cập nhật !");
                 }
                 ProductsFormUpdate form = new ProductsFormUpdate(model,row);
-                JOptionPane.showMessageDialog(null,form,"Bán sản phẩm",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,form,"Cập nhật sản phẩm",JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+
+        this.btnSell.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int indexRow = table.getSelectedRow();
+                int row = table.convertRowIndexToModel(indexRow);
+                TableModel model = table.getModel();
+                if (row == -1) {
+                    JOptionPane.showMessageDialog(null,"Vui lòng chọn sản phẩm cần bán !");
+                    return;
+                }
+                ProductsFormSell form = new ProductsFormSell(row,model);
+                JOptionPane.showMessageDialog(null,form,"Bán hàng",JOptionPane.PLAIN_MESSAGE);
             }
         });
     }
