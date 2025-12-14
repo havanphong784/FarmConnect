@@ -2,6 +2,8 @@ package Server;
 
 import Model.Products;
 
+import javax.swing.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ProductsServer {
@@ -21,5 +23,10 @@ public class ProductsServer {
             };
         }
         return data;
+    }
+
+    public static boolean convertToProduct(String name,String desc,int Quantity, BigDecimal price,String unit,int userID) {
+        Products products = new Products(name,desc,Quantity,price,unit,userID);
+        return DBConnect.ProductsDAO.insertProduct(products);
     }
 }

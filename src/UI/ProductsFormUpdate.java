@@ -7,7 +7,7 @@ public class ProductsFormUpdate extends ProductsFromInsert {
     public ProductsFormUpdate(TableModel model, int row) {
         super();
         this.lblTitle.setText("Cập nhật thông tin sản phẩm !");
-        this.btnSubmit.setText("Bán sản phẩm");
+        this.btnSubmit.setText("Cập nhật");
         this.txtName.setText(String.valueOf(model.getValueAt(row,0)));
         this.txtPrice.setText(String.valueOf(model.getValueAt(row,1)));
         this.txtUnit.setText(String.valueOf(model.getValueAt(row,2)));

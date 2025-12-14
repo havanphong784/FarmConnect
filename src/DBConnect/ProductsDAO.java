@@ -142,4 +142,24 @@ public class ProductsDAO {
     public static ArrayList<Products> searchOderPriceDESC(String keyword) {
         return querySearchByName(keyword, "ORDER BY p.Price DESC, p.Quantity ASC, p.ProName ASC");
     }
+
+    public static Boolean insertProduct(Products p) {
+        String sql = "INSERT INTO dbo.Product (ProName, [Des], Quantity, Price, Unit, UserID) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setString(1, p.getProName());
+            st.setString(2, p.getDes());
+            st.setInt(3, p.getQuantity());
+            st.setBigDecimal(4, p.getPrice());
+            st.setString(5, p.getUnit());
+            st.setInt(6, p.getUserId());
+
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

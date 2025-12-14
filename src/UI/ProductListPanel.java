@@ -145,8 +145,7 @@ public class ProductListPanel extends JPanel {
                         newData = ProductsServer.toTableData(ProductsDAO.getAll());
                 }
 
-                model.setDataVector(newData, cols); // cập nhật dữ liệu + header
-                // không cần repaint() thủ công
+                model.setDataVector(newData, cols); // cap nhat du lieu cua bang
             }
         });
 
