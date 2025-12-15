@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="FarmConnect@XW">
   <database-model serializer="dbm" dbms="MSSQL" family-id="MSSQL" format-version="4.54">
-    <root id="1"/>
+    <root id="1">
+      <ServerVersion>16.0.1160</ServerVersion>
+    </root>
     <collation id="2" parent="1" name="Albanian_100_BIN">
       <Description>Albanian-100, binary sort</Description>
     </collation>
@@ -16916,10 +16918,10 @@
       <ObjectId>4</ObjectId>
     </schema>
     <table id="5585" parent="5582" name="Order">
-      <CreatedTimestamp>2025-12-14.01:57:39.997</CreatedTimestamp>
+      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
       <DetailsLevel>2</DetailsLevel>
-      <ModifiedTimestamp>2025-12-14.01:57:40.013</ModifiedTimestamp>
+      <ModifiedTimestamp>2025-12-15.16:07:11.690</ModifiedTimestamp>
       <ObjectId>1061578820</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
@@ -16941,15 +16943,15 @@
     </table>
     <check id="5588" parent="5585" name="CK_Order_OrderQuantity">
       <ColNames>OrderQuantity</ColNames>
-      <CreatedTimestamp>2025-12-14.01:57:39.997</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-14.01:57:39.997</ModifiedTimestamp>
+      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
       <ObjectId>1109578991</ObjectId>
       <Predicate>[OrderQuantity]&gt;0</Predicate>
     </check>
     <column id="5589" parent="5585" name="OrderId">
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(601)</SequenceIdentity>
+      <SequenceIdentity>1(602)</SequenceIdentity>
       <StoredType>int|0s</StoredType>
     </column>
     <column id="5590" parent="5585" name="UserID">
@@ -16975,25 +16977,23 @@
       <DefaultConstraintName>DF_Order_OrderTime</DefaultConstraintName>
     </column>
     <column id="5594" parent="5585" name="CustomerName">
-      <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>nvarchar(150 char)|0s</StoredType>
     </column>
     <column id="5595" parent="5585" name="CustomerSdt">
-      <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>nvarchar(20 char)|0s</StoredType>
     </column>
     <default id="5596" parent="5585" name="DF_Order_OrderTime">
       <ColNames>OrderTime</ColNames>
       <DefaultExpression>sysdatetime()</DefaultExpression>
-      <ModifiedTimestamp>2025-12-14.01:57:39.997</ModifiedTimestamp>
+      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
       <ObjectId>1093578934</ObjectId>
     </default>
     <foreign-key id="5597" parent="5585" name="FK_Order_User">
       <ColNames>UserID</ColNames>
-      <CreatedTimestamp>2025-12-14.01:57:40</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-14.01:57:40</ModifiedTimestamp>
+      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
       <ObjectId>1125579048</ObjectId>
       <RefColNames>ID</RefColNames>
       <RefTableId>901578250</RefTableId>
@@ -17001,8 +17001,8 @@
     </foreign-key>
     <foreign-key id="5598" parent="5585" name="FK_Order_Product">
       <ColNames>ProId</ColNames>
-      <CreatedTimestamp>2025-12-14.01:57:40</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-14.01:57:40</ModifiedTimestamp>
+      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
       <ObjectId>1141579105</ObjectId>
       <RefColNames>ProId</RefColNames>
       <RefTableId>949578421</RefTableId>
@@ -17026,8 +17026,8 @@
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
     <key id="5602" parent="5585" name="PK_Order">
-      <CreatedTimestamp>2025-12-14.01:57:39.997</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-14.01:57:39.997</ModifiedTimestamp>
+      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
       <ObjectId>1077578877</ObjectId>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK_Order</UnderlyingIndexName>

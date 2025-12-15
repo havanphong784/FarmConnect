@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 
+import static UI.LoginFrame.userid;
 import static UI.LoginFrame.username;
 
 public class ProductsFromInsert extends JOptionPane {
@@ -97,10 +98,9 @@ public class ProductsFromInsert extends JOptionPane {
                     System.out.println(quantity);
                     String des = txtDes.getText().trim();
                     System.out.println(des);
-                    int id = UserDAO.getUserIdByEmail(username);
-                    System.out.println(id);
+                    System.out.println(userid);
 
-                    Boolean check = ProductsServer.insertProduct(name,des,quantity,price,unit,id);
+                    Boolean check = ProductsServer.insertProduct(name,des,quantity,price,unit,userid);
                     if (check) {
                         JOptionPane.showMessageDialog(null,"Thêm sản phẩm thành công !");
                     } else {

@@ -5,8 +5,7 @@ import Model.Products;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import static DBConnect.ProductsDAO.getProductIdByName;
-import static DBConnect.UserDAO.getUserIdByEmail;
-import static UI.LoginFrame.username;
+import static UI.LoginFrame.userid;
 
 public class ProductsServer {
 
@@ -33,8 +32,13 @@ public class ProductsServer {
     }
 
     public static boolean updateProduct(String name ,String desc,int Quantity, BigDecimal price,String unit) {
-        Products products = new Products(getProductIdByName(name),name,desc,Quantity,price,unit,getUserIdByEmail(username));
+        Products products = new Products(getProductIdByName(name),name,desc,Quantity,price,unit,userid);
         return ProductsDAO.update(products);
+    }
+
+    public static boolean updateCell(int quantity, int proId) {
+        Products products = new Products(quantity, proId);
+        return ProductsDAO.updateCell(products);
     }
 
 }

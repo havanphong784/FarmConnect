@@ -17,6 +17,19 @@ public class Order {
         CustomerSdt = customerSdt;
     }
 
+    public Order(int userId, int orderQuantity, String customerName, String customerSdt) {
+        UserId = userId;
+        OrderQuantity = orderQuantity;
+        CustomerName = customerName;
+        CustomerSdt = customerSdt;
+    }
+
+    public Order(int userId, int orderQuantity, int proId) {
+        UserId = userId;
+        OrderQuantity = orderQuantity;
+        ProId = proId;
+    }
+
     public int getOrderId() {
         return OrderId;
     }

@@ -1,6 +1,7 @@
 package UI;
 
 import DBConnect.GetFuction;
+import DBConnect.UserDAO;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,8 @@ public class LoginFrame extends JFrame {
     protected JPasswordField txtPassword;
     protected JButton btnLogin,btnRegister;
     protected ActionListener al;
-    public static String username; //usename bỏ public để có sd trong ct
+    public static String username;//usename bỏ public để có sd trong ct
+    public static int userid;
     public LoginFrame() {
         this.setSize(1200,850);
         this.setLocationRelativeTo(null);
@@ -107,6 +109,7 @@ public class LoginFrame extends JFrame {
 
             Boolean check = GetFuction.checkLogin(username,pass);
             if (check) {
+                userid = UserDAO.getUserIdByEmail(username);
                 new MainFrame().setVisible(true);
                 dispose();
             }else JOptionPane.showMessageDialog(null,"Tài khoản và mật khẩu không đúng !");

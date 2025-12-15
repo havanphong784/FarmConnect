@@ -1,5 +1,9 @@
 package UI;
 
+import DBConnect.ProductsDAO;
+import Server.OrderServer;
+import static UI.LoginFrame.userid;
+
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -34,6 +38,32 @@ public class ProductsFormSell extends ProductsFromInsert {
         this.btnSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int quantity ;
+                int orderQuantity;
+                String proName = model.getValueAt(row,0).toString();
+                int productid = ProductsDAO.getProductIdByName(proName);
+                try {
+                    quantity = Integer.parseInt(model.getValueAt(row,3).toString());
+                    orderQuantity = Integer.parseInt(txtQuantity.getText());
+                }
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng định dạng số cho số lượng !");
+                    return;
+                }
+                if (orderQuantity > quantity) {
+                    JOptionPane.showMessageDialog(null, "Số lượng bán phải lớn hơn 0 và < = số lượng tồn kho( " + quantity + " )!");
+                    return;
+                }
+
+                boolean kt = (
+                        OrderServer.insertOrder(userid,orderQuantity,productid)
+                        && Server.ProductsServer.updateCell(quantity-orderQuantity,productid)
+                );
+                if (kt) {
+                    JOptionPane.showMessageDialog(null, "Bán hàng thành công !");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Bán hàng thất bại !");
+                }
 
             }
         });

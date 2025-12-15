@@ -26,6 +26,11 @@ public class Products {
         this.price = price;
     }
 
+    public Products(int quantity, int proId) {
+        Quantity = quantity;
+        ProId = proId;
+    }
+
     public int getProId() {
         return ProId;
     }

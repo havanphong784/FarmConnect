@@ -8,9 +8,10 @@ public class UserDAO {
     public UserDAO() {}
     public static int getUserIdByEmail(String email) {
         String sql = "SELECT ID FROM [User] WHERE Email = ?";
-        try {
+        try (
             Connection con = DBConnect.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql)
+        ){
             ps.setString(1, email.trim());
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {

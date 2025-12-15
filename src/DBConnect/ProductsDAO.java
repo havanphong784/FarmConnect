@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static DBConnect.UserDAO.getUserIdByEmail;
+import static UI.LoginFrame.userid;
 import static UI.LoginFrame.username;
 
 public class ProductsDAO {
@@ -35,6 +35,12 @@ public class ProductsDAO {
             [Price] = ?,
             [Unit] = ?,
             [UserID] = ?
+        WHERE [ProId] = ?
+     """;
+
+    private static final String sqlUpdateCell = """
+        UPDATE dbo.Product
+        SET [Quantity] = ?
         WHERE [ProId] = ?
      """;
 
@@ -194,17 +200,32 @@ public class ProductsDAO {
     }
 
     public static boolean update (Products p) {
-        try {
-            Connection con = DBConnect.getConnection();
-            PreparedStatement ps = con.prepareStatement(sqlUpdate);
+        try (Connection con = DBConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sqlUpdate))
+        {
             ps.setString(1, p.getDes());
             ps.setInt(2, p.getQuantity());
             ps.setBigDecimal(3, p.getPrice());
             ps.setString(4, p.getUnit());
-            ps.setInt(5,getUserIdByEmail(username));
+            ps.setInt(5,userid);
             ps.setInt(6, p.getProId());
             ps.executeUpdate();
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public static boolean updateCell (Products products) {
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement ps = con.prepareStatement(sqlUpdateCell))
+        {
+            ps.setInt(1, products.getQuantity());
+            ps.setInt(2, products.getProId());
+            int kt = ps.executeUpdate();
+            return kt > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
