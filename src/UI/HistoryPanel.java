@@ -1,6 +1,8 @@
 package UI;
 
+import Server.OrderServer;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -10,9 +12,22 @@ public class HistoryPanel extends ProductListPanel{
     private JScrollPane scrollPane;
     public HistoryPanel() {
         super();
+
+        pnTop.removeAll();
+        JLabel label = new JLabel("Lịch Sử Bán Hàng");
+        label.setPreferredSize(new Dimension(900,50));
+        label.setBackground(UIStyle.colorBg);
+        label.setFont(UIStyle.font20);
+        label.setForeground(UIStyle.colorText);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        pnTop.add(label);
+        add(pnTop,BorderLayout.NORTH);
+
         pnBottom.removeAll();
         pnCenter.removeAll();
-        TableModel model = new DefaultTableModel(data,cols);
+        Object[][] dataOrder = OrderServer.orderToTable();
+        String[] column = new String[]{"Tên Sản Phẩm","Giá","Số lượng mua","Thành Tiền","Thời Gian"};
+        TableModel model = new DefaultTableModel(dataOrder,column);
         this.tableHistory = new JTable(model);
         this.tableHistory.setDefaultEditor(Object.class, null);
         this.tableHistory.setFont(UIStyle.font16);

@@ -64,7 +64,7 @@ public class ProductListPanel extends JPanel {
         //panel center
 
         this.pnCenter = new JPanel(new BorderLayout());
-        cols = new String[]{"Tên", "Giá","Đơn vị","Tồn kho","Mô tả"};
+        cols = new String[]{"Tên", "Giá","Đơn Vị","Tồn Kho","Mô Tả"};
         data = ProductsServer.toTableData(ProductsDAO.getAll());
         model = new  DefaultTableModel(data,cols) {};
         this.table = new JTable(model) {

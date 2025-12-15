@@ -1,33 +1,25 @@
 package Model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Order {
     private int OrderId,UserId,ProId,OrderQuantity;
     private Timestamp OrderTime;
-    private String CustomerName,CustomerSdt;
-
-    public Order(int orderId, int userId, int proId, int orderQuantity, Timestamp orderTime, String customerName, String customerSdt) {
-        OrderId = orderId;
-        UserId = userId;
-        ProId = proId;
-        OrderQuantity = orderQuantity;
-        OrderTime = orderTime;
-        CustomerName = customerName;
-        CustomerSdt = customerSdt;
-    }
-
-    public Order(int userId, int orderQuantity, String customerName, String customerSdt) {
-        UserId = userId;
-        OrderQuantity = orderQuantity;
-        CustomerName = customerName;
-        CustomerSdt = customerSdt;
-    }
+    private String CustomerName,CustomerSdt,ProName;
+    private BigDecimal price;
 
     public Order(int userId, int orderQuantity, int proId) {
         UserId = userId;
         OrderQuantity = orderQuantity;
         ProId = proId;
+    }
+
+    public Order(int orderQuantity, String proName, BigDecimal price, Timestamp orderTime) {
+        OrderQuantity = orderQuantity;
+        ProName = proName;
+        this.price = price;
+        OrderTime = orderTime;
     }
 
     public int getOrderId() {
@@ -84,5 +76,21 @@ public class Order {
 
     public void setCustomerSdt(String customerSdt) {
         CustomerSdt = customerSdt;
+    }
+
+    public String getProName() {
+        return ProName;
+    }
+
+    public void setProName(String proName) {
+        ProName = proName;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
