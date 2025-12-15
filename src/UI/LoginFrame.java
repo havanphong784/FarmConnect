@@ -1,6 +1,5 @@
 package UI;
 
-import DBConnect.GetFuction;
 import DBConnect.UserDAO;
 
 import javax.swing.*;
@@ -107,7 +106,7 @@ public class LoginFrame extends JFrame {
                 return;
             }
 
-            Boolean check = GetFuction.checkLogin(username,pass);
+            Boolean check = UserDAO.checkLogin(username,pass);
             if (check) {
                 userid = UserDAO.getUserIdByEmail(username);
                 new MainFrame().setVisible(true);

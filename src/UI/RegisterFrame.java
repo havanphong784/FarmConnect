@@ -1,6 +1,7 @@
 package UI;
 
-import DBConnect.GetFuction;
+import DBConnect.UserDAO;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,7 +80,7 @@ public class RegisterFrame extends LoginFrame {
                     JOptionPane.showMessageDialog(null, "Email không hợp lệ (chỉ chấp nhận @gmail.com)!");
                     return;
                 }
-                Boolean kt = GetFuction.chekRegistration(username, password, email);
+                Boolean kt = UserDAO.chekRegistration(username, password, email);
                 if (kt) {
                     JOptionPane.showMessageDialog(null,"Đăng kí thành công !");
                     new LoginFrame().setVisible(true);

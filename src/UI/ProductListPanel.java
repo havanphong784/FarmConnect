@@ -3,6 +3,7 @@ package UI;
 import Server.ProductsServer;
 import DBConnect.ProductsDAO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class ProductListPanel extends JPanel {
     protected JButton btnSearch,btnAdd,btnUpdate,btnSell;
     protected JPanel pnTop, pnCenter,pnBottom;
     protected JScrollPane scrollPane;
+    protected  DefaultTableModel model;
     public Object[][] data;
     public String[] cols;
     public ProductListPanel() {
@@ -64,12 +66,7 @@ public class ProductListPanel extends JPanel {
         this.pnCenter = new JPanel(new BorderLayout());
         cols = new String[]{"Tên", "Giá","Đơn vị","Tồn kho","Mô tả"};
         data = ProductsServer.toTableData(ProductsDAO.getAll());
-        DefaultTableModel model = new  DefaultTableModel(data,cols) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+        model = new  DefaultTableModel(data,cols) {};
         this.table = new JTable(model) {
             @Override
             public boolean getScrollableTracksViewportWidth() {
@@ -152,7 +149,12 @@ public class ProductListPanel extends JPanel {
         table.setDefaultEditor(Object.class, null);
         table.setFont(UIStyle.font16);
         table.setBackground(UIStyle.colorBg);
-        table.setRowHeight(25);
+        table.setRowHeight(40);
+        table.setAutoCreateRowSorter(true);
+        table.setShowVerticalLines(false);
+        table.setShowVerticalLines(false);
+        table.getTableHeader().setBackground(UIStyle.colorBg);
+        table.getTableHeader().setFont(UIStyle.font16Bold);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.scrollPane = new JScrollPane(this.table);
         this.scrollPane.setPreferredSize(new Dimension(1400, 770));
@@ -195,6 +197,7 @@ public class ProductListPanel extends JPanel {
                         "Thêm sản phẩm",
                         JOptionPane.PLAIN_MESSAGE
                 );
+                refreshTable();
             }
         });
 
@@ -209,6 +212,7 @@ public class ProductListPanel extends JPanel {
                 }
                 ProductsFormUpdate form = new ProductsFormUpdate(model,row);
                 JOptionPane.showMessageDialog(null,form,"Cập nhật sản phẩm",JOptionPane.PLAIN_MESSAGE);
+                refreshTable();
             }
         });
 
@@ -224,7 +228,12 @@ public class ProductListPanel extends JPanel {
                 }
                 ProductsFormSell form = new ProductsFormSell(row,model);
                 JOptionPane.showMessageDialog(null,form,"Bán hàng",JOptionPane.PLAIN_MESSAGE);
+                refreshTable();
             }
         });
+    }
+    protected void refreshTable() {
+        Object[][] newData = ProductsServer.toTableData(ProductsDAO.getAll());
+        model.setDataVector(newData, cols);
     }
 }

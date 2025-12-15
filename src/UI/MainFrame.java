@@ -30,7 +30,7 @@ public class MainFrame extends JFrame  {
         this.lblNameApp.setMaximumSize(new Dimension(240,80));
         this.lblNameApp.setHorizontalAlignment(JLabel.CENTER);
         this.lblNameApp.setVerticalAlignment(JLabel.CENTER);
-        this.lblNameApp.setForeground(new Color(30, 90, 168));
+        this.lblNameApp.setForeground(new Color(0, 68, 159));
         this.pnNavigation.add(this.lblNameApp);
 
         this.btnOne = UIStyle.setButtonDB(this.btnOne,"Sản phẩm");

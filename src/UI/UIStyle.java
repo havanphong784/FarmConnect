@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class UIStyle {
     // MÀu dùng chung
-    public static Color colorPrimary = new Color(46, 125, 50);
+    public static Color colorPrimary = new Color(80, 150, 80);
     public static Color colorTextField = new Color(232, 240, 254);
     public static Color colorBg = new Color(248, 248, 250);
     public static Color colorText = new Color(30, 41, 59);
