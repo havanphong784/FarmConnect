@@ -23,7 +23,7 @@ public class ProductListPanel extends JPanel {
     public ProductListPanel() {
         this.setLayout(new BorderLayout(5, 5));
         this.setBackground(UIStyle.colorBg);
-        this.setBorder(BorderFactory.createEmptyBorder(10,30,10,30));
+        this.setBorder(BorderFactory.createEmptyBorder(10,40,10,30));
 
         // Panel Top
         this.pnTop = new JPanel();

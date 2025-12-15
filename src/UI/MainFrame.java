@@ -9,7 +9,7 @@ import static UI.LoginFrame.username;
 
 public class MainFrame extends JFrame  {
     private JPanel pnNavigation,pnContent,pnHeader,pnDes,pnCard;
-    private JButton btnOne, btnTwo, btnThree, btnFour;
+    private JButton btnOne, btnTwo, btnThree, btnFour,btnHome;
     private JLabel lblNameApp,lblAvatar,lblRole,lblName;
     public MainFrame() {
         this.setSize(1200,850);
@@ -55,6 +55,29 @@ public class MainFrame extends JFrame  {
         this.pnHeader = new JPanel();
         this.pnHeader.setLayout(new BoxLayout(this.pnHeader,BoxLayout.X_AXIS));
         this.pnHeader.setBackground(UIStyle.colorHeader);
+
+        this.btnHome = new JButton("🏠");
+        this.btnHome.setFont(UIStyle.fontEmoji);
+        this.btnHome.setBackground(UIStyle.colorHeader);
+        this.btnHome.setForeground(UIStyle.colorText);
+        this.btnHome.setFocusable(false);
+        this.btnHome.setMaximumSize(new Dimension(120,40));
+        this.btnHome.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        this.pnHeader.add(this.btnHome);
+
+        btnHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pnNavigation.isVisible()) {
+                    pnNavigation.setVisible(false);
+                } else {
+                    pnNavigation.setVisible(true);
+                }
+                revalidate();
+                repaint();
+            }
+        });
+
         this.pnHeader.add(Box.createHorizontalGlue());
 
         this.pnDes = new JPanel();

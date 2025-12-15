@@ -20,7 +20,7 @@ public class UIStyle {
     public static Font font16Bold = new Font("Segoe UI", Font.BOLD, 16);
     public static Font font30 = new Font("Segoe UI", Font.PLAIN, 30);
     public static Font font20 = new Font("Segoe UI", Font.ITALIC, 20);
-    public static Font fontEmoji = new Font("Segoe UI Emoji", Font.PLAIN, 14);
+    public static Font fontEmoji = new Font("Segoe UI Emoji", Font.PLAIN, 30);
 
     // OptionPane
     public static void setDefaultsTheme() {
