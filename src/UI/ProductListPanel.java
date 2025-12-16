@@ -229,6 +229,7 @@ public class ProductListPanel extends JPanel {
                 ProductsFormSell form = new ProductsFormSell(row,model);
                 JOptionPane.showMessageDialog(null,form,"Bán hàng",JOptionPane.PLAIN_MESSAGE);
                 refreshTable();
+                HistoryPanel.refreshTableOrder();
             }
         });
     }

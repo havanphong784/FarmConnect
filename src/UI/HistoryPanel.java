@@ -10,6 +10,8 @@ import java.awt.*;
 public class HistoryPanel extends ProductListPanel{
     private JTable tableHistory;
     private JScrollPane scrollPane;
+    public static DefaultTableModel modelOrder;
+    public static String[] columnOrder;
     public HistoryPanel() {
         super();
 
@@ -26,9 +28,9 @@ public class HistoryPanel extends ProductListPanel{
         pnBottom.removeAll();
         pnCenter.removeAll();
         Object[][] dataOrder = OrderServer.orderToTable();
-        String[] column = new String[]{"Tên Sản Phẩm","Giá","Số lượng mua","Thành Tiền","Thời Gian"};
-        TableModel model = new DefaultTableModel(dataOrder,column);
-        this.tableHistory = new JTable(model);
+        columnOrder = new String[]{"Tên Sản Phẩm","Giá","Số lượng mua","Thành Tiền","Thời Gian"};
+        modelOrder = new DefaultTableModel(dataOrder,columnOrder);
+        this.tableHistory = new JTable(modelOrder);
         this.tableHistory.setDefaultEditor(Object.class, null);
         this.tableHistory.setFont(UIStyle.font16);
         this.tableHistory.setBackground(UIStyle.colorBg);
@@ -42,5 +44,9 @@ public class HistoryPanel extends ProductListPanel{
         this.scrollPane = new JScrollPane(this.tableHistory);
         this.scrollPane.setPreferredSize(new Dimension(1400, 770));
         this.pnCenter.add(this.scrollPane);
+    }
+
+    public static void refreshTableOrder() {
+        modelOrder.setDataVector(OrderServer.orderToTable(),columnOrder);
     }
 }
