@@ -136,6 +136,7 @@ public class MainFrame extends JFrame  {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) pnCard.getLayout();
                 cl.show(pnCard, "Products");
+                pnNavigation.setVisible(false);
             }
         });
 
@@ -143,6 +144,7 @@ public class MainFrame extends JFrame  {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) pnCard.getLayout();
                 cl.show(pnCard, "Statistics");
+                pnNavigation.setVisible(false);
             }
         });
 
@@ -150,6 +152,7 @@ public class MainFrame extends JFrame  {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) pnCard.getLayout();
                 cl.show(pnCard, "History");
+                pnNavigation.setVisible(false);
             }
         });
     }

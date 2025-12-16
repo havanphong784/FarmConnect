@@ -1,29 +1,22 @@
 package UI;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class StatisticsPanel extends JPanel {
+    private ChartPanel cp1,cp2,cp3,cp4;
+    private JFreeChart fc1,fc2,fc3,fc4;
+    private DefaultPieDataset data1,data2,data3,data4;
     public StatisticsPanel() {
-        setLayout(new BorderLayout());
+        this.setBorder(new EmptyBorder(0,30,0,30));
+        this.setLayout(new GridLayout(2,2,20,20));
+        this.setBackground(UIStyle.colorBg);
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(120, "Doanh số", "T1");
-        dataset.addValue(180, "Doanh số", "T2");
-        dataset.addValue(90,  "Doanh số", "T3");
 
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Doanh số theo tháng",   // title
-                "Tháng",                 // x-axis
-                "Giá trị",               // y-axis
-                dataset
-        );
-
-        add(new ChartPanel(chart), BorderLayout.CENTER);
     }
 }
