@@ -25,6 +25,7 @@ public class ProductsDAO {
         JOIN dbo.[User] AS u    
             ON p.UserID = u.ID
         WHERE u.Email = ?
+        AND p.ExpirationDate > GETDATE()
         AND p.Quantity > 0
         """;
 
@@ -47,36 +48,10 @@ public class ProductsDAO {
     // Search sp
     private static final String sqlSearch = """
         AND p.ProName LIKE ?
+        OR p.Type LIKE ?
         """;
 
-    private static ArrayList<Products> queryAll(String orderBy) {
-        ArrayList<Products> list = new ArrayList<>();
-        String sql = sqlSelect + (orderBy == null || orderBy.isBlank() ? "" : ("\n" + orderBy));
 
-        try (Connection con = DBConnect.getConnection();
-             PreparedStatement st = con.prepareStatement(sql)) {
-
-            st.setString(1, username);
-
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    Products pro = new Products(
-                            rs.getInt("ProId"),
-                            rs.getString("ProName"),
-                            rs.getString("Des"),
-                            rs.getInt("Quantity"),
-                            rs.getBigDecimal("Price"),
-                            rs.getString("Unit"),
-                            rs.getInt("UserID")
-                    );
-                    list.add(pro);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
 
     private static ArrayList<Products> querySearchByName(String keyword, String orderBy) {
         ArrayList<Products> list = new ArrayList<>();
@@ -88,6 +63,7 @@ public class ProductsDAO {
 
             st.setString(1, username);
             st.setString(2, "%" + (keyword == null ? "" : keyword.trim()) + "%");
+            st.setString(3, "%" + (keyword == null ? "" : keyword.trim()) + "%");
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -110,31 +86,7 @@ public class ProductsDAO {
     }
 
     public static ArrayList<Products> getAll() {
-        return queryAll("");
-    }
-
-    public static ArrayList<Products> getOderNameASC() {
-        return queryAll("ORDER BY p.ProName ASC, p.Price ASC, p.Quantity ASC");
-    }
-
-    public static ArrayList<Products> getOderNameDESC() {
-        return queryAll("ORDER BY p.ProName DESC, p.Price ASC, p.Quantity ASC");
-    }
-
-    public static ArrayList<Products> getOderQuantityASC() {
-        return queryAll("ORDER BY p.Quantity ASC, p.ProName ASC, p.Price ASC");
-    }
-
-    public static ArrayList<Products> getOderQuantityDESC() {
-        return queryAll("ORDER BY p.Quantity DESC, p.ProName ASC, p.Price ASC");
-    }
-
-    public static ArrayList<Products> getOderPriceASC() {
-        return queryAll("ORDER BY p.Price ASC, p.Quantity ASC, p.ProName ASC");
-    }
-
-    public static ArrayList<Products> getOderPriceDESC() {
-        return queryAll("ORDER BY p.Price DESC, p.Quantity ASC, p.ProName ASC");
+        return querySearchByName("","ORDER BY p.ProId, p.ProName ASC, p.Price ASC, p.Quantity ASC");
     }
 
     public static ArrayList<Products> searchOderNameASC(String keyword) {

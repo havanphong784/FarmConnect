@@ -3,7 +3,6 @@ package UI;
 import Server.ProductsServer;
 import DBConnect.ProductsDAO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -81,25 +80,26 @@ public class ProductListPanel extends JPanel {
                 String selected = String.valueOf(cmbArrangement.getSelectedItem());
 
                 Object[][] newData;
+                String keyWord = txtSearch.getText().trim();
 
                 switch (selected) {
                     case "Xắp xếp theo tên tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.getOderNameASC());
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(keyWord));
                         break;
                     case "Xắp xếp theo tên giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.getOderNameDESC());
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(keyWord));
                         break;
                     case "Xắp xếp theo số lượng tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.getOderQuantityASC());
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(keyWord));
                         break;
                     case "Xắp xếp theo số lượng giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.getOderQuantityDESC());
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(keyWord));
                         break;
                     case "Xắp xếp theo giá tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.getOderPriceASC());
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(keyWord));
                         break;
                     case "Xắp xếp theo giá giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.getOderPriceDESC());
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(keyWord));
                         break;
                     default:
                         newData = ProductsServer.toTableData(ProductsDAO.getAll());
