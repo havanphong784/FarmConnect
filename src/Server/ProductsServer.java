@@ -3,6 +3,7 @@ package Server;
 import DBConnect.ProductsDAO;
 import Model.Products;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import static DBConnect.ProductsDAO.getProductIdByName;
@@ -11,14 +12,17 @@ import static UI.LoginFrame.userid;
 public class ProductsServer {
 
     public static Object[][] toTableData(ArrayList<Products> list) {
-        Object[][] data = new Object[list.size()][5];
+        Object[][] data = new Object[list.size()][6];
 
         for (int r = 0; r < list.size(); r++) {
             Products p = list.get(r);
 
+            BigDecimal x = p.getPrice().multiply(BigDecimal.valueOf(  (100 - p.getPricePercent()) /100 ));
+            BigDecimal y = x.setScale(0, RoundingMode.HALF_UP);
+
             data[r] = new Object[] {
                     p.getProName(),
-                    p.getPrice(),
+                    y,
                     p.getUnit(),
                     p.getQuantity(),
                     p.getDes()

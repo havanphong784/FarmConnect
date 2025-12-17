@@ -8,6 +8,8 @@ public class Products {
     private String ProName,Des,Unit;
     private BigDecimal price;
     private Timestamp expirationDate;
+    private float pricePercent;
+    private String type;
 
     public Products(int proId ,String proName, String des, int quantity, BigDecimal price,String unit ,int userId) {
         ProId = proId;
@@ -29,6 +31,17 @@ public class Products {
         this.price = price;
     }
 
+    public Products(int proId ,String proName, String des, int quantity, BigDecimal price,String unit ,float pricePercent,int userId) {
+        ProId = proId;
+        Quantity = quantity;
+        UserId = userId;
+        ProName = proName;
+        Des = des;
+        Unit = unit;
+        this.price = price;
+        this.pricePercent = pricePercent;
+    }
+
     public Products(int quantity, int proId) {
         Quantity = quantity;
         ProId = proId;
@@ -36,6 +49,14 @@ public class Products {
 
     public int getProId() {
         return ProId;
+    }
+
+    public float getPricePercent() {
+        return pricePercent;
+    }
+
+    public void setPricePercent(int pricePercent) {
+        this.pricePercent = pricePercent;
     }
 
     public void setProId(int proId) {
@@ -92,6 +113,18 @@ public class Products {
 
     public Timestamp getExpirationDate() {
         return expirationDate;
+    }
+
+    public void setPricePercent(float pricePercent) {
+        this.pricePercent = pricePercent;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setExpirationDate(Timestamp expirationDate) {

@@ -20,6 +20,7 @@ public class ProductsDAO {
             p.Quantity,
             p.Price,
             p.Unit,
+            p.PricePercent,
             p.[UserID]
         FROM dbo.Product AS p
         JOIN dbo.[User] AS u    
@@ -73,6 +74,7 @@ public class ProductsDAO {
                             rs.getInt("Quantity"),
                             rs.getBigDecimal("Price"),
                             rs.getString("Unit"),
+                            rs.getFloat("PricePercent"),
                             rs.getInt("UserID")
                     );
                     list.add(pro);
