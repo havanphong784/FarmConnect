@@ -2,6 +2,39 @@
 <dataSource name="FarmConnect@XW">
   <database-model serializer="dbm" dbms="MSSQL" family-id="MSSQL" format-version="4.54">
     <root id="1">
+      <Grants>2|||2|connect|G
+3|||2|connect|G
+4|||2|connect|G
+5|||2|connect|G
+0|root||263|alter any availability group|G
+0|root||265|alter any event session|G
+0|root||102|authenticate server|G
+0|root||103|authenticate server|G
+0|root||265|connect any database|G
+0|root||1|connect sql|G
+0|root||257|connect sql|G
+0|root||259|connect sql|G
+0|root||260|connect sql|G
+0|root||261|connect sql|G
+0|root||262|connect sql|G
+0|root||263|connect sql|G
+0|root||264|connect sql|G
+0|root||265|connect sql|G
+0|root||268|connect sql|G
+0|root||269|connect sql|G
+0|root||105|control server|G
+0|root||2|view any database|G
+0|root||101|view any definition|G
+0|root||102|view any definition|G
+0|root||105|view any definition|G
+0|root||106|view any definition|G
+0|root||257|view any definition|G
+0|root||265|view any definition|G
+0|root||102|view server state|G
+0|root||257|view server state|G
+0|root||263|view server state|G
+0|root||265|view server state|G</Grants>
+      <PermissionsCheckSum>43840683231</PermissionsCheckSum>
       <ServerVersion>16.0.1160</ServerVersion>
     </root>
     <collation id="2" parent="1" name="Albanian_100_BIN">
@@ -16531,14 +16564,15 @@
     <database id="5510" parent="1" name="FarmConnect">
       <AssembliesChecksum>6974942</AssembliesChecksum>
       <Current>1</Current>
+      <ExtPropsChecksum>9158455276</ExtPropsChecksum>
       <FileGroupsChecksum>2580033660301081</FileGroupsChecksum>
-      <Fingerprint>9.46003/DF0879A4-9503-4CA8-994C-6334D0B45D20@XW</Fingerprint>
+      <Fingerprint>9.46006/F183D681-D6D5-454A-987B-BAC8B33CF3C3@XW</Fingerprint>
       <Grants>9|database||1|connect|G
 9|database||0|view any column encryption key definition|G
 9|database||0|view any column master key definition|G</Grants>
       <ObjectId>9</ObjectId>
       <PermissionsCheckSum>3196235284</PermissionsCheckSum>
-      <RolesChecksum>2074689907753</RolesChecksum>
+      <RolesChecksum>2074679572117</RolesChecksum>
       <CollationName>SQL_Latin1_General_CP1_CI_AS</CollationName>
     </database>
     <database id="5511" parent="1" name="Northwind">
@@ -16906,10 +16940,26 @@
     <schema id="5582" parent="5510" name="dbo">
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Current>1</Current>
-      <IntrospectionTimestamp>2025-12-14.02:34:06</IntrospectionTimestamp>
+      <DescriptionsCheckSum>14382053531</DescriptionsCheckSum>
+      <Grants>965578478|||0|execute|G
+965578478|||2|execute|D
+981578535|||0|execute|G
+981578535|||2|execute|D
+997578592|||0|execute|G
+997578592|||2|execute|D
+1013578649|||0|execute|G
+1013578649|||2|execute|D
+1029578706|||0|execute|G
+1029578706|||2|execute|D
+1045578763|||0|execute|G
+1045578763|||2|execute|D
+1061578820|||0|execute|G
+1061578820|||2|execute|D</Grants>
+      <IntrospectionTimestamp>2025-12-17.20:43:43</IntrospectionTimestamp>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2025-12-13.12:34:08</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-12-17.06:43:46</LastIntrospectionLocalTimestamp>
       <ObjectId>1</ObjectId>
+      <PermissionsCheckSum>13688225601</PermissionsCheckSum>
     </schema>
     <schema id="5583" parent="5510" name="guest">
       <ObjectId>2</ObjectId>
@@ -16917,15 +16967,106 @@
     <schema id="5584" parent="5510" name="sys">
       <ObjectId>4</ObjectId>
     </schema>
-    <table id="5585" parent="5582" name="Order">
-      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
+    <routine id="5585" parent="5582" name="fn_diagramobjects">
+      <CreatedTimestamp>2025-12-17.17:07:47.453</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.453</ModifiedTimestamp>
+      <ObjectId>1061578820</ObjectId>
+      <RoutineType>scalar-fun</RoutineType>
+    </routine>
+    <routine id="5586" parent="5582" name="sp_alterdiagram">
+      <CreatedTimestamp>2025-12-17.17:07:47.447</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.447</ModifiedTimestamp>
+      <ObjectId>1029578706</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <routine id="5587" parent="5582" name="sp_creatediagram">
+      <CreatedTimestamp>2025-12-17.17:07:47.443</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.443</ModifiedTimestamp>
+      <ObjectId>997578592</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <routine id="5588" parent="5582" name="sp_dropdiagram">
+      <CreatedTimestamp>2025-12-17.17:07:47.450</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.450</ModifiedTimestamp>
+      <ObjectId>1045578763</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <routine id="5589" parent="5582" name="sp_helpdiagramdefinition">
+      <CreatedTimestamp>2025-12-17.17:07:47.440</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.440</ModifiedTimestamp>
+      <ObjectId>981578535</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <routine id="5590" parent="5582" name="sp_helpdiagrams">
+      <CreatedTimestamp>2025-12-17.17:07:47.430</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.430</ModifiedTimestamp>
+      <ObjectId>965578478</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <routine id="5591" parent="5582" name="sp_renamediagram">
+      <CreatedTimestamp>2025-12-17.17:07:47.443</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.443</ModifiedTimestamp>
+      <ObjectId>1013578649</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <routine id="5592" parent="5582" name="sp_upgraddiagrams">
+      <CreatedTimestamp>2025-12-17.17:07:47.407</CreatedTimestamp>
+      <DetailsLevel>1</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.407</ModifiedTimestamp>
+      <ObjectId>901578250</ObjectId>
+      <RoutineType>proc</RoutineType>
+    </routine>
+    <table id="5593" parent="5582" name="Order">
+      <CreatedTimestamp>2025-12-14.01:57:39.997</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
       <DetailsLevel>2</DetailsLevel>
-      <ModifiedTimestamp>2025-12-15.16:07:11.690</ModifiedTimestamp>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-14.01:57:40.013</ModifiedTimestamp>
       <ObjectId>1061578820</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
-    <table id="5586" parent="5582" name="Product">
+    <table id="5594" parent="5582" name="Order">
+      <CreatedTimestamp>2025-12-17.17:10:57.947</CreatedTimestamp>
+      <DataRetentionPeriod>-1</DataRetentionPeriod>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2025-12-17.18:17:06.967</ModifiedTimestamp>
+      <ObjectId>1253579504</ObjectId>
+      <LobDataSpaceId>0</LobDataSpaceId>
+    </table>
+    <table id="5595" parent="5582" name="Product">
       <CreatedTimestamp>2025-12-14.01:57:39.987</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
       <DetailsLevel>2</DetailsLevel>
@@ -16933,247 +17074,567 @@
       <ObjectId>949578421</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
-    <table id="5587" parent="5582" name="User">
+    <table id="5596" parent="5582" name="Product">
+      <CreatedTimestamp>2025-12-17.18:10:47.010</CreatedTimestamp>
+      <DataRetentionPeriod>-1</DataRetentionPeriod>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2025-12-17.18:24:20.317</ModifiedTimestamp>
+      <ObjectId>1413580074</ObjectId>
+      <LobDataSpaceId>1</LobDataSpaceId>
+    </table>
+    <table id="5597" parent="5582" name="User">
       <CreatedTimestamp>2025-12-14.01:57:39.970</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
       <DetailsLevel>2</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
       <ModifiedTimestamp>2025-12-14.01:57:40</ModifiedTimestamp>
       <ObjectId>901578250</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
-    <check id="5588" parent="5585" name="CK_Order_OrderQuantity">
-      <ColNames>OrderQuantity</ColNames>
-      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
-      <ObjectId>1109578991</ObjectId>
-      <Predicate>[OrderQuantity]&gt;0</Predicate>
-    </check>
-    <column id="5589" parent="5585" name="OrderId">
+    <table id="5598" parent="5582" name="User">
+      <CreatedTimestamp>2025-12-17.17:10:57.930</CreatedTimestamp>
+      <DataRetentionPeriod>-1</DataRetentionPeriod>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2025-12-17.18:17:06.603</ModifiedTimestamp>
+      <ObjectId>1141579105</ObjectId>
+      <LobDataSpaceId>0</LobDataSpaceId>
+    </table>
+    <table id="5599" parent="5582" name="sysdiagrams">
+      <CreatedTimestamp>2025-12-17.17:07:47.417</CreatedTimestamp>
+      <DataRetentionPeriod>-1</DataRetentionPeriod>
+      <DetailsLevel>3</DetailsLevel>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-17.17:07:47.417</ModifiedTimestamp>
+      <ObjectId>917578307</ObjectId>
+      <LobDataSpaceId>1</LobDataSpaceId>
+    </table>
+    <argument id="5600" parent="5585">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5601" parent="5586" name="@diagramname">
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <argument id="5602" parent="5586" name="@owner_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5603" parent="5586" name="@version">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5604" parent="5586" name="@definition">
+      <Position>4</Position>
+      <StoredType>varbinary(max)|0s</StoredType>
+    </argument>
+    <argument id="5605" parent="5587" name="@diagramname">
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <argument id="5606" parent="5587" name="@owner_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5607" parent="5587" name="@version">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5608" parent="5587" name="@definition">
+      <Position>4</Position>
+      <StoredType>varbinary(max)|0s</StoredType>
+    </argument>
+    <argument id="5609" parent="5588" name="@diagramname">
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <argument id="5610" parent="5588" name="@owner_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5611" parent="5589" name="@diagramname">
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <argument id="5612" parent="5589" name="@owner_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5613" parent="5590" name="@diagramname">
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <argument id="5614" parent="5590" name="@owner_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5615" parent="5591" name="@diagramname">
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <argument id="5616" parent="5591" name="@owner_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </argument>
+    <argument id="5617" parent="5591" name="@new_diagramname">
+      <Position>3</Position>
+      <StoredType>sysname|0s</StoredType>
+    </argument>
+    <column id="5618" parent="5593" name="OrderId">
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(602)</SequenceIdentity>
+      <SequenceIdentity>1(601)</SequenceIdentity>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="5590" parent="5585" name="UserID">
+    <column id="5619" parent="5593" name="UserID">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="5591" parent="5585" name="ProId">
+    <column id="5620" parent="5593" name="ProId">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="5592" parent="5585" name="OrderQuantity">
+    <column id="5621" parent="5593" name="OrderQuantity">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="5593" parent="5585" name="OrderTime">
+    <column id="5622" parent="5593" name="OrderTime">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>datetime2(0 digit)|0s</StoredType>
-      <DefaultConstraintId>1093578934</DefaultConstraintId>
-      <DefaultConstraintName>DF_Order_OrderTime</DefaultConstraintName>
     </column>
-    <column id="5594" parent="5585" name="CustomerName">
+    <column id="5623" parent="5593" name="CustomerName">
+      <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>nvarchar(150 char)|0s</StoredType>
     </column>
-    <column id="5595" parent="5585" name="CustomerSdt">
+    <column id="5624" parent="5593" name="CustomerSdt">
+      <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>nvarchar(20 char)|0s</StoredType>
     </column>
-    <default id="5596" parent="5585" name="DF_Order_OrderTime">
-      <ColNames>OrderTime</ColNames>
-      <DefaultExpression>sysdatetime()</DefaultExpression>
-      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
-      <ObjectId>1093578934</ObjectId>
-    </default>
-    <foreign-key id="5597" parent="5585" name="FK_Order_User">
-      <ColNames>UserID</ColNames>
-      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
-      <ObjectId>1125579048</ObjectId>
-      <RefColNames>ID</RefColNames>
-      <RefTableId>901578250</RefTableId>
-      <RefTableName>User</RefTableName>
-    </foreign-key>
-    <foreign-key id="5598" parent="5585" name="FK_Order_Product">
+    <foreign-key id="5625" parent="5593" name="FK_Order_Product">
       <ColNames>ProId</ColNames>
-      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
+      <CreatedTimestamp>2025-12-14.01:57:40</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-14.01:57:40</ModifiedTimestamp>
       <ObjectId>1141579105</ObjectId>
       <RefColNames>ProId</RefColNames>
       <RefTableId>949578421</RefTableId>
       <RefTableName>Product</RefTableName>
     </foreign-key>
-    <index id="5599" parent="5585" name="PK_Order">
+    <column id="5626" parent="5594" name="OrderId">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <SequenceIdentity>1(103)</SequenceIdentity>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5627" parent="5594" name="UserID">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5628" parent="5594" name="ProId">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5629" parent="5594" name="OrderQuantity">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5630" parent="5594" name="OrderTime">
+      <Position>5</Position>
+      <StoredType>datetime|0s</StoredType>
+      <DefaultConstraintId>1285579618</DefaultConstraintId>
+      <DefaultConstraintName>DF__Order__OrderTime__4CA06362</DefaultConstraintName>
+    </column>
+    <column id="5631" parent="5594" name="CustomerName">
+      <Position>6</Position>
+      <StoredType>nvarchar(100 char)|0s</StoredType>
+    </column>
+    <column id="5632" parent="5594" name="OrderPrice">
+      <Position>7</Position>
+      <StoredType>decimal(18,2)|0s</StoredType>
+    </column>
+    <column id="5633" parent="5594" name="CustomerSdt">
+      <Position>8</Position>
+      <StoredType>varchar(20 char)|0s</StoredType>
+    </column>
+    <default id="5634" parent="5594" name="DF__Order__OrderTime__4CA06362">
+      <ColNames>OrderTime</ColNames>
+      <DefaultExpression>getdate()</DefaultExpression>
+      <ModifiedTimestamp>2025-12-17.17:10:57.950</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>1285579618</ObjectId>
+    </default>
+    <foreign-key id="5635" parent="5594" name="FK_Order_User">
+      <ColNames>UserID</ColNames>
+      <CreatedTimestamp>2025-12-17.17:10:57.950</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.17:10:57.950</ModifiedTimestamp>
+      <ObjectId>1301579675</ObjectId>
+      <RefColNames>ID</RefColNames>
+      <RefTableId>1141579105</RefTableId>
+      <RefTableName>User</RefTableName>
+    </foreign-key>
+    <foreign-key id="5636" parent="5594" name="FK_Order_Product">
+      <ColNames>ProId</ColNames>
+      <CreatedTimestamp>2025-12-17.18:17:06.957</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.18:17:06.957</ModifiedTimestamp>
+      <ObjectId>1621580815</ObjectId>
+      <RefColNames>ProId</RefColNames>
+      <RefTableId>1413580074</RefTableId>
+      <RefTableName>Product</RefTableName>
+    </foreign-key>
+    <index id="5637" parent="5594" name="PK__Order__C3905BCFF77A2782">
       <Clustering>1</Clustering>
       <ColNames>OrderId</ColNames>
+      <NameSurrogate>1</NameSurrogate>
       <Position>1</Position>
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <index id="5600" parent="5585" name="IX_Order_UserID">
-      <ColNames>UserID</ColNames>
-      <Position>2</Position>
-      <PartitionDataSpaceId>1</PartitionDataSpaceId>
-    </index>
-    <index id="5601" parent="5585" name="IX_Order_ProId">
-      <ColNames>ProId</ColNames>
-      <Position>3</Position>
-      <PartitionDataSpaceId>1</PartitionDataSpaceId>
-    </index>
-    <key id="5602" parent="5585" name="PK_Order">
-      <CreatedTimestamp>2025-12-15.16:07:11.677</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-15.16:07:11.677</ModifiedTimestamp>
-      <ObjectId>1077578877</ObjectId>
+    <key id="5638" parent="5594" name="PK__Order__C3905BCFF77A2782">
+      <CreatedTimestamp>2025-12-17.17:10:57.947</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.17:10:57.947</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>1269579561</ObjectId>
       <Primary>1</Primary>
-      <UnderlyingIndexName>PK_Order</UnderlyingIndexName>
+      <UnderlyingIndexName>PK__Order__C3905BCFF77A2782</UnderlyingIndexName>
     </key>
-    <check id="5603" parent="5586" name="CK_Product_Price">
+    <check id="5639" parent="5595" name="CK_Product_Price">
       <ColNames>Price</ColNames>
       <CreatedTimestamp>2025-12-14.01:57:39.987</CreatedTimestamp>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
       <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
       <ObjectId>1029578706</ObjectId>
       <Predicate>[Price]&gt;=0</Predicate>
     </check>
-    <check id="5604" parent="5586" name="CK_Product_Quantity">
+    <check id="5640" parent="5595" name="CK_Product_Quantity">
       <ColNames>Quantity</ColNames>
       <CreatedTimestamp>2025-12-14.01:57:39.987</CreatedTimestamp>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
       <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
       <ObjectId>1013578649</ObjectId>
       <Predicate>[Quantity]&gt;=0</Predicate>
     </check>
-    <column id="5605" parent="5586" name="ProId">
+    <column id="5641" parent="5595" name="ProId">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <SequenceIdentity>1(201)</SequenceIdentity>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="5606" parent="5586" name="ProName">
+    <column id="5642" parent="5595" name="ProName">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>nvarchar(200 char)|0s</StoredType>
     </column>
-    <column id="5607" parent="5586" name="Des">
+    <column id="5643" parent="5595" name="Des">
       <Position>3</Position>
       <StoredType>nvarchar(1000 char)|0s</StoredType>
     </column>
-    <column id="5608" parent="5586" name="Quantity">
+    <column id="5644" parent="5595" name="Quantity">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
       <DefaultConstraintId>981578535</DefaultConstraintId>
       <DefaultConstraintName>DF_Product_Quantity</DefaultConstraintName>
     </column>
-    <column id="5609" parent="5586" name="Price">
+    <column id="5645" parent="5595" name="Price">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>decimal(18,2)|0s</StoredType>
       <DefaultConstraintId>997578592</DefaultConstraintId>
       <DefaultConstraintName>DF_Product_Price</DefaultConstraintName>
     </column>
-    <column id="5610" parent="5586" name="Unit">
+    <column id="5646" parent="5595" name="Unit">
       <Position>6</Position>
       <StoredType>nvarchar(50 char)|0s</StoredType>
     </column>
-    <column id="5611" parent="5586" name="UserID">
+    <column id="5647" parent="5595" name="UserID">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <default id="5612" parent="5586" name="DF_Product_Quantity">
+    <default id="5648" parent="5595" name="DF_Product_Quantity">
       <ColNames>Quantity</ColNames>
       <DefaultExpression>0</DefaultExpression>
       <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
       <ObjectId>981578535</ObjectId>
     </default>
-    <default id="5613" parent="5586" name="DF_Product_Price">
+    <default id="5649" parent="5595" name="DF_Product_Price">
       <ColNames>Price</ColNames>
       <DefaultExpression>0</DefaultExpression>
       <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
       <ObjectId>997578592</ObjectId>
     </default>
-    <foreign-key id="5614" parent="5586" name="FK_Product_User">
+    <foreign-key id="5650" parent="5595" name="FK_Product_User">
       <ColNames>UserID</ColNames>
       <CreatedTimestamp>2025-12-14.01:57:39.987</CreatedTimestamp>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
       <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
       <ObjectId>1045578763</ObjectId>
       <RefColNames>ID</RefColNames>
       <RefTableId>901578250</RefTableId>
       <RefTableName>User</RefTableName>
     </foreign-key>
-    <index id="5615" parent="5586" name="PK_Product">
+    <key id="5651" parent="5595" name="PK_Product">
+      <CreatedTimestamp>2025-12-14.01:57:39.987</CreatedTimestamp>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
+      <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
+      <ObjectId>965578478</ObjectId>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PK_Product</UnderlyingIndexName>
+    </key>
+    <column id="5652" parent="5596" name="ProId">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <SequenceIdentity>1(101)</SequenceIdentity>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5653" parent="5596" name="ProName">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>nvarchar(150 char)|0s</StoredType>
+    </column>
+    <column id="5654" parent="5596" name="Des">
+      <Position>3</Position>
+      <StoredType>nvarchar(max)|0s</StoredType>
+    </column>
+    <column id="5655" parent="5596" name="Quantity">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+      <DefaultConstraintId>1429580131</DefaultConstraintId>
+      <DefaultConstraintName>DF__Product__Quantit__48CFD27E</DefaultConstraintName>
+    </column>
+    <column id="5656" parent="5596" name="Price">
+      <Position>5</Position>
+      <StoredType>decimal(18,2)|0s</StoredType>
+    </column>
+    <column id="5657" parent="5596" name="Unit">
+      <Position>6</Position>
+      <StoredType>nvarchar(50 char)|0s</StoredType>
+    </column>
+    <column id="5658" parent="5596" name="Type">
+      <Position>7</Position>
+      <StoredType>nvarchar(50 char)|0s</StoredType>
+    </column>
+    <column id="5659" parent="5596" name="ProductionDate">
+      <Position>8</Position>
+      <StoredType>datetime|0s</StoredType>
+    </column>
+    <column id="5660" parent="5596" name="ExpirationDate">
+      <Position>9</Position>
+      <StoredType>datetime|0s</StoredType>
+    </column>
+    <column id="5661" parent="5596" name="PricePercent">
+      <Position>10</Position>
+      <StoredType>float|0s</StoredType>
+      <DefaultConstraintId>1637580872</DefaultConstraintId>
+      <DefaultConstraintName>DF_Product_PricePercent</DefaultConstraintName>
+    </column>
+    <column id="5662" parent="5596" name="UserID">
+      <Position>11</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <default id="5663" parent="5596" name="DF__Product__Quantit__48CFD27E">
+      <ColNames>Quantity</ColNames>
+      <DefaultExpression>0</DefaultExpression>
+      <ModifiedTimestamp>2025-12-17.18:10:47.013</ModifiedTimestamp>
+      <ObjectId>1429580131</ObjectId>
+    </default>
+    <default id="5664" parent="5596" name="DF_Product_PricePercent">
+      <ColNames>PricePercent</ColNames>
+      <DefaultExpression>0</DefaultExpression>
+      <ModifiedTimestamp>2025-12-17.18:24:20.313</ModifiedTimestamp>
+      <ObjectId>1637580872</ObjectId>
+    </default>
+    <foreign-key id="5665" parent="5596" name="FK_Product_User">
+      <ColNames>UserID</ColNames>
+      <CreatedTimestamp>2025-12-17.18:17:06.600</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.18:17:06.600</ModifiedTimestamp>
+      <ObjectId>1605580758</ObjectId>
+      <RefColNames>ID</RefColNames>
+      <RefTableId>1141579105</RefTableId>
+      <RefTableName>User</RefTableName>
+    </foreign-key>
+    <index id="5666" parent="5596" name="PK__Product__62029590DA46A3F0">
       <Clustering>1</Clustering>
       <ColNames>ProId</ColNames>
       <Position>1</Position>
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <index id="5616" parent="5586" name="IX_Product_UserID">
-      <ColNames>UserID</ColNames>
-      <Position>2</Position>
+    <index id="5667" parent="5596" name="IX_Product">
+      <ColNames>ProId</ColNames>
+      <Position>3</Position>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5617" parent="5586" name="PK_Product">
-      <CreatedTimestamp>2025-12-14.01:57:39.987</CreatedTimestamp>
-      <ModifiedTimestamp>2025-12-14.01:57:39.987</ModifiedTimestamp>
-      <ObjectId>965578478</ObjectId>
+    <key id="5668" parent="5596" name="PK__Product__62029590DA46A3F0">
+      <CreatedTimestamp>2025-12-17.18:10:47.457</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.18:10:47.457</ModifiedTimestamp>
+      <ObjectId>1461580245</ObjectId>
       <Primary>1</Primary>
-      <UnderlyingIndexName>PK_Product</UnderlyingIndexName>
+      <UnderlyingIndexName>PK__Product__62029590DA46A3F0</UnderlyingIndexName>
     </key>
-    <column id="5618" parent="5587" name="ID">
+    <column id="5669" parent="5597" name="ID">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <SequenceIdentity>1(11)</SequenceIdentity>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="5619" parent="5587" name="Email">
+    <column id="5670" parent="5597" name="Email">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>nvarchar(255 char)|0s</StoredType>
     </column>
-    <column id="5620" parent="5587" name="Name">
+    <column id="5671" parent="5597" name="Name">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>nvarchar(150 char)|0s</StoredType>
     </column>
-    <column id="5621" parent="5587" name="Address">
+    <column id="5672" parent="5597" name="Address">
       <Position>4</Position>
       <StoredType>nvarchar(300 char)|0s</StoredType>
     </column>
-    <column id="5622" parent="5587" name="Password">
+    <column id="5673" parent="5597" name="Password">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>nvarchar(255 char)|0s</StoredType>
     </column>
-    <index id="5623" parent="5587" name="PK_User">
-      <Clustering>1</Clustering>
-      <ColNames>ID</ColNames>
-      <Position>1</Position>
-      <Unique>1</Unique>
-      <PartitionDataSpaceId>1</PartitionDataSpaceId>
-    </index>
-    <index id="5624" parent="5587" name="UQ_User_Email">
-      <ColNames>Email</ColNames>
-      <Position>2</Position>
-      <Unique>1</Unique>
-      <PartitionDataSpaceId>1</PartitionDataSpaceId>
-    </index>
-    <key id="5625" parent="5587" name="PK_User">
+    <key id="5674" parent="5597" name="PK_User">
       <CreatedTimestamp>2025-12-14.01:57:39.973</CreatedTimestamp>
+      <ExtendedProperties>microsoft_database_tools_support
+1
+int</ExtendedProperties>
       <ModifiedTimestamp>2025-12-14.01:57:39.973</ModifiedTimestamp>
       <ObjectId>917578307</ObjectId>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK_User</UnderlyingIndexName>
     </key>
-    <key id="5626" parent="5587" name="UQ_User_Email">
+    <key id="5675" parent="5597" name="UQ_User_Email">
       <CreatedTimestamp>2025-12-14.01:57:39.973</CreatedTimestamp>
       <ModifiedTimestamp>2025-12-14.01:57:39.973</ModifiedTimestamp>
       <ObjectId>933578364</ObjectId>
       <UnderlyingIndexName>UQ_User_Email</UnderlyingIndexName>
+    </key>
+    <column id="5676" parent="5598" name="ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <SequenceIdentity>1(11)</SequenceIdentity>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5677" parent="5598" name="Email">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>varchar(100 char)|0s</StoredType>
+    </column>
+    <column id="5678" parent="5598" name="Name">
+      <Position>3</Position>
+      <StoredType>nvarchar(100 char)|0s</StoredType>
+    </column>
+    <column id="5679" parent="5598" name="Address">
+      <Position>4</Position>
+      <StoredType>nvarchar(255 char)|0s</StoredType>
+    </column>
+    <column id="5680" parent="5598" name="Password">
+      <Position>5</Position>
+      <StoredType>varchar(255 char)|0s</StoredType>
+    </column>
+    <index id="5681" parent="5598" name="PK__User__3214EC27A9586A56">
+      <Clustering>1</Clustering>
+      <ColNames>ID</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Position>1</Position>
+      <Unique>1</Unique>
+      <PartitionDataSpaceId>1</PartitionDataSpaceId>
+    </index>
+    <index id="5682" parent="5598" name="UQ__User__A9D10534001F8DC2">
+      <ColNames>Email</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Position>2</Position>
+      <Unique>1</Unique>
+      <PartitionDataSpaceId>1</PartitionDataSpaceId>
+    </index>
+    <key id="5683" parent="5598" name="PK__User__3214EC27A9586A56">
+      <CreatedTimestamp>2025-12-17.17:10:57.937</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.17:10:57.937</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>1157579162</ObjectId>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PK__User__3214EC27A9586A56</UnderlyingIndexName>
+    </key>
+    <key id="5684" parent="5598" name="UQ__User__A9D10534001F8DC2">
+      <CreatedTimestamp>2025-12-17.17:10:57.937</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.17:10:57.937</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>1173579219</ObjectId>
+      <UnderlyingIndexName>UQ__User__A9D10534001F8DC2</UnderlyingIndexName>
+    </key>
+    <column id="5685" parent="5599" name="name">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>sysname|0s</StoredType>
+    </column>
+    <column id="5686" parent="5599" name="principal_id">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5687" parent="5599" name="diagram_id">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <SequenceIdentity>1(2)</SequenceIdentity>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5688" parent="5599" name="version">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="5689" parent="5599" name="definition">
+      <Position>5</Position>
+      <StoredType>varbinary(max)|0s</StoredType>
+    </column>
+    <index id="5690" parent="5599" name="PK__sysdiagr__C2B05B612FB018F9">
+      <Clustering>1</Clustering>
+      <ColNames>diagram_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Position>1</Position>
+      <Unique>1</Unique>
+      <PartitionDataSpaceId>1</PartitionDataSpaceId>
+    </index>
+    <index id="5691" parent="5599" name="UK_principal_name">
+      <ColNames>principal_id
+name</ColNames>
+      <Position>2</Position>
+      <Unique>1</Unique>
+      <PartitionDataSpaceId>1</PartitionDataSpaceId>
+    </index>
+    <key id="5692" parent="5599" name="PK__sysdiagr__C2B05B612FB018F9">
+      <CreatedTimestamp>2025-12-17.17:07:47.427</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.17:07:47.427</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>933578364</ObjectId>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PK__sysdiagr__C2B05B612FB018F9</UnderlyingIndexName>
+    </key>
+    <key id="5693" parent="5599" name="UK_principal_name">
+      <CreatedTimestamp>2025-12-17.17:07:47.430</CreatedTimestamp>
+      <ModifiedTimestamp>2025-12-17.17:07:47.430</ModifiedTimestamp>
+      <ObjectId>949578421</ObjectId>
+      <UnderlyingIndexName>UK_principal_name</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>

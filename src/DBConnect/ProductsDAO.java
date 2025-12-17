@@ -47,8 +47,7 @@ public class ProductsDAO {
 
     // Search sp
     private static final String sqlSearch = """
-        AND p.ProName LIKE ?
-        OR p.Type LIKE ?
+        AND (p.ProName LIKE ? OR p.[Type] LIKE ?)
         """;
 
 
@@ -114,7 +113,7 @@ public class ProductsDAO {
     }
 
     public static Boolean insertProduct(Products p) {
-        String sql = "INSERT INTO dbo.Product (ProName, [Des], Quantity, Price, Unit, UserID) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO dbo.Product (ProName, [Des], Quantity, Price, Unit,ExpirationDate, UserID) VALUES (?, ?, ?, ?, ?,?, ?)";
         try (Connection con = DBConnect.getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
 
@@ -123,7 +122,8 @@ public class ProductsDAO {
             st.setInt(3, p.getQuantity());
             st.setBigDecimal(4, p.getPrice());
             st.setString(5, p.getUnit());
-            st.setInt(6, p.getUserId());
+            st.setTimestamp(6,p.getExpirationDate());
+            st.setInt(7, p.getUserId());
 
             st.executeUpdate();
             return true;

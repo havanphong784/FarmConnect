@@ -7,18 +7,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import static UI.LoginFrame.userid;
 import static UI.LoginFrame.username;
 
 public class ProductsFromInsert extends JOptionPane {
-    protected JLabel lblTitle,lblName,lblPrice,lblUnit,lblQuantiy,lblDes;
-    protected JTextField txtName,txtPrice,txtUnit,txtQuantity,txtDes;
+    protected JLabel lblTitle,lblName,lblPrice,lblUnit,lblQuantiy,lblDes,lblExpiry;
+    protected JTextField txtName,txtPrice,txtUnit,txtQuantity,txtDes,txtExpiry;
     protected JButton btnSubmit;
 
     public ProductsFromInsert() {
         this.setBackground(UIStyle.colorBg);
-        this.setPreferredSize(new Dimension(400,500));
+        this.setPreferredSize(new Dimension(400,585));
         this.setLayout(null);
 
         this.lblTitle = UIStyle.setLabel(this.lblTitle,"Nhập thông tin sản phẩm !");
@@ -72,8 +75,17 @@ public class ProductsFromInsert extends JOptionPane {
         this.txtDes.setFont(UIStyle.font14);
         this.add(this.txtDes);
 
+        this.lblExpiry = UIStyle.setLabel(this.lblExpiry,"Hạn sử dụng (ngày) :");
+        this.lblExpiry.setBounds(20, 440, 360, 22);
+        this.add(this.lblExpiry);
+
+        this.txtExpiry = UIStyle.setTextField(this.txtExpiry,"");
+        this.txtExpiry.setBounds(20, 465, 360, 40);
+        this.txtExpiry.setFont(UIStyle.font14);
+        this.add(this.txtExpiry);
+
         this.btnSubmit = UIStyle.setBtnActive(this.btnSubmit,"Thêm sản phẩm");
-        this.btnSubmit.setBounds(20, 445, 360, 40);
+        this.btnSubmit.setBounds(20, 525, 360, 40);
         this.add(this.btnSubmit);
 
         // Action them san pham
@@ -89,27 +101,27 @@ public class ProductsFromInsert extends JOptionPane {
 
                 try {
                     String name = txtName.getText().trim();
-                    System.out.println(name);
                     BigDecimal price = new BigDecimal(txtPrice.getText().trim());
-                    System.out.println(price);
                     String unit = txtUnit.getText().trim();
-                    System.out.println(unit);
                     int quantity = Integer.parseInt(txtQuantity.getText().trim());
-                    System.out.println(quantity);
                     String des = txtDes.getText().trim();
-                    System.out.println(des);
-                    System.out.println(userid);
 
-                    Boolean check = ProductsServer.insertProduct(name,des,quantity,price,unit,userid);
+                    int day = Integer.parseInt(txtExpiry.getText().trim());
+                    System.out.println(day);
+                    Instant time = Instant.now();
+                    System.out.println(time);
+                    Timestamp expirationDate = Timestamp.from(time.plus(day,ChronoUnit.DAYS));
+                    System.out.println(expirationDate);
+
+                    Boolean check = ProductsServer.insertProduct(name,des,quantity,price,unit,expirationDate,userid);
                     if (check) {
                         JOptionPane.showMessageDialog(null,"Thêm sản phẩm thành công !");
                     } else {
                         JOptionPane.showMessageDialog(null,"Thêm sản phẩm thất bại !");
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null,"Giá sản phẩm và số lượng phải là số hợp lệ !");
+                    JOptionPane.showMessageDialog(null,"Lỗi định dạng !");
                     return;
-
                 }
 
             }

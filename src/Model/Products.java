@@ -1,11 +1,13 @@
 package Model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class Products {
     private int ProId,Quantity,UserId;
     private String ProName,Des,Unit;
     private BigDecimal price;
+    private Timestamp expirationDate;
 
     public Products(int proId ,String proName, String des, int quantity, BigDecimal price,String unit ,int userId) {
         ProId = proId;
@@ -17,12 +19,13 @@ public class Products {
         this.price = price;
     }
 
-    public Products(String proName, String des, int quantity, BigDecimal price,String unit ,int userId) {
+    public Products(String proName, String des, int quantity, BigDecimal price, String unit, Timestamp expirationDate , int userId) {
         Quantity = quantity;
         UserId = userId;
         ProName = proName;
         Des = des;
         Unit = unit;
+        this.expirationDate = expirationDate;
         this.price = price;
     }
 
@@ -85,5 +88,13 @@ public class Products {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Timestamp getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Timestamp expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

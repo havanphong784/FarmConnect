@@ -17,6 +17,7 @@ public class ProductListPanel extends JPanel {
     protected JPanel pnTop, pnCenter,pnBottom;
     protected JScrollPane scrollPane;
     protected  DefaultTableModel model;
+    public static String nameSearch;
     public Object[][] data;
     public String[] cols;
     public ProductListPanel() {
@@ -29,7 +30,7 @@ public class ProductListPanel extends JPanel {
         this.pnTop.setLayout(new BoxLayout(this.pnTop, BoxLayout.X_AXIS));
         this.pnTop.setBackground(UIStyle.colorBg);
         this.pnTop.setPreferredSize(new Dimension(0, 50));
-        this.txtSearch = UIStyle.setTextField(this.txtSearch,"Nhập");
+        this.txtSearch = UIStyle.setTextField(this.txtSearch,"");
         this.txtSearch.setFont(UIStyle.font16);
         this.txtSearch.setMaximumSize(new Dimension(400, 50));
         this.txtSearch.setPreferredSize(new Dimension(240, 50));

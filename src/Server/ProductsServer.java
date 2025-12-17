@@ -3,6 +3,7 @@ package Server;
 import DBConnect.ProductsDAO;
 import Model.Products;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import static DBConnect.ProductsDAO.getProductIdByName;
 import static UI.LoginFrame.userid;
@@ -26,8 +27,8 @@ public class ProductsServer {
         return data;
     }
 
-    public static boolean insertProduct(String name, String desc, int Quantity, BigDecimal price, String unit, int userID) {
-        Products products = new Products(name,desc,Quantity,price,unit,userID);
+    public static boolean insertProduct(String name, String desc, int Quantity, BigDecimal price, String unit, Timestamp expirationDate, int userID) {
+        Products products = new Products(name,desc,Quantity,price,unit,expirationDate,userID);
         return ProductsDAO.insertProduct(products);
     }
 
