@@ -37,7 +37,6 @@ public class HistoryPanel extends ProductListPanel{
         this.tableHistory.setRowHeight(40);
         this.tableHistory.setAutoCreateRowSorter(true);
         this.tableHistory.setShowVerticalLines(false);
-        this.tableHistory.setShowVerticalLines(false);
         this.tableHistory.getTableHeader().setBackground(UIStyle.colorBg);
         this.tableHistory.getTableHeader().setFont(UIStyle.font16Bold);
         this.tableHistory.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
