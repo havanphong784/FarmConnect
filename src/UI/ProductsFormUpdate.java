@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 
 public class ProductsFormUpdate extends ProductsFromInsert {
+    private JLabel lblSale;
+    private JTextField txtPricePercent;
     public ProductsFormUpdate(TableModel model, int row) {
         super();
         this.lblTitle.setText("Cập nhật thông tin sản phẩm !");
@@ -16,6 +18,24 @@ public class ProductsFormUpdate extends ProductsFromInsert {
         this.txtUnit.setText(String.valueOf(model.getValueAt(row,2)));
         this.txtQuantity.setText(String.valueOf(model.getValueAt(row,3)));
         this.txtDes.setText(String.valueOf(model.getValueAt(row,4)));
+        remove(lblExpiry);
+        remove(txtExpiry);
+
+
+        // width nho lai de them sale
+        lblPrice.setBounds(20, 140, 170, 22);
+        add(this.lblPrice);
+
+        txtPrice.setBounds(20, 165, 170, 40);
+        add(this.txtPrice);
+
+        this.lblSale = UIStyle.setLabel(this.lblSale,"Giảm giá (%):");
+        this.lblSale.setBounds(210, 140, 170, 22);
+        this.add(this.lblSale);
+
+        this.txtPricePercent = UIStyle.setTextField(this.txtPricePercent,"");
+        this.txtPricePercent.setBounds(210 ,165, 170, 40);
+        this.add(this.txtPricePercent);
 
         // khong cho sửa tên sản phẩm
         this.txtName.setEditable(false);
@@ -31,9 +51,10 @@ public class ProductsFormUpdate extends ProductsFromInsert {
                     BigDecimal price = new BigDecimal(txtPrice.getText());
                     String unit = txtUnit.getText();
                     int quantity = Integer.parseInt(txtQuantity.getText());
+                    float pricePercent = Float.parseFloat(txtPricePercent.getText());
                     String des = txtDes.getText();
 
-                    boolean isUpdated = Server.ProductsServer.updateProduct(name, des, quantity, price, unit);
+                    boolean isUpdated = Server.ProductsServer.updateProduct(name, des, quantity, price,pricePercent, unit);
                     if (isUpdated) {
                         JOptionPane.showMessageDialog(null, "Cập nhật sản phẩm thành công !");
                         SwingUtilities.getWindowAncestor(ProductsFormUpdate.this).dispose();

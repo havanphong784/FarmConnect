@@ -36,8 +36,8 @@ public class ProductsServer {
         return ProductsDAO.insertProduct(products);
     }
 
-    public static boolean updateProduct(String name ,String desc,int Quantity, BigDecimal price,String unit) {
-        Products products = new Products(getProductIdByName(name),name,desc,Quantity,price,unit,userid);
+    public static boolean updateProduct(String name ,String desc,int Quantity, BigDecimal price,float pricePercent ,String unit) {
+        Products products = new Products(getProductIdByName(name),name,desc,Quantity,price,unit,pricePercent,userid);
         return ProductsDAO.update(products);
     }
 

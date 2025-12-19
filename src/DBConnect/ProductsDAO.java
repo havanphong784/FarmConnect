@@ -36,6 +36,7 @@ public class ProductsDAO {
             [Quantity] = ?,
             [Price] = ?,
             [Unit] = ?,
+            [PricePercent] = ?,
             [UserID] = ?
         WHERE [ProId] = ?
      """;
@@ -161,8 +162,9 @@ public class ProductsDAO {
             ps.setInt(2, p.getQuantity());
             ps.setBigDecimal(3, p.getPrice());
             ps.setString(4, p.getUnit());
-            ps.setInt(5,userid);
-            ps.setInt(6, p.getProId());
+            ps.setFloat(5, p.getPricePercent());
+            ps.setInt(6,userid);
+            ps.setInt(7, p.getProId());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {

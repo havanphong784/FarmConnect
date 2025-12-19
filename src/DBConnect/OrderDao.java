@@ -16,6 +16,7 @@ public class OrderDao {
                 JOIN [Product] p ON p.ProId=o.ProId
                 JOIN [User] u ON o.UserID=u.ID
                 WHERE u.ID = ?
+                ORDER BY o.[OrderTime] DESC
         """;
     public static final String sqlInsertOrder = "INSERT INTO [Order] (UserID, OrderQuantity,ProId) VALUES (?,?,?)";
     public static Boolean insertOrder(Order order) {
