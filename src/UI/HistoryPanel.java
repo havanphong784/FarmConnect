@@ -6,10 +6,13 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class HistoryPanel extends ProductListPanel{
-    private JTable tableHistory;
+    protected    JTable tableHistory;
     private JScrollPane scrollPane;
+    private JButton btn;
     public static DefaultTableModel modelOrder;
     public static String[] columnOrder;
     public HistoryPanel() {
@@ -40,9 +43,28 @@ public class HistoryPanel extends ProductListPanel{
         this.tableHistory.getTableHeader().setBackground(UIStyle.colorBg);
         this.tableHistory.getTableHeader().setFont(UIStyle.font16Bold);
         this.tableHistory.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        this.tableHistory.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         this.scrollPane = new JScrollPane(this.tableHistory);
         this.scrollPane.setPreferredSize(new Dimension(1400, 770));
         this.pnCenter.add(this.scrollPane);
+
+        this.btn = UIStyle.setBtnActive(this.btn, "Xuất hóa đơn");
+        this.btn.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
+        pnBottom.add(Box.createHorizontalGlue());
+        pnBottom.add(this.btn);
+        pnBottom.add(Box.createHorizontalStrut(40));
+
+        this.btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int[] rows = tableHistory.getSelectedRows();
+                // chuyen qua thu tu trong model
+                for (int i = 0 ; i < rows.length ; ++i) {
+                    rows[i] = tableHistory.convertRowIndexToModel(rows[i]);
+                    JOptionPane form = new OrderForm(modelOrder,rows);
+                    JOptionPane.showMessageDialog(null,form,"Xuất hóa đơn.",JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        });
     }
 
     public static void refreshTableOrder() {

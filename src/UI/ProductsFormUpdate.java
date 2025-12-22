@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 
 public class ProductsFormUpdate extends ProductsFromInsert {
-    private JLabel lblSale;
+        private JLabel lblSale;
     private JTextField txtPricePercent;
     public ProductsFormUpdate(TableModel model, int row) {
         super();
