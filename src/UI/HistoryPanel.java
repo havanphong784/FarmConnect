@@ -56,13 +56,23 @@ public class HistoryPanel extends ProductListPanel{
 
         this.btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int[] rows = tableHistory.getSelectedRows();
-                // chuyen qua thu tu trong model
-                for (int i = 0 ; i < rows.length ; ++i) {
-                    rows[i] = tableHistory.convertRowIndexToModel(rows[i]);
-                    JOptionPane form = new OrderForm(modelOrder,rows);
-                    JOptionPane.showMessageDialog(null,form,"Xuất hóa đơn.",JOptionPane.PLAIN_MESSAGE);
+                // Lấy model từ JTable (QUAN TRỌNG)
+                DefaultTableModel tableModel =
+                        (DefaultTableModel) tableHistory.getModel();
+
+// Lấy các dòng được chọn
+                int[] selectedRows = tableHistory.getSelectedRows();
+
+// Check
+                if (selectedRows.length == 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm!");
+                    return;
                 }
+
+// Mở form hóa đơn
+                OrderForm form = new OrderForm(tableModel, selectedRows);
+                form.setVisible(true);
+
             }
         });
     }
