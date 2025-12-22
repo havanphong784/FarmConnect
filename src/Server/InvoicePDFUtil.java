@@ -46,10 +46,10 @@ public class InvoicePDFUtil {
             double total = 0;
 
             for (int r : rows) {
-                String name = model.getValueAt(r, 1).toString();
+                String name = model.getValueAt(r, 0).toString();
+                double price = Double.parseDouble(model.getValueAt(r, 1).toString());
                 int qty = Integer.parseInt(model.getValueAt(r, 2).toString());
-                double price = Double.parseDouble(model.getValueAt(r, 3).toString());
-                double sum = qty * price;
+                double sum = Double.parseDouble(model.getValueAt(r, 3).toString());
                 total += sum;
 
                 table.addCell(new Phrase(name, normalFont));
