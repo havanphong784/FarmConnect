@@ -48,13 +48,15 @@ public class ProductsDAO {
      """;
 
     // Search sp
+    // Search sp
     private static final String sqlSearch = """
-        AND (p.ProName LIKE ? OR p.[Type] LIKE ?)
+        AND p.ProName LIKE ? 
+        AND (? = N'Tất cả' OR p.[Type] = ?)
         """;
 
 
 
-    private static ArrayList<Products> querySearchByName(String keyword, String orderBy) {
+    private static ArrayList<Products> querySearchByName(String keyword, String type, String orderBy) {
         ArrayList<Products> list = new ArrayList<>();
         String sql = sqlSelect + "\n" + sqlSearch
                 + (orderBy == null || orderBy.isBlank() ? "" : ("\n" + orderBy));
@@ -64,7 +66,8 @@ public class ProductsDAO {
 
             st.setString(1, username);
             st.setString(2, "%" + (keyword == null ? "" : keyword.trim()) + "%");
-            st.setString(3, "%" + (keyword == null ? "" : keyword.trim()) + "%");
+            st.setString(3, type == null ? "Tất cả" : type);
+            st.setString(4, type == null ? "" : type);
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -88,31 +91,46 @@ public class ProductsDAO {
     }
 
     public static ArrayList<Products> getAll() {
-        return querySearchByName("","ORDER BY p.ProId, p.ProName ASC, p.Price ASC, p.Quantity ASC");
+        return querySearchByName("", "Tất cả", "ORDER BY p.ProId, p.ProName ASC, p.Price ASC, p.Quantity ASC");
     }
 
-    public static ArrayList<Products> searchOderNameASC(String keyword) {
-        return querySearchByName(keyword, "ORDER BY p.ProName ASC, p.Price ASC, p.Quantity ASC");
+    public static ArrayList<Products> searchOderNameASC(String keyword, String type) {
+        return querySearchByName(keyword, type, "ORDER BY p.ProName ASC, p.Price ASC, p.Quantity ASC");
     }
 
-    public static ArrayList<Products> searchOderNameDESC(String keyword) {
-        return querySearchByName(keyword, "ORDER BY p.ProName DESC, p.Price ASC, p.Quantity ASC");
+    public static ArrayList<Products> searchOderNameDESC(String keyword, String type) {
+        return querySearchByName(keyword, type, "ORDER BY p.ProName DESC, p.Price ASC, p.Quantity ASC");
     }
 
-    public static ArrayList<Products> searchOderQuantityASC(String keyword) {
-        return querySearchByName(keyword, "ORDER BY p.Quantity ASC, p.ProName ASC, p.Price ASC");
+    public static ArrayList<Products> searchOderQuantityASC(String keyword, String type) {
+        return querySearchByName(keyword, type, "ORDER BY p.Quantity ASC, p.ProName ASC, p.Price ASC");
     }
 
-    public static ArrayList<Products> searchOderQuantityDESC(String keyword) {
-        return querySearchByName(keyword, "ORDER BY p.Quantity DESC, p.ProName ASC, p.Price ASC");
+    public static ArrayList<Products> searchOderQuantityDESC(String keyword, String type) {
+        return querySearchByName(keyword, type, "ORDER BY p.Quantity DESC, p.ProName ASC, p.Price ASC");
     }
 
-    public static ArrayList<Products> searchOderPriceASC(String keyword) {
-        return querySearchByName(keyword, "ORDER BY p.Price ASC, p.Quantity ASC, p.ProName ASC");
+    public static ArrayList<Products> searchOderPriceASC(String keyword, String type) {
+        return querySearchByName(keyword, type, "ORDER BY p.Price ASC, p.Quantity ASC, p.ProName ASC");
     }
 
-    public static ArrayList<Products> searchOderPriceDESC(String keyword) {
-        return querySearchByName(keyword, "ORDER BY p.Price DESC, p.Quantity ASC, p.ProName ASC");
+    public static ArrayList<Products> searchOderPriceDESC(String keyword, String type) {
+        return querySearchByName(keyword, type, "ORDER BY p.Price DESC, p.Quantity ASC, p.ProName ASC");
+    }
+
+    public static ArrayList<String> getTypes() {
+        ArrayList<String> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT [Type] FROM Product WHERE [Type] IS NOT NULL";
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement st = con.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                list.add(rs.getString("Type"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public static Boolean insertProduct(Products p) {

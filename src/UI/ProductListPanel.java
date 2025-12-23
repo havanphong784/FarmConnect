@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class ProductListPanel extends JPanel {
     protected JTable table;
     protected JTextField txtSearch;
-    protected JComboBox<String> cmbArrangement;
+    protected JComboBox<String> cmbArrangement, cmbType;
     protected JButton btnSearch,btnAdd,btnUpdate,btnSell;
     protected JPanel pnTop, pnCenter,pnBottom;
     protected JScrollPane scrollPane;
@@ -35,6 +35,18 @@ public class ProductListPanel extends JPanel {
         this.txtSearch.setMaximumSize(new Dimension(400, 50));
         this.txtSearch.setPreferredSize(new Dimension(240, 50));
         this.pnTop.add(this.txtSearch);
+        this.cmbType = new JComboBox<>();
+        this.cmbType.addItem("Tất cả");
+        for (String type : ProductsDAO.getTypes()) {
+            this.cmbType.addItem(type);
+        }
+        this.cmbType.setPreferredSize(new Dimension(150, 30));
+        this.cmbType.setMaximumSize(new Dimension(150, 30));
+        this.cmbType.setFont(UIStyle.font16);
+        this.cmbType.setBackground(UIStyle.colorHeader);
+        this.pnTop.add(Box.createHorizontalStrut(10));
+        this.pnTop.add(this.cmbType);
+        this.pnTop.add(Box.createHorizontalStrut(10));
         this.btnSearch = new JButton("Tìm kiếm");
         this.btnSearch.setPreferredSize(new Dimension(100, 50));
         this.btnSearch.setMaximumSize(new Dimension(100, 50));
@@ -79,28 +91,28 @@ public class ProductListPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selected = String.valueOf(cmbArrangement.getSelectedItem());
-
+                String selectedType = String.valueOf(cmbType.getSelectedItem());
                 Object[][] newData;
                 String keyWord = txtSearch.getText().trim();
 
                 switch (selected) {
                     case "Xắp xếp theo tên tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(keyWord));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(keyWord, selectedType));
                         break;
                     case "Xắp xếp theo tên giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(keyWord));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(keyWord, selectedType));
                         break;
                     case "Xắp xếp theo số lượng tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(keyWord));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(keyWord, selectedType));
                         break;
                     case "Xắp xếp theo số lượng giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(keyWord));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(keyWord, selectedType));
                         break;
                     case "Xắp xếp theo giá tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(keyWord));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(keyWord, selectedType));
                         break;
                     case "Xắp xếp theo giá giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(keyWord));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(keyWord, selectedType));
                         break;
                     default:
                         newData = ProductsServer.toTableData(ProductsDAO.getAll());
@@ -111,33 +123,71 @@ public class ProductListPanel extends JPanel {
             }
         });
 
+        this.cmbType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Reuse logic from search button or arrangement
+                String nameSearch = txtSearch.getText();
+                String selected = String.valueOf(cmbArrangement.getSelectedItem());
+                String selectedType = String.valueOf(cmbType.getSelectedItem());
+                Object[][] newData;
+                switch (selected) {
+                    case "Chọn kiểu sắp xếp":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
+                        break;
+                    case "Xắp xếp theo tên tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
+                        break;
+                    case "Xắp xếp theo tên giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch, selectedType));
+                        break;
+                    case "Xắp xếp theo số lượng tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch, selectedType));
+                        break;
+                    case "Xắp xếp theo số lượng giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch, selectedType));
+                        break;
+                    case "Xắp xếp theo giá tăng dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch, selectedType));
+                        break;
+                    case "Xắp xếp theo giá giảm dần":
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch, selectedType));
+                        break;
+                    default:
+                        newData = ProductsServer.toTableData(ProductsDAO.getAll());
+                }
+                model.setDataVector(newData, cols);
+            }
+        });
+
         this.btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nameSearch = txtSearch.getText();
                 String selected = String.valueOf(cmbArrangement.getSelectedItem());
+                String selectedType = String.valueOf(cmbType.getSelectedItem());
                 Object[][] newData;
                 switch (selected) {
                     case "Chọn kiểu sắp xếp":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
                         break;
                     case "Xắp xếp theo tên tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
                         break;
                     case "Xắp xếp theo tên giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch, selectedType));
                         break;
                     case "Xắp xếp theo số lượng tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch, selectedType));
                         break;
                     case "Xắp xếp theo số lượng giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch, selectedType));
                         break;
                     case "Xắp xếp theo giá tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch, selectedType));
                         break;
                     case "Xắp xếp theo giá giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch));
+                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch, selectedType));
                         break;
                     default:
                         newData = ProductsServer.toTableData(ProductsDAO.getAll());
