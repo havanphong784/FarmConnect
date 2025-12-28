@@ -82,120 +82,16 @@ public class ProductListPanel extends JPanel {
         this.table = new JTable(model) {
             @Override
             public boolean getScrollableTracksViewportWidth() {
-                return true; // set width theo kich thuoc cua ScrollPane
+                return true;
             }
         };
 
         // su kien khi thay doi xap xep
-        this.cmbArrangement.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selected = String.valueOf(cmbArrangement.getSelectedItem());
-                String selectedType = String.valueOf(cmbType.getSelectedItem());
-                Object[][] newData;
-                String keyWord = txtSearch.getText().trim();
+        this.cmbArrangement.addActionListener(e -> refreshTable());
 
-                switch (selected) {
-                    case "Xắp xếp theo tên tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(keyWord, selectedType));
-                        break;
-                    case "Xắp xếp theo tên giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(keyWord, selectedType));
-                        break;
-                    case "Xắp xếp theo số lượng tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(keyWord, selectedType));
-                        break;
-                    case "Xắp xếp theo số lượng giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(keyWord, selectedType));
-                        break;
-                    case "Xắp xếp theo giá tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(keyWord, selectedType));
-                        break;
-                    case "Xắp xếp theo giá giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(keyWord, selectedType));
-                        break;
-                    default:
-                        newData = ProductsServer.toTableData(ProductsDAO.getAll());
-                }
+        this.cmbType.addActionListener(e -> refreshTable());
 
-                model.setDataVector(newData, cols); // cập nhật dữ liệu + header
-                // không cần repaint() thủ công
-            }
-        });
-
-        this.cmbType.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Reuse logic from search button or arrangement
-                String nameSearch = txtSearch.getText();
-                String selected = String.valueOf(cmbArrangement.getSelectedItem());
-                String selectedType = String.valueOf(cmbType.getSelectedItem());
-                Object[][] newData;
-                switch (selected) {
-                    case "Chọn kiểu sắp xếp":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo tên tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo tên giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo số lượng tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo số lượng giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo giá tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo giá giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch, selectedType));
-                        break;
-                    default:
-                        newData = ProductsServer.toTableData(ProductsDAO.getAll());
-                }
-                model.setDataVector(newData, cols);
-            }
-        });
-
-        this.btnSearch.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nameSearch = txtSearch.getText();
-                String selected = String.valueOf(cmbArrangement.getSelectedItem());
-                String selectedType = String.valueOf(cmbType.getSelectedItem());
-                Object[][] newData;
-                switch (selected) {
-                    case "Chọn kiểu sắp xếp":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo tên tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo tên giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo số lượng tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo số lượng giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo giá tăng dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch, selectedType));
-                        break;
-                    case "Xắp xếp theo giá giảm dần":
-                        newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch, selectedType));
-                        break;
-                    default:
-                        newData = ProductsServer.toTableData(ProductsDAO.getAll());
-                }
-
-                model.setDataVector(newData, cols); // cap nhat du lieu cua bang
-            }
-        });
+        this.btnSearch.addActionListener(e -> refreshTable());
 
         table.setDefaultEditor(Object.class, null);
         table.setFont(UIStyle.font16);
@@ -203,9 +99,7 @@ public class ProductListPanel extends JPanel {
         table.setRowHeight(40);
         table.setAutoCreateRowSorter(true);
         table.setShowVerticalLines(false);
-        table.setShowVerticalLines(false);
-        table.getTableHeader().setBackground(UIStyle.colorBg);
-        table.getTableHeader().setFont(UIStyle.font16Bold);
+        UIStyle.styleTable(table); // Apply modern table style
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.scrollPane = new JScrollPane(this.table);
         this.scrollPane.setPreferredSize(new Dimension(1400, 770));
@@ -219,19 +113,15 @@ public class ProductListPanel extends JPanel {
         this.pnBottom.setPreferredSize(new Dimension(900,40));
         this.pnBottom.setLayout(new BoxLayout(this.pnBottom, BoxLayout.X_AXIS));
         this.pnBottom.add(Box.createHorizontalGlue());
-        this.btnAdd = UIStyle.setBtnActive(this.btnAdd,"Thêm");
-        this.btnAdd.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
+        this.btnAdd = UIStyle.setBtnActive(this.btnAdd, "Them");
+        this.btnAdd.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         this.pnBottom.add(this.btnAdd);
         this.pnBottom.add(Box.createHorizontalStrut(20));
-        this.btnUpdate = UIStyle.setBtnActive(this.btnUpdate,"Cập nhật");
-        this.btnUpdate.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
-        this.btnUpdate.setBackground(new Color(251, 250, 145));
-        this.btnUpdate.setForeground(UIStyle.colorText);
+        this.btnUpdate = UIStyle.setBtnSecondary(this.btnUpdate, "Cap nhat");
         this.pnBottom.add(this.btnUpdate);
         this.pnBottom.add(Box.createHorizontalStrut(20));
-        this.btnSell = UIStyle.setBtnActive(this.btnSell,"Bán hàng");
-        this.btnSell.setBorder(BorderFactory.createEmptyBorder(6,16,6,16));
-        this.btnSell.setBackground(UIStyle.colorRed);
+        this.btnSell = UIStyle.setBtnActive(this.btnSell, "Ban hang");
+        this.btnSell.setBackground(UIStyle.colorInfo);
         this.pnBottom.add(this.btnSell);
 
 
@@ -242,12 +132,13 @@ public class ProductListPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProductsFromInsert form = new ProductsFromInsert();
-                JOptionPane.showMessageDialog(
-                        null,
-                        form,
-                        "Thêm sản phẩm",
-                        JOptionPane.PLAIN_MESSAGE
-                );
+                JDialog dialog = new JDialog();
+                dialog.setTitle("Them san pham");
+                dialog.setModal(true);
+                dialog.setContentPane(form);
+                dialog.pack();
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
                 refreshTable();
             }
         });
@@ -259,10 +150,17 @@ public class ProductListPanel extends JPanel {
                 int row = table.convertRowIndexToModel(indexRow);
                 TableModel model = table.getModel();
                 if (row == -1) {
-                    JOptionPane.showMessageDialog(null,"Vui lòng chọn sản phẩm cần cập nhật !");
+                    JOptionPane.showMessageDialog(null, "Vui long chon san pham can cap nhat!");
+                    return;
                 }
-                ProductsFormUpdate form = new ProductsFormUpdate(model,row);
-                JOptionPane.showMessageDialog(null,form,"Cập nhật sản phẩm",JOptionPane.PLAIN_MESSAGE);
+                ProductsFormUpdate form = new ProductsFormUpdate(model, row);
+                JDialog dialog = new JDialog();
+                dialog.setTitle("Cap nhat san pham");
+                dialog.setModal(true);
+                dialog.setContentPane(form);
+                dialog.pack();
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
                 refreshTable();
             }
         });
@@ -274,18 +172,53 @@ public class ProductListPanel extends JPanel {
                 int row = table.convertRowIndexToModel(indexRow);
                 TableModel model = table.getModel();
                 if (row == -1) {
-                    JOptionPane.showMessageDialog(null,"Vui lòng chọn sản phẩm cần bán !");
+                    JOptionPane.showMessageDialog(null, "Vui long chon san pham can ban!");
                     return;
                 }
-                ProductsFormSell form = new ProductsFormSell(row,model);
-                JOptionPane.showMessageDialog(null,form,"Bán hàng",JOptionPane.PLAIN_MESSAGE);
+                ProductsFormSell form = new ProductsFormSell(row, model);
+                JDialog dialog = new JDialog();
+                dialog.setTitle("Ban hang");
+                dialog.setModal(true);
+                dialog.setContentPane(form);
+                dialog.pack();
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
                 refreshTable();
-                HistoryPanel.refreshTableOrder();
+                HistoryPanel.refreshOrdersTable();
             }
         });
     }
     protected void refreshTable() {
-        Object[][] newData = ProductsServer.toTableData(ProductsDAO.getAll());
+        String nameSearch = txtSearch.getText().trim();
+        String selected = String.valueOf(cmbArrangement.getSelectedItem());
+        String selectedType = String.valueOf(cmbType.getSelectedItem());
+        Object[][] newData;
+
+        switch (selected) {
+            case "Xắp xếp theo tên tăng dần":
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
+                break;
+            case "Xắp xếp theo tên giảm dần":
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderNameDESC(nameSearch, selectedType));
+                break;
+            case "Xắp xếp theo số lượng tăng dần":
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityASC(nameSearch, selectedType));
+                break;
+            case "Xắp xếp theo số lượng giảm dần":
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderQuantityDESC(nameSearch, selectedType));
+                break;
+            case "Xắp xếp theo giá tăng dần":
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceASC(nameSearch, selectedType));
+                break;
+            case "Xắp xếp theo giá giảm dần":
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderPriceDESC(nameSearch, selectedType));
+                break;
+            case "Chọn kiểu sắp xếp":
+            default:
+                newData = ProductsServer.toTableData(ProductsDAO.searchOderNameASC(nameSearch, selectedType));
+                break;
+        }
+
         model.setDataVector(newData, cols);
     }
 }

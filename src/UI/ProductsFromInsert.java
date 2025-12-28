@@ -1,131 +1,194 @@
 package UI;
 
-import DBConnect.UserDAO;
 import Server.ProductsServer;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import static UI.LoginFrame.userid;
-import static UI.LoginFrame.username;
 
+/**
+ * Form to insert new product
+ * Base class for ProductsFormUpdate and ProductsFormSell
+ */
 public class ProductsFromInsert extends JOptionPane {
-    protected JLabel lblTitle,lblName,lblPrice,lblUnit,lblQuantiy,lblDes,lblExpiry;
-    protected JTextField txtName,txtPrice,txtUnit,txtQuantity,txtDes,txtExpiry;
+    
+    // Form components
+    protected JLabel lblTitle;
+    protected JLabel lblName, lblPrice, lblUnit, lblQuantiy, lblDes, lblExpiry;
+    protected JTextField txtName, txtPrice, txtUnit, txtQuantity, txtDes, txtExpiry;
     protected JButton btnSubmit;
 
+    /**
+     * Constructor - Initialize insert form
+     */
     public ProductsFromInsert() {
+        setupPanel();
+        setupTitle();
+        setupFormFields();
+        setupSubmitButton();
+        setupInsertAction();
+    }
+    
+    /**
+     * Configure panel settings
+     */
+    private void setupPanel() {
         this.setBackground(UIStyle.colorBg);
-        this.setPreferredSize(new Dimension(400,585));
+        this.setPreferredSize(new Dimension(400, 585));
         this.setLayout(null);
-
-        this.lblTitle = UIStyle.setLabel(this.lblTitle,"Nhập thông tin sản phẩm !");
+    }
+    
+    /**
+     * Setup form title
+     */
+    private void setupTitle() {
+        this.lblTitle = UIStyle.setLabel(this.lblTitle, "Nhap thong tin san pham");
         this.lblTitle.setFont(UIStyle.font20);
         this.lblTitle.setHorizontalAlignment(JLabel.CENTER);
         this.lblTitle.setBounds(0, 10, 400, 40);
         this.add(this.lblTitle);
-
-        this.lblName = UIStyle.setLabel(this.lblName,"Tên sản phẩm :");
-        this.lblName.setBounds(20, 65, 360, 22);
+    }
+    
+    /**
+     * Setup all form input fields
+     */
+    private void setupFormFields() {
+        int y = 65;
+        int fieldHeight = 40;
+        int labelHeight = 22;
+        int gap = 75;
+        
+        // Product name
+        this.lblName = UIStyle.setLabel(this.lblName, "Ten san pham:");
+        this.lblName.setBounds(20, y, 360, labelHeight);
         this.add(this.lblName);
 
-        this.txtName = UIStyle.setTextField(this.txtName,"");
-        this.txtName.setBounds(20, 90, 360, 40);
+        this.txtName = UIStyle.setTextField(this.txtName, "");
+        this.txtName.setBounds(20, y + 25, 360, fieldHeight);
         this.txtName.setFont(UIStyle.font14);
         this.add(this.txtName);
+        y += gap;
 
-        this.lblPrice = UIStyle.setLabel(this.lblPrice,"Giá sản phẩm :");
-        this.lblPrice.setBounds(20, 140, 360, 22);
+        // Price
+        this.lblPrice = UIStyle.setLabel(this.lblPrice, "Gia san pham:");
+        this.lblPrice.setBounds(20, y, 360, labelHeight);
         this.add(this.lblPrice);
 
-        this.txtPrice = UIStyle.setTextField(this.txtPrice,"");
-        this.txtPrice.setBounds(20, 165, 360, 40);
+        this.txtPrice = UIStyle.setTextField(this.txtPrice, "");
+        this.txtPrice.setBounds(20, y + 25, 360, fieldHeight);
         this.txtPrice.setFont(UIStyle.font14);
         this.add(this.txtPrice);
+        y += gap;
 
-        this.lblUnit = UIStyle.setLabel(this.lblUnit,"Đơn vị tính :");
-        this.lblUnit.setBounds(20, 215, 360, 22);
+        // Unit
+        this.lblUnit = UIStyle.setLabel(this.lblUnit, "Don vi tinh:");
+        this.lblUnit.setBounds(20, y, 360, labelHeight);
         this.add(this.lblUnit);
 
-        this.txtUnit = UIStyle.setTextField(this.txtUnit,"");
-        this.txtUnit.setBounds(20, 240, 360, 40);
+        this.txtUnit = UIStyle.setTextField(this.txtUnit, "");
+        this.txtUnit.setBounds(20, y + 25, 360, fieldHeight);
         this.txtUnit.setFont(UIStyle.font14);
         this.add(this.txtUnit);
+        y += gap;
 
-        this.lblQuantiy = UIStyle.setLabel(this.lblQuantiy,"Số lượng :");
-        this.lblQuantiy.setBounds(20, 290, 360, 22);
+        // Quantity
+        this.lblQuantiy = UIStyle.setLabel(this.lblQuantiy, "So luong:");
+        this.lblQuantiy.setBounds(20, y, 360, labelHeight);
         this.add(this.lblQuantiy);
 
-        this.txtQuantity = UIStyle.setTextField(this.txtQuantity,"");
-        this.txtQuantity.setBounds(20, 315, 360, 40);
+        this.txtQuantity = UIStyle.setTextField(this.txtQuantity, "");
+        this.txtQuantity.setBounds(20, y + 25, 360, fieldHeight);
         this.txtQuantity.setFont(UIStyle.font14);
         this.add(this.txtQuantity);
+        y += gap;
 
-        this.lblDes = UIStyle.setLabel(this.lblDes,"Mô tả sản phẩm :");
-        this.lblDes.setBounds(20, 365, 360, 22);
+        // Description
+        this.lblDes = UIStyle.setLabel(this.lblDes, "Mo ta san pham:");
+        this.lblDes.setBounds(20, y, 360, labelHeight);
         this.add(this.lblDes);
 
-        this.txtDes = UIStyle.setTextField(this.txtDes,"");
-        this.txtDes.setBounds(20, 390, 360, 40);
+        this.txtDes = UIStyle.setTextField(this.txtDes, "");
+        this.txtDes.setBounds(20, y + 25, 360, fieldHeight);
         this.txtDes.setFont(UIStyle.font14);
         this.add(this.txtDes);
+        y += gap;
 
-        this.lblExpiry = UIStyle.setLabel(this.lblExpiry,"Hạn sử dụng (ngày) :");
-        this.lblExpiry.setBounds(20, 440, 360, 22);
+        // Expiry (days from now)
+        this.lblExpiry = UIStyle.setLabel(this.lblExpiry, "Han su dung (so ngay):");
+        this.lblExpiry.setBounds(20, y, 360, labelHeight);
         this.add(this.lblExpiry);
 
-        this.txtExpiry = UIStyle.setTextField(this.txtExpiry,"");
-        this.txtExpiry.setBounds(20, 465, 360, 40);
+        this.txtExpiry = UIStyle.setTextField(this.txtExpiry, "");
+        this.txtExpiry.setBounds(20, y + 25, 360, fieldHeight);
         this.txtExpiry.setFont(UIStyle.font14);
         this.add(this.txtExpiry);
-
-        this.btnSubmit = UIStyle.setBtnActive(this.btnSubmit,"Thêm sản phẩm");
+    }
+    
+    /**
+     * Setup submit button
+     */
+    private void setupSubmitButton() {
+        this.btnSubmit = UIStyle.setBtnActive(this.btnSubmit, "Them san pham");
         this.btnSubmit.setBounds(20, 525, 360, 40);
         this.add(this.btnSubmit);
-
-        // Action them san pham
-        ActionListener insert = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (txtName.getText().isEmpty() || txtPrice.getText().isEmpty() || txtUnit.getText().isEmpty()
-                        || txtQuantity.getText().isEmpty() || txtDes.getText().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ thông tin sản phẩm !");
-                    return;
-                }
-
-                try {
-                    String name = txtName.getText().trim();
-                    BigDecimal price = new BigDecimal(txtPrice.getText().trim());
-                    String unit = txtUnit.getText().trim();
-                    int quantity = Integer.parseInt(txtQuantity.getText().trim());
-                    String des = txtDes.getText().trim();
-
-                    int day = Integer.parseInt(txtExpiry.getText().trim());
-                    System.out.println(day);
-                    Instant time = Instant.now();
-                    System.out.println(time);
-                    Timestamp expirationDate = Timestamp.from(time.plus(day,ChronoUnit.DAYS));
-                    System.out.println(expirationDate);
-
-                    Boolean check = ProductsServer.insertProduct(name,des,quantity,price,unit,expirationDate,userid);
-                    if (check) {
-                        JOptionPane.showMessageDialog(null,"Thêm sản phẩm thành công !");
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Thêm sản phẩm thất bại !");
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null,"Lỗi định dạng !");
-                    return;
-                }
-
+    }
+    
+    /**
+     * Setup action listener for insert button
+     */
+    private void setupInsertAction() {
+        this.btnSubmit.addActionListener(e -> {
+            // Validate required fields
+            if (!validateFields()) {
+                JOptionPane.showMessageDialog(null, "Vui long nhap day du thong tin san pham!");
+                return;
             }
-        };
-        btnSubmit.addActionListener(insert);
+
+            try {
+                // Get form values
+                String name = txtName.getText().trim();
+                BigDecimal price = new BigDecimal(txtPrice.getText().trim());
+                String unit = txtUnit.getText().trim();
+                int quantity = Integer.parseInt(txtQuantity.getText().trim());
+                String des = txtDes.getText().trim();
+                int days = Integer.parseInt(txtExpiry.getText().trim());
+                
+                // Calculate expiration date
+                Timestamp expirationDate = Timestamp.from(
+                    Instant.now().plus(days, ChronoUnit.DAYS)
+                );
+
+                // Call server to insert product
+                boolean success = ProductsServer.insertProduct(
+                    name, des, quantity, price, unit, expirationDate, userid
+                );
+                
+                if (success) {
+                    JOptionPane.showMessageDialog(null, "Them san pham thanh cong!");
+                    SwingUtilities.getWindowAncestor(this).dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Them san pham that bai!");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Loi dinh dang so!");
+            }
+        });
+    }
+    
+    /**
+     * Validate that required fields are not empty
+     * @return true if all required fields have values
+     */
+    private boolean validateFields() {
+        return !txtName.getText().trim().isEmpty() 
+            && !txtPrice.getText().trim().isEmpty() 
+            && !txtUnit.getText().trim().isEmpty()
+            && !txtQuantity.getText().trim().isEmpty() 
+            && !txtDes.getText().trim().isEmpty()
+            && !txtExpiry.getText().trim().isEmpty();
     }
 }

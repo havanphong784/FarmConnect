@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="efffa980-f12c-46ce-8c1e-312a957b14f2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d/storage_v2/_src_/database/FarmConnect.tFejIw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d/storage_v2/_src_/database/FarmConnect.tFejIw/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d/storage_v2/_src_/database/FarmConnect.tFejIw/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/itextpdf_5_5_13_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/jcommon_1_0_23.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/jfreechart_1_0_19.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mssql_jdbc_13_2_1_jre11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/queries/Query.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FarmConnect.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FarmConnect.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_seed.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_seed.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_setup.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bill/hoa_don.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bill/hoa_don.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBConnect/DBConnect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/DBConnect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBConnect/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/OrderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBConnect/ProductsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/ProductsDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DBConnect/StatisticsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/StatisticsDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server/InvoicePDFUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/InvoicePDFUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server/OrderServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/OrderServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HistoryPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HistoryPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/LoginFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/ProductListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductListPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/ProductsFormSell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductsFormSell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/ProductsFormUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductsFormUpdate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/ProductsFromInsert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductsFromInsert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/RegisterFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/RegisterFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/StatisticsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/StatisticsPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/UIStyle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/UIStyle.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="37I8XgcNhB5sd87OFRgMOKsempy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Code/Java/Project/FarmConnect",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="App" />
+      <module name="FarmConnect" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="efffa980-f12c-46ce-8c1e-312a957b14f2" name="Changes" comment="" />
+      <created>1766579267176</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1766579267176</updated>
+      <workItem from="1766579270137" duration="2814000" />
+      <workItem from="1766680769668" duration="45000" />
+      <workItem from="1766885357985" duration="1832000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

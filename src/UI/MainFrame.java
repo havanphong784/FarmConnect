@@ -2,158 +2,234 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static UI.LoginFrame.username;
 
-public class MainFrame extends JFrame  {
-    private JPanel pnNavigation,pnContent,pnHeader,pnDes,pnCard;
-    private JButton btnOne, btnTwo, btnThree, btnFour,btnHome;
-    private JLabel lblNameApp,lblAvatar,lblRole,lblName;
+/**
+ * Main application frame - Contains navigation and content panels
+ * Uses CardLayout to switch between different views
+ */
+public class MainFrame extends JFrame {
+    
+    // Main panels
+    private JPanel pnNavigation, pnContent, pnHeader, pnCard;
+    
+    // Navigation buttons
+    private JButton btnProducts, btnCart, btnStatistics, btnHistory, btnLogout, btnMenu;
+    
+    // Header components
+    private JLabel lblNameApp, lblAvatar, lblRole, lblUsername;
+
+    /**
+     * Constructor - Initialize main frame
+     */
     public MainFrame() {
-        this.setSize(1200,850);
+        setupFrame();
+        setupNavigationPanel();
+        setupContentPanel();
+        setupCardLayout();
+        setupNavigationActions();
+    }
+    
+    /**
+     * Configure main frame settings
+     */
+    private void setupFrame() {
+        this.setSize(1200, 850);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Panel navigation bên trái
+        this.setTitle("FarmConnect - Quản lý nông sản");
+    }
+    
+    /**
+     * Setup left navigation panel
+     */
+    private void setupNavigationPanel() {
         this.pnNavigation = new JPanel();
-        this.pnNavigation.setLayout(new BoxLayout(pnNavigation,BoxLayout.Y_AXIS));
-        this.pnNavigation.setPreferredSize(new Dimension(240,0));
+        this.pnNavigation.setLayout(new BoxLayout(pnNavigation, BoxLayout.Y_AXIS));
+        this.pnNavigation.setPreferredSize(new Dimension(240, 0));
         this.pnNavigation.setBackground(UIStyle.colorPrimary);
-        this.add(this.pnNavigation,BorderLayout.WEST);
+        this.add(this.pnNavigation, BorderLayout.WEST);
 
-        this.lblNameApp = UIStyle.setLabelPrimary(this.lblNameApp,"Farm Connect");
+        // App name label
+        this.lblNameApp = UIStyle.setLabelPrimary(this.lblNameApp, "Farm Connect");
         this.lblNameApp.setFont(UIStyle.font30);
-        this.lblNameApp.setPreferredSize(new Dimension(240,80));
-        this.lblNameApp.setMaximumSize(new Dimension(240,80));
+        this.lblNameApp.setPreferredSize(new Dimension(240, 80));
+        this.lblNameApp.setMaximumSize(new Dimension(240, 80));
         this.lblNameApp.setHorizontalAlignment(JLabel.CENTER);
         this.lblNameApp.setVerticalAlignment(JLabel.CENTER);
         this.lblNameApp.setForeground(Color.white);
         this.pnNavigation.add(this.lblNameApp);
 
-        this.btnOne = UIStyle.setButtonDB(this.btnOne,"Sản phẩm");
-        this.pnNavigation.add(this.btnOne);
-        this.btnTwo = UIStyle.setButtonDB(this.btnTwo,"Thống kê bán hàng");
-        this.pnNavigation.add(this.btnTwo);
-        this.btnThree = UIStyle.setButtonDB(this.btnThree,"Lịch sử bán hàng");
-        this.pnNavigation.add(this.btnThree);
+        // Navigation buttons
+        this.btnProducts = UIStyle.setButtonDB(this.btnProducts, "San pham");
+        this.pnNavigation.add(this.btnProducts);
+        
+        this.btnCart = UIStyle.setButtonDB(this.btnCart, "Gio hang");
+        this.pnNavigation.add(this.btnCart);
+        
+        this.btnStatistics = UIStyle.setButtonDB(this.btnStatistics, "Thong ke");
+        this.pnNavigation.add(this.btnStatistics);
+        
+        this.btnHistory = UIStyle.setButtonDB(this.btnHistory, "Lich su ban hang");
+        this.pnNavigation.add(this.btnHistory);
 
+        // Spacer
         this.pnNavigation.add(Box.createVerticalGlue());
 
-        this.btnFour = UIStyle.setButtonDB(this.btnFour,"Đăng xuất");
-        this.btnFour.setFont(UIStyle.font16);
-        this.btnFour.setForeground(UIStyle.colorRed);
-        this.btnFour.setVerticalAlignment(JLabel.TOP);
-        this.btnFour.setHorizontalAlignment(JLabel.LEFT);
-        this.pnNavigation.add(this.btnFour);
+        // Logout button
+        this.btnLogout = UIStyle.setButtonDB(this.btnLogout, "Dang xuat");
+        this.btnLogout.setFont(UIStyle.font16);
+        this.btnLogout.setForeground(UIStyle.colorRed);
+        this.pnNavigation.add(this.btnLogout);
 
-        // Panel content bên phải
+        // Hide navigation by default
+        this.pnNavigation.setVisible(false);
+    }
+    
+    /**
+     * Setup right content panel with header
+     */
+    private void setupContentPanel() {
         this.pnContent = new JPanel(new BorderLayout());
 
+        // Header panel
         this.pnHeader = new JPanel();
-        this.pnHeader.setLayout(new BoxLayout(this.pnHeader,BoxLayout.X_AXIS));
+        this.pnHeader.setLayout(new BoxLayout(this.pnHeader, BoxLayout.X_AXIS));
         this.pnHeader.setBackground(UIStyle.colorHeader);
+        this.pnHeader.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
 
-        this.btnHome = new JButton("🏠");
-        this.btnHome.setFont(UIStyle.fontEmoji);
-        this.btnHome.setBackground(UIStyle.colorHeader);
-        this.btnHome.setForeground(UIStyle.colorText);
-        this.btnHome.setFocusable(false);
-        this.btnHome.setMaximumSize(new Dimension(120,40));
-        this.btnHome.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        this.pnHeader.add(this.btnHome);
-        this.pnNavigation.setVisible(false);
-        btnHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pnNavigation.isVisible()) {
-                    pnNavigation.setVisible(false);
-                } else {
-                    pnNavigation.setVisible(true);
-                }
-                revalidate();
-                repaint();
-            }
-        });
+        // Menu toggle button
+        this.btnMenu = new JButton("[=] Menu");
+        this.btnMenu.setFont(UIStyle.font16Bold);
+        this.btnMenu.setBackground(UIStyle.colorPrimary);
+        this.btnMenu.setForeground(Color.WHITE);
+        this.btnMenu.setFocusable(false);
+        this.btnMenu.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        this.btnMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.pnHeader.add(this.btnMenu);
+        
+        // Toggle menu action
+        btnMenu.addActionListener(e -> toggleNavigation());
 
+        // Spacer
         this.pnHeader.add(Box.createHorizontalGlue());
 
-        this.pnDes = new JPanel();
-        this.pnDes.setLayout(new BoxLayout(this.pnDes,BoxLayout.Y_AXIS));
-        this.pnDes.setBackground(UIStyle.colorHeader);
-        this.pnDes.setPreferredSize(new Dimension(300,80));
+        // User info
+        setupUserInfo();
 
-        this.lblName = new JLabel(username);
-        this.lblName.setMaximumSize(new Dimension(300,24));
-        this.lblName.setHorizontalAlignment(JLabel.RIGHT);
-        this.lblName.setFont(UIStyle.font16);
+        this.pnContent.add(this.pnHeader, BorderLayout.NORTH);
+        this.add(this.pnContent, BorderLayout.CENTER);
+    }
+    
+    /**
+     * Setup user info display in header
+     */
+    private void setupUserInfo() {
+        JPanel pnUserInfo = new JPanel();
+        pnUserInfo.setLayout(new BoxLayout(pnUserInfo, BoxLayout.Y_AXIS));
+        pnUserInfo.setBackground(UIStyle.colorHeader);
 
-        this.pnDes.add(this.lblName);
+        this.lblUsername = new JLabel(username);
+        this.lblUsername.setFont(UIStyle.font16Bold);
+        this.lblUsername.setForeground(UIStyle.colorPrimary);
+        this.lblUsername.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        this.lblRole = new JLabel("Admin");
-        this.lblRole.setMaximumSize(new Dimension(300,24));
-        this.lblRole.setHorizontalAlignment(JLabel.RIGHT);
-        this.lblRole.setFont(UIStyle.font16);
+        this.lblRole = new JLabel("Quan tri vien");
+        this.lblRole.setFont(UIStyle.font14);
+        this.lblRole.setForeground(UIStyle.colorText);
+        this.lblRole.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        this.lblAvatar = new JLabel("");
-        this.lblAvatar.setIcon(new ImageIcon(MainFrame.class.getResource("/Image/avatar.png")));
-        this.lblAvatar.setMaximumSize(new Dimension(60,60));
-        this.lblAvatar.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
+        pnUserInfo.add(this.lblUsername);
+        pnUserInfo.add(Box.createVerticalStrut(4));
+        pnUserInfo.add(this.lblRole);
 
+        // Avatar
+        this.lblAvatar = new JLabel("FC");
+        this.lblAvatar.setFont(new Font("Arial", Font.BOLD, 24));
+        this.lblAvatar.setForeground(UIStyle.colorPrimary);
+        this.lblAvatar.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 10));
 
-        this.pnDes.add(this.lblRole);
-        this.pnDes.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
-
-        this.pnHeader.add(this.pnDes);
-        this.pnHeader.add(lblAvatar);
-
-        this.pnContent.add(this.pnHeader,BorderLayout.NORTH);
-
+        this.pnHeader.add(pnUserInfo);
+        this.pnHeader.add(this.lblAvatar);
+    }
+    
+    /**
+     * Setup card layout for content views
+     */
+    private void setupCardLayout() {
         this.pnCard = new JPanel(new CardLayout());
-        this.pnCard.add(new ProductListPanel(),"Products");
-        this.pnCard.add(new StatisticsPanel(),"Statistics");
-        this.pnCard.add(new HistoryPanel(),"History");
+        this.pnCard.add(new ProductListPanel(), "Products");
+        this.pnCard.add(new StatisticsPanel(), "Statistics");
+        this.pnCard.add(new HistoryPanel(), "History");
+        this.pnCard.add(CartPanel.getInstance(), "Cart");
+        
+        // Show products by default
+        showCard("Products");
+
+        this.pnContent.add(this.pnCard, BorderLayout.CENTER);
+    }
+    
+    /**
+     * Setup action listeners for navigation buttons
+     */
+    private void setupNavigationActions() {
+        btnProducts.addActionListener(e -> {
+            showCard("Products");
+            hideNavigation();
+        });
+
+        btnCart.addActionListener(e -> {
+            showCard("Cart");
+            hideNavigation();
+        });
+
+        btnStatistics.addActionListener(e -> {
+            showCard("Statistics");
+            hideNavigation();
+        });
+
+        btnHistory.addActionListener(e -> {
+            showCard("History");
+            hideNavigation();
+        });
+
+        btnLogout.addActionListener(e -> {
+            new LoginFrame().setVisible(true);
+            dispose();
+        });
+    }
+    
+    /**
+     * Toggle navigation panel visibility
+     */
+    private void toggleNavigation() {
+        if (pnNavigation.isVisible()) {
+            pnNavigation.setVisible(false);
+            btnMenu.setText("[=] Menu");
+        } else {
+            pnNavigation.setVisible(true);
+            btnMenu.setText("[X] Dong");
+        }
+        revalidate();
+        repaint();
+    }
+    
+    /**
+     * Hide navigation panel
+     */
+    private void hideNavigation() {
+        pnNavigation.setVisible(false);
+        btnMenu.setText("[=] Menu");
+    }
+    
+    /**
+     * Show specific card in card layout
+     * @param cardName Name of the card to show
+     */
+    private void showCard(String cardName) {
         CardLayout cl = (CardLayout) pnCard.getLayout();
-        cl.show(pnCard, "Products");
-
-        this.pnContent.add(this.pnCard,BorderLayout.CENTER);
-        this.add(this.pnContent,BorderLayout.CENTER);
-
-
-
-
-        // Action
-        btnFour.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new LoginFrame().setVisible(true);
-                dispose();
-            }
-        });
-
-        btnOne.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cl = (CardLayout) pnCard.getLayout();
-                cl.show(pnCard, "Products");
-                pnNavigation.setVisible(false);
-            }
-        });
-
-        btnTwo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cl = (CardLayout) pnCard.getLayout();
-                cl.show(pnCard, "Statistics");
-                pnNavigation.setVisible(false);
-            }
-        });
-
-        btnThree.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cl = (CardLayout) pnCard.getLayout();
-                cl.show(pnCard, "History");
-                pnNavigation.setVisible(false);
-            }
-        });
+        cl.show(pnCard, cardName);
     }
 }

@@ -16,137 +16,210 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * Statistics Panel - Dashboard with charts and reports
+ */
 public class StatisticsPanel extends JPanel {
     private ChartPanel cpRevenue, cpTopProducts, cpProductType, cpStockStatus;
     private JFreeChart fcRevenue, fcTopProducts, fcProductType, fcStockStatus;
-    private JPanel pnCharts, pnExpiredProducts;
+    private JPanel pnCharts, pnBottom;
     private JTable tableExpired;
     private DefaultTableModel modelExpired;
+    private JSplitPane splitPane;
 
     public StatisticsPanel() {
-        this.setBorder(new EmptyBorder(20, 30, 20, 30));
-        this.setLayout(new BorderLayout(20, 20));
+        this.setBorder(new EmptyBorder(15, 15, 15, 15));
+        this.setLayout(new BorderLayout());
         this.setBackground(UIStyle.colorBg);
 
-        // Panel chứa 4 biểu đồ (2x2)
-        pnCharts = new JPanel(new GridLayout(2, 2, 15, 15));
-        pnCharts.setBackground(UIStyle.colorBg);
+        // Charts section with light blue background
+        JPanel pnChartsWrapper = new JPanel(new BorderLayout());
+        pnChartsWrapper.setBackground(new Color(240, 248, 255)); // Alice Blue
+        pnChartsWrapper.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 220, 240), 1),
+            BorderFactory.createEmptyBorder(12, 12, 12, 12)
+        ));
 
-        // 1. Biểu đồ doanh thu theo ngày (Line Chart)
+        pnCharts = new JPanel(new GridLayout(2, 2, 12, 12));
+        pnCharts.setBackground(new Color(240, 248, 255)); // Alice Blue
+        pnCharts.setOpaque(false);
+        pnCharts.setMinimumSize(new Dimension(400, 300));
+        pnChartsWrapper.add(pnCharts, BorderLayout.CENTER);
+
+        // Header for charts section
+        JLabel lblChartsTitle = new JLabel("  📊 Bieu Do Thong Ke");
+        lblChartsTitle.setFont(UIStyle.font18Bold);
+        lblChartsTitle.setForeground(new Color(30, 90, 150));
+        lblChartsTitle.setBorder(new EmptyBorder(0, 0, 10, 0));
+        pnChartsWrapper.add(lblChartsTitle, BorderLayout.NORTH);
+
+        // Create charts
         createRevenueChart();
-
-        // 2. Biểu đồ top sản phẩm bán chạy (Bar Chart)
         createTopProductsChart();
-
-        // 3. Biểu đồ phân bố theo loại (Pie Chart)
         createProductTypeChart();
-
-        // 4. Biểu đồ tình trạng tồn kho (Bar Chart)
         createStockStatusChart();
 
-        this.add(pnCharts, BorderLayout.CENTER);
-
-        // 5. Panel danh sách sản phẩm hết hạn
+        // Bottom section: Expired products table
         createExpiredProductsPanel();
-        this.add(pnExpiredProducts, BorderLayout.SOUTH);
+
+        // Use JSplitPane for resizable layout (65% charts, 35% table)
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pnChartsWrapper, pnBottom);
+        splitPane.setResizeWeight(0.65);
+        splitPane.setDividerSize(8);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setBorder(null);
+        splitPane.setBackground(UIStyle.colorBg);
+
+        this.add(splitPane, BorderLayout.CENTER);
     }
 
     /**
-     * Tạo panel danh sách sản phẩm hết hạn
+     * Panel: Expired Products Table
      */
     private void createExpiredProductsPanel() {
-        pnExpiredProducts = new JPanel(new BorderLayout(10, 10));
-        pnExpiredProducts.setBackground(UIStyle.colorBg);
-        pnExpiredProducts.setPreferredSize(new Dimension(0, 200));
-        pnExpiredProducts.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        pnBottom = new JPanel(new BorderLayout(10, 10));
+        pnBottom.setBackground(new Color(255, 248, 245)); // Warm seashell color
+        pnBottom.setMinimumSize(new Dimension(300, 180));
+        pnBottom.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(255, 200, 180), 1),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
 
-        // Header với icon cảnh báo
-        JPanel pnHeader = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        pnHeader.setBackground(UIStyle.colorBg);
-        
-        JLabel lblWarning = new JLabel("⚠️");
-        lblWarning.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
-        
-        JLabel lblTitle = new JLabel("Sản Phẩm Đã Hết Hạn");
-        lblTitle.setFont(UIStyle.font16Bold);
-        lblTitle.setForeground(UIStyle.colorRed);
-        
-        pnHeader.add(lblWarning);
-        pnHeader.add(lblTitle);
-        pnExpiredProducts.add(pnHeader, BorderLayout.NORTH);
+        // Header
+        JLabel lblTitle = new JLabel("  ⚠️ San Pham Het Han / Sap Het Han");
+        lblTitle.setFont(UIStyle.font18Bold);
+        lblTitle.setForeground(UIStyle.colorDanger);
+        pnBottom.add(lblTitle, BorderLayout.NORTH);
 
-        // Bảng danh sách sản phẩm hết hạn
-        String[] columns = {"Tên Sản Phẩm", "Số Lượng", "Đơn Vị", "Ngày Hết Hạn"};
+        // Table with hidden status column
+        String[] columns = {"Ten San Pham", "So Luong", "Don Vi", "Ngay Het Han", "Status"};
         Object[][] data = StatisticsDAO.getExpiredProducts();
-        
+
         modelExpired = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        
+
         tableExpired = new JTable(modelExpired);
-        tableExpired.setFont(UIStyle.font14);
-        tableExpired.setBackground(UIStyle.colorBg);
-        tableExpired.setRowHeight(35);
-        tableExpired.setShowVerticalLines(false);
-        tableExpired.getTableHeader().setBackground(new Color(255, 235, 235));
-        tableExpired.getTableHeader().setFont(UIStyle.font14);
-        tableExpired.getTableHeader().setForeground(UIStyle.colorRed);
+        UIStyle.styleTable(tableExpired);
+        tableExpired.getTableHeader().setBackground(new Color(255, 230, 230));
+        tableExpired.getTableHeader().setForeground(UIStyle.colorDanger);
         tableExpired.setSelectionBackground(new Color(255, 220, 220));
-        tableExpired.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        // Hide the status column (column index 4)
+        tableExpired.getColumnModel().getColumn(4).setMinWidth(0);
+        tableExpired.getColumnModel().getColumn(4).setMaxWidth(0);
+        tableExpired.getColumnModel().getColumn(4).setWidth(0);
+
+        // Custom cell renderer for color coding
+        Color colorExpired = new Color(220, 53, 69);      // Red - đã hết hạn
+        Color colorExpiring = new Color(255, 152, 0);     // Orange - sắp hết hạn
+        Color colorExpiredBg = new Color(255, 235, 238);  // Light red background
+        Color colorExpiringBg = new Color(255, 243, 224); // Light orange background
+
+        DefaultTableCellRenderer colorRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                
+                // Get status from hidden column (column 4)
+                String status = (String) table.getModel().getValueAt(row, 4);
+                
+                if (!isSelected) {
+                    if ("expired".equals(status)) {
+                        c.setBackground(colorExpiredBg);
+                        c.setForeground(colorExpired);
+                    } else {
+                        c.setBackground(colorExpiringBg);
+                        c.setForeground(colorExpiring);
+                    }
+                }
+                
+                // Center alignment for numeric columns
+                if (column == 1 || column == 2) {
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                } else {
+                    setHorizontalAlignment(SwingConstants.LEFT);
+                }
+                
+                return c;
+            }
+        };
+
+        // Apply renderer to visible columns (0-3)
+        for (int i = 0; i < 4; i++) {
+            tableExpired.getColumnModel().getColumn(i).setCellRenderer(colorRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(tableExpired);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.getViewport().setBackground(UIStyle.colorBg);
-        
-        // Hiển thị message nếu không có sản phẩm hết hạn
+
         if (data.length == 0) {
-            JLabel lblNoData = new JLabel("✓ Không có sản phẩm nào hết hạn", JLabel.CENTER);
+            JLabel lblNoData = new JLabel("Khong co san pham het han", JLabel.CENTER);
             lblNoData.setFont(UIStyle.font16);
-            lblNoData.setForeground(new Color(52, 168, 83)); // Green
-            pnExpiredProducts.add(lblNoData, BorderLayout.CENTER);
+            lblNoData.setForeground(UIStyle.colorSuccess);
+            pnBottom.add(lblNoData, BorderLayout.CENTER);
         } else {
-            pnExpiredProducts.add(scrollPane, BorderLayout.CENTER);
+            pnBottom.add(scrollPane, BorderLayout.CENTER);
             
-            // Hiển thị số lượng sản phẩm hết hạn
-            JLabel lblCount = new JLabel("Tổng: " + data.length + " sản phẩm hết hạn");
-            lblCount.setFont(UIStyle.font14);
-            lblCount.setForeground(UIStyle.colorRed);
-            lblCount.setBorder(new EmptyBorder(5, 5, 0, 0));
-            pnExpiredProducts.add(lblCount, BorderLayout.SOUTH);
+            // Count expired vs expiring
+            int expiredCount = 0;
+            int expiringCount = 0;
+            for (Object[] row : data) {
+                if ("expired".equals(row[4])) expiredCount++;
+                else expiringCount++;
+            }
+            
+            JPanel pnFooter = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+            pnFooter.setBackground(UIStyle.colorBgCard);
+            pnFooter.setBorder(new EmptyBorder(10, 0, 0, 0));
+            
+            JLabel lblExpired = new JLabel("● Da het han: " + expiredCount);
+            lblExpired.setFont(UIStyle.font14);
+            lblExpired.setForeground(colorExpired);
+            
+            JLabel lblExpiring = new JLabel("● Sap het han: " + expiringCount);
+            lblExpiring.setFont(UIStyle.font14);
+            lblExpiring.setForeground(colorExpiring);
+            
+            JLabel lblTotal = new JLabel("| Tong: " + data.length + " san pham");
+            lblTotal.setFont(UIStyle.font14);
+            lblTotal.setForeground(UIStyle.colorTextSecondary);
+            
+            pnFooter.add(lblExpired);
+            pnFooter.add(lblExpiring);
+            pnFooter.add(lblTotal);
+            
+            pnBottom.add(pnFooter, BorderLayout.SOUTH);
         }
     }
 
     /**
-     * Biểu đồ 1: Doanh thu theo ngày (7 ngày gần nhất)
+     * Chart 1: Revenue by day (7 days)
      */
     private void createRevenueChart() {
         DefaultCategoryDataset dataset = StatisticsServer.createRevenueDataset();
 
         fcRevenue = ChartFactory.createLineChart(
-                "Doanh Thu 7 Ngày Gần Nhất",
-                "Ngày",
-                "Doanh thu (VNĐ)",
-                dataset,
-                PlotOrientation.VERTICAL,
-                false,
-                true,
-                false
+            "Doanh Thu 7 Ngay",
+            "Ngay",
+            "VND",
+            dataset,
+            PlotOrientation.VERTICAL,
+            false, true, false
         );
 
-        // Tùy chỉnh style
         customizeChart(fcRevenue);
         CategoryPlot plot = fcRevenue.getCategoryPlot();
         LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0, new Color(66, 133, 244)); // Google Blue
+        renderer.setSeriesPaint(0, UIStyle.colorInfo);
         renderer.setSeriesStroke(0, new BasicStroke(3.0f));
         renderer.setSeriesShapesVisible(0, true);
 
@@ -155,27 +228,24 @@ public class StatisticsPanel extends JPanel {
     }
 
     /**
-     * Biểu đồ 2: Top 5 sản phẩm bán chạy
+     * Chart 2: Top 5 best-selling products
      */
     private void createTopProductsChart() {
         DefaultCategoryDataset dataset = StatisticsServer.createTopProductsDataset(5);
 
         fcTopProducts = ChartFactory.createBarChart(
-                "Top 5 Sản Phẩm Bán Chạy",
-                "Sản phẩm",
-                "Số lượng bán",
-                dataset,
-                PlotOrientation.VERTICAL,
-                false,
-                true,
-                false
+            "Top 5 San Pham Ban Chay",
+            "San pham",
+            "So luong",
+            dataset,
+            PlotOrientation.VERTICAL,
+            false, true, false
         );
 
-        // Tùy chỉnh style
         customizeChart(fcTopProducts);
         CategoryPlot plot = fcTopProducts.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0, new Color(52, 168, 83)); // Google Green
+        renderer.setSeriesPaint(0, UIStyle.colorSuccess);
         renderer.setDrawBarOutline(false);
 
         cpTopProducts = createChartPanel(fcTopProducts);
@@ -183,36 +253,33 @@ public class StatisticsPanel extends JPanel {
     }
 
     /**
-     * Biểu đồ 3: Phân bố sản phẩm theo loại
+     * Chart 3: Product distribution by type
      */
     private void createProductTypeChart() {
         DefaultPieDataset dataset = StatisticsServer.createProductTypeDataset();
 
         fcProductType = ChartFactory.createPieChart(
-                "Phân Bố Sản Phẩm Theo Loại",
-                dataset,
-                true,
-                true,
-                false
+            "Phan Bo Theo Loai",
+            dataset,
+            true, true, false
         );
 
-        // Tùy chỉnh style
         customizeChart(fcProductType);
         PiePlot plot = (PiePlot) fcProductType.getPlot();
-        plot.setBackgroundPaint(UIStyle.colorBg);
+        plot.setBackgroundPaint(UIStyle.colorBgCard);
         plot.setOutlineVisible(false);
-        plot.setLabelFont(UIStyle.font14);
+        plot.setLabelFont(UIStyle.font12);
         plot.setShadowPaint(null);
 
-        // Màu sắc cho các phần
+        // Colors for sections
         Color[] colors = {
-                new Color(66, 133, 244),   // Blue
-                new Color(52, 168, 83),    // Green
-                new Color(251, 188, 4),    // Yellow
-                new Color(234, 67, 53),    // Red
-                new Color(154, 103, 234),  // Purple
-                new Color(255, 138, 101),  // Orange
-                new Color(79, 195, 247)    // Light Blue
+            new Color(34, 139, 34),   // Forest Green
+            new Color(23, 162, 184),  // Info Blue
+            new Color(255, 193, 7),   // Warning Yellow
+            new Color(220, 53, 69),   // Danger Red
+            new Color(111, 66, 193),  // Purple
+            new Color(253, 126, 20),  // Orange
+            new Color(32, 201, 151)   // Teal
         };
 
         int i = 0;
@@ -226,27 +293,24 @@ public class StatisticsPanel extends JPanel {
     }
 
     /**
-     * Biểu đồ 4: Tình trạng tồn kho (5 sản phẩm tồn kho thấp nhất)
+     * Chart 4: Low stock products
      */
     private void createStockStatusChart() {
         DefaultCategoryDataset dataset = StatisticsServer.createStockStatusDataset(5);
 
         fcStockStatus = ChartFactory.createBarChart(
-                "Sản Phẩm Tồn Kho Thấp",
-                "Sản phẩm",
-                "Số lượng tồn",
-                dataset,
-                PlotOrientation.VERTICAL,
-                false,
-                true,
-                false
+            "San Pham Ton Kho Thap",
+            "San pham",
+            "So luong",
+            dataset,
+            PlotOrientation.VERTICAL,
+            false, true, false
         );
 
-        // Tùy chỉnh style
         customizeChart(fcStockStatus);
         CategoryPlot plot = fcStockStatus.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0, new Color(234, 67, 53)); // Google Red
+        renderer.setSeriesPaint(0, UIStyle.colorDanger);
         renderer.setDrawBarOutline(false);
 
         cpStockStatus = createChartPanel(fcStockStatus);
@@ -254,10 +318,10 @@ public class StatisticsPanel extends JPanel {
     }
 
     /**
-     * Tùy chỉnh style chung cho chart
+     * Common chart styling
      */
     private void customizeChart(JFreeChart chart) {
-        chart.setBackgroundPaint(UIStyle.colorBg);
+        chart.setBackgroundPaint(UIStyle.colorBgCard);
 
         // Title
         TextTitle title = chart.getTitle();
@@ -266,16 +330,16 @@ public class StatisticsPanel extends JPanel {
 
         // Legend
         if (chart.getLegend() != null) {
-            chart.getLegend().setBackgroundPaint(UIStyle.colorBg);
-            chart.getLegend().setItemFont(UIStyle.font14);
+            chart.getLegend().setBackgroundPaint(UIStyle.colorBgCard);
+            chart.getLegend().setItemFont(UIStyle.font12);
         }
 
         // Plot background
         if (chart.getPlot() instanceof CategoryPlot) {
             CategoryPlot plot = (CategoryPlot) chart.getPlot();
-            plot.setBackgroundPaint(new Color(250, 250, 250));
-            plot.setRangeGridlinePaint(new Color(220, 220, 220));
-            plot.setDomainGridlinePaint(new Color(220, 220, 220));
+            plot.setBackgroundPaint(UIStyle.colorBgCard);
+            plot.setRangeGridlinePaint(UIStyle.colorBorder);
+            plot.setDomainGridlinePaint(UIStyle.colorBorder);
             plot.getDomainAxis().setTickLabelFont(UIStyle.font12);
             plot.getDomainAxis().setLabelFont(UIStyle.font14);
             plot.getRangeAxis().setTickLabelFont(UIStyle.font12);
@@ -284,35 +348,34 @@ public class StatisticsPanel extends JPanel {
     }
 
     /**
-     * Tạo ChartPanel với style
+     * Create styled ChartPanel
      */
     private ChartPanel createChartPanel(JFreeChart chart) {
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBackground(UIStyle.colorBg);
+        panel.setBackground(UIStyle.colorBgCard);
         panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            BorderFactory.createLineBorder(UIStyle.colorBorder, 1),
+            BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
         panel.setMouseWheelEnabled(true);
         return panel;
     }
 
     /**
-     * Làm mới dữ liệu cho tất cả biểu đồ và bảng
+     * Refresh all charts and table
      */
     public void refreshCharts() {
-        // Clear pnCharts
+        // Refresh charts
         pnCharts.removeAll();
         createRevenueChart();
         createTopProductsChart();
         createProductTypeChart();
         createStockStatusChart();
-        
-        // Refresh expired products
-        this.remove(pnExpiredProducts);
+
+        // Refresh expired products table
         createExpiredProductsPanel();
-        this.add(pnExpiredProducts, BorderLayout.SOUTH);
-        
+        splitPane.setBottomComponent(pnBottom);
+
         this.revalidate();
         this.repaint();
     }

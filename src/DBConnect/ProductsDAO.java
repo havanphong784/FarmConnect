@@ -172,6 +172,36 @@ public class ProductsDAO {
         }
     }
 
+    public static int getProductQuantityById(int productId) {
+        String sql = "SELECT Quantity FROM dbo.Product WHERE ProId = ?";
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("Quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static java.math.BigDecimal getProductPriceById(int productId) {
+        String sql = "SELECT Price FROM dbo.Product WHERE ProId = ?";
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBigDecimal("Price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return java.math.BigDecimal.ZERO;
+    }
+
     public static boolean update (Products p) {
         try (Connection con = DBConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sqlUpdate))

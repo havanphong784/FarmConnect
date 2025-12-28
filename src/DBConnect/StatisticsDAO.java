@@ -12,31 +12,36 @@ import java.util.Map;
 
 import static UI.LoginFrame.userid;
 
+/**
+ * Statistics DAO - Data queries for charts and reports
+ * Updated to use OrderItem table for multi-product orders
+ */
 public class StatisticsDAO {
 
-    // Doanh thu theo ngày (7 ngày gần nhất)
+    // Revenue by date (last 7 days) - using OrderItem
     private static final String SQL_REVENUE_BY_DATE = """
         SELECT CAST(o.OrderTime AS DATE) AS NgayBan,
-               SUM(o.OrderQuantity * p.Price) AS TongDoanhThu
+               SUM(oi.Quantity * oi.UnitPrice) AS TongDoanhThu
         FROM [Order] o
-        JOIN Product p ON o.ProId = p.ProId
+        JOIN OrderItem oi ON o.OrderId = oi.OrderId
         WHERE o.UserID = ?
         AND o.OrderTime >= DATEADD(DAY, -7, GETDATE())
         GROUP BY CAST(o.OrderTime AS DATE)
         ORDER BY NgayBan ASC
     """;
 
-    // Top sản phẩm bán chạy
+    // Top selling products - using OrderItem
     private static final String SQL_TOP_SELLING = """
-        SELECT TOP(?) p.ProName, SUM(o.OrderQuantity) AS TongBan
-        FROM [Order] o
-        JOIN Product p ON o.ProId = p.ProId
+        SELECT TOP(?) p.ProName, SUM(oi.Quantity) AS TongBan
+        FROM OrderItem oi
+        JOIN [Order] o ON oi.OrderId = o.OrderId
+        JOIN Product p ON oi.ProId = p.ProId
         WHERE o.UserID = ?
         GROUP BY p.ProName
         ORDER BY TongBan DESC
     """;
 
-    // Số lượng sản phẩm theo loại
+    // Product count by type
     private static final String SQL_PRODUCT_BY_TYPE = """
         SELECT [Type], COUNT(*) AS SoLuong
         FROM Product
@@ -44,7 +49,7 @@ public class StatisticsDAO {
         GROUP BY [Type]
     """;
 
-    // Sản phẩm tồn kho thấp
+    // Low stock products
     private static final String SQL_LOW_STOCK = """
         SELECT TOP(?) ProName, Quantity
         FROM Product
@@ -52,39 +57,38 @@ public class StatisticsDAO {
         ORDER BY Quantity ASC
     """;
 
-    // Tổng doanh thu
+    // Total revenue - using OrderItem
     private static final String SQL_TOTAL_REVENUE = """
-        SELECT COALESCE(SUM(o.OrderQuantity * p.Price), 0) AS TongDoanhThu
+        SELECT COALESCE(SUM(oi.Quantity * oi.UnitPrice), 0) AS TongDoanhThu
         FROM [Order] o
-        JOIN Product p ON o.ProId = p.ProId
+        JOIN OrderItem oi ON o.OrderId = oi.OrderId
         WHERE o.UserID = ?
     """;
 
-    // Tổng số đơn hàng
+    // Total orders
     private static final String SQL_TOTAL_ORDERS = """
         SELECT COUNT(*) AS TongDon
         FROM [Order]
         WHERE UserID = ?
     """;
 
-    // Tổng số sản phẩm trong kho
+    // Total products in stock
     private static final String SQL_TOTAL_PRODUCTS = """
         SELECT COUNT(*) AS TongSP
         FROM Product
         WHERE UserID = ? AND Quantity > 0
     """;
 
-    // Sản phẩm đã hết hạn
+    // Expired and expiring soon products (within 3 days)
     private static final String SQL_EXPIRED_PRODUCTS = """
         SELECT ProName, Quantity, Unit, ExpirationDate
         FROM Product
-        WHERE UserID = ? AND ExpirationDate <= GETDATE()
+        WHERE UserID = ? AND ExpirationDate <= DATEADD(DAY, 3, GETDATE())
         ORDER BY ExpirationDate ASC
     """;
 
     /**
-     * Lấy doanh thu theo ngày (7 ngày gần nhất)
-     * @return Map<String ngày, BigDecimal doanh thu>
+     * Get revenue by date (last 7 days)
      */
     public static Map<String, BigDecimal> getRevenueByDate() {
         Map<String, BigDecimal> result = new LinkedHashMap<>();
@@ -104,9 +108,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy top sản phẩm bán chạy
-     * @param limit Số lượng sản phẩm
-     * @return Map<String tên SP, Integer số lượng bán>
+     * Get top selling products
      */
     public static Map<String, Integer> getTopSellingProducts(int limit) {
         Map<String, Integer> result = new LinkedHashMap<>();
@@ -125,8 +127,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy số lượng sản phẩm theo loại
-     * @return Map<String loại, Integer số lượng>
+     * Get product count by type
      */
     public static Map<String, Integer> getProductCountByType() {
         Map<String, Integer> result = new LinkedHashMap<>();
@@ -135,7 +136,10 @@ public class StatisticsDAO {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.put(rs.getString("Type"), rs.getInt("SoLuong"));
+                String type = rs.getString("Type");
+                if (type != null && !type.isEmpty()) {
+                    result.put(type, rs.getInt("SoLuong"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -144,9 +148,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy sản phẩm tồn kho thấp
-     * @param limit Số lượng sản phẩm
-     * @return Map<String tên SP, Integer số lượng tồn>
+     * Get low stock products
      */
     public static Map<String, Integer> getLowStockProducts(int limit) {
         Map<String, Integer> result = new LinkedHashMap<>();
@@ -165,7 +167,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy tổng doanh thu
+     * Get total revenue
      */
     public static BigDecimal getTotalRevenue() {
         try (Connection con = DBConnect.getConnection();
@@ -173,7 +175,8 @@ public class StatisticsDAO {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getBigDecimal("TongDoanhThu");
+                BigDecimal total = rs.getBigDecimal("TongDoanhThu");
+                return total != null ? total : BigDecimal.ZERO;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,7 +185,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy tổng số đơn hàng
+     * Get total orders count
      */
     public static int getTotalOrders() {
         try (Connection con = DBConnect.getConnection();
@@ -199,7 +202,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy tổng số sản phẩm trong kho
+     * Get total products count
      */
     public static int getTotalProducts() {
         try (Connection con = DBConnect.getConnection();
@@ -216,8 +219,7 @@ public class StatisticsDAO {
     }
 
     /**
-     * Lấy danh sách sản phẩm đã hết hạn
-     * @return Object[][] data cho JTable [ProName, Quantity, Unit, ExpirationDate]
+     * Get expired products for table
      */
     public static Object[][] getExpiredProducts() {
         ArrayList<Object[]> list = new ArrayList<>();
@@ -225,14 +227,20 @@ public class StatisticsDAO {
              PreparedStatement ps = con.prepareStatement(SQL_EXPIRED_PRODUCTS)) {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
+            Timestamp now = new Timestamp(System.currentTimeMillis());
             while (rs.next()) {
                 String proName = rs.getString("ProName");
                 int quantity = rs.getInt("Quantity");
                 String unit = rs.getString("Unit");
                 Timestamp expDate = rs.getTimestamp("ExpirationDate");
-                String formattedDate = expDate != null ? 
+                String formattedDate = expDate != null ?
                     new java.text.SimpleDateFormat("dd/MM/yyyy").format(expDate) : "N/A";
-                list.add(new Object[]{proName, quantity, unit, formattedDate});
+                // Determine status: "expired" if past, "expiring" if within 3 days
+                String status = "expiring";
+                if (expDate != null && expDate.before(now)) {
+                    status = "expired";
+                }
+                list.add(new Object[]{proName, quantity, unit, formattedDate, status});
             }
         } catch (SQLException e) {
             e.printStackTrace();

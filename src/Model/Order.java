@@ -2,95 +2,114 @@ package Model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
-    private int OrderId,UserId,ProId,OrderQuantity;
-    private Timestamp OrderTime;
-    private String CustomerName,CustomerSdt,ProName;
-    private BigDecimal price;
+    private int orderId;
+    private int userId;
+    private Timestamp orderTime;
+    private String customerName;
+    private String customerSdt;
+    private BigDecimal totalAmount;
+    private List<OrderItem> items;
 
-    public Order(int userId, int orderQuantity, int proId) {
-        UserId = userId;
-        OrderQuantity = orderQuantity;
-        ProId = proId;
+    // Constructor for creating new order
+    public Order(int userId) {
+        this.userId = userId;
+        this.items = new ArrayList<>();
     }
 
-    public Order(int orderQuantity, String proName, BigDecimal price, Timestamp orderTime) {
-        OrderQuantity = orderQuantity;
-        ProName = proName;
-        this.price = price;
-        OrderTime = orderTime;
+    // Constructor for fetching from database (order list)
+    public Order(int orderId, int userId, Timestamp orderTime, BigDecimal totalAmount) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.orderTime = orderTime;
+        this.totalAmount = totalAmount;
+        this.items = new ArrayList<>();
     }
 
+    // Constructor with customer info
+    public Order(int orderId, int userId, Timestamp orderTime, String customerName, String customerSdt, BigDecimal totalAmount) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.orderTime = orderTime;
+        this.customerName = customerName;
+        this.customerSdt = customerSdt;
+        this.totalAmount = totalAmount;
+        this.items = new ArrayList<>();
+    }
+
+    public void addItem(OrderItem item) {
+        items.add(item);
+    }
+
+    public BigDecimal calculateTotalAmount() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (OrderItem item : items) {
+            total = total.add(item.getSubtotal());
+        }
+        return total;
+    }
+
+    public int getItemCount() {
+        return items.size();
+    }
+
+    // Getters and Setters
     public int getOrderId() {
-        return OrderId;
+        return orderId;
     }
 
     public void setOrderId(int orderId) {
-        OrderId = orderId;
+        this.orderId = orderId;
     }
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public int getProId() {
-        return ProId;
-    }
-
-    public void setProId(int proId) {
-        ProId = proId;
-    }
-
-    public int getOrderQuantity() {
-        return OrderQuantity;
-    }
-
-    public void setOrderQuantity(int orderQuantity) {
-        OrderQuantity = orderQuantity;
+        this.userId = userId;
     }
 
     public Timestamp getOrderTime() {
-        return OrderTime;
+        return orderTime;
     }
 
     public void setOrderTime(Timestamp orderTime) {
-        OrderTime = orderTime;
+        this.orderTime = orderTime;
     }
 
     public String getCustomerName() {
-        return CustomerName;
+        return customerName;
     }
 
     public void setCustomerName(String customerName) {
-        CustomerName = customerName;
+        this.customerName = customerName;
     }
 
     public String getCustomerSdt() {
-        return CustomerSdt;
+        return customerSdt;
     }
 
     public void setCustomerSdt(String customerSdt) {
-        CustomerSdt = customerSdt;
+        this.customerSdt = customerSdt;
     }
 
-    public String getProName() {
-        return ProName;
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setProName(String proName) {
-        ProName = proName;
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public List<OrderItem> getItems() {
+        return items;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 }

@@ -9,7 +9,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 public class InvoicePDFUtil {
 
@@ -42,7 +41,7 @@ public class InvoicePDFUtil {
             addHeader(table, headerFont,
                     "Ten san pham", "So luong", "Don gia", "Thanh tien");
 
-            NumberFormat vnd = NumberFormat.getInstance(new Locale("vi", "VN"));
+            NumberFormat vnd = NumberFormat.getInstance(java.util.Locale.of("vi", "VN"));
             double total = 0;
 
             for (int r : rows) {
@@ -92,4 +91,63 @@ public class InvoicePDFUtil {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Export invoice from a table model (for OrderFormNew)
+     */
+    public static void exportFromTableModel(
+            DefaultTableModel model,
+            String filePath,
+            java.math.BigDecimal totalAmount
+    ) {
+        try {
+            Document document = new Document(PageSize.A4, 36, 36, 36, 36);
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            document.open();
+
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+            Font normalFont = new Font(Font.FontFamily.HELVETICA, 12);
+
+            Paragraph title = new Paragraph("HOA DON FARM CONNECT", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
+
+            PdfPTable table = new PdfPTable(4);
+            table.setWidthPercentage(100);
+            table.setWidths(new float[]{4, 1, 2, 2});
+
+            addHeader(table, headerFont,
+                    "Ten san pham", "So luong", "Don gia", "Thanh tien");
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String name = model.getValueAt(i, 0).toString();
+                int qty = Integer.parseInt(model.getValueAt(i, 1).toString());
+                String price = model.getValueAt(i, 2).toString();
+                String sum = model.getValueAt(i, 3).toString();
+
+                table.addCell(new Phrase(name, normalFont));
+                table.addCell(new Phrase(String.valueOf(qty), normalFont));
+                table.addCell(new Phrase(price, normalFont));
+                table.addCell(new Phrase(sum, normalFont));
+            }
+
+            document.add(table);
+
+            NumberFormat vnd = NumberFormat.getInstance(java.util.Locale.of("vi", "VN"));
+            Paragraph totalP = new Paragraph(
+                    "\nTONG TIEN: " + vnd.format(totalAmount) + " VND",
+                    headerFont
+            );
+            totalP.setAlignment(Element.ALIGN_RIGHT);
+            document.add(totalP);
+
+            document.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+

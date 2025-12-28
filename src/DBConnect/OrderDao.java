@@ -1,58 +1,176 @@
 package DBConnect;
 
 import Model.Order;
+import Model.OrderItem;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static UI.LoginFrame.userid;
 
 public class OrderDao {
-    public static final String sqlGetOrder = """
-            SELECT  p.[ProName],p.[Price],o.[OrderQuantity],o.[OrderTime]
-                FROM [Order] o
-                JOIN [Product] p ON p.ProId=o.ProId
-                JOIN [User] u ON o.UserID=u.ID
-                WHERE u.ID = ?
-                ORDER BY o.[OrderTime] DESC
+
+    public static final String SQL_GET_ORDERS = """
+        SELECT o.OrderId, o.UserID, o.OrderTime, o.TotalAmount,
+               (SELECT COUNT(*) FROM OrderItem oi WHERE oi.OrderId = o.OrderId) as ItemCount
+        FROM [Order] o
+        WHERE o.UserID = ?
+        ORDER BY o.OrderTime DESC
         """;
-    public static final String sqlInsertOrder = "INSERT INTO [Order] (UserID, OrderQuantity,ProId) VALUES (?,?,?)";
-    public static Boolean insertOrder(Order order) {
-         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sqlInsertOrder))
-         {
-                ps.setInt(1, userid);
-                ps.setInt(2, order.getOrderQuantity());
-                ps.setInt(3, order.getProId());
-                int kt = ps.executeUpdate();
-                return kt > 0;
-         }catch (Exception e) {
-             e.printStackTrace();
-             return false;
-         }
+
+    public static final String SQL_GET_ORDER_ITEMS = """
+        SELECT oi.ItemId, oi.OrderId, oi.ProId, p.ProName, oi.Quantity, oi.UnitPrice
+        FROM OrderItem oi
+        JOIN Product p ON oi.ProId = p.ProId
+        WHERE oi.OrderId = ?
+        ORDER BY oi.ItemId
+        """;
+
+    public static final String SQL_INSERT_ORDER = 
+        "INSERT INTO [Order] (UserID, TotalAmount) VALUES (?, ?)";
+
+    public static final String SQL_UPDATE_ORDER_TOTAL = 
+        "UPDATE [Order] SET TotalAmount = ? WHERE OrderId = ?";
+
+    // Legacy query for backward compatibility with statistics
+    public static final String SQL_GET_ORDER_ITEMS_ALL = """
+        SELECT oi.Quantity, oi.UnitPrice, o.OrderTime
+        FROM OrderItem oi
+        JOIN [Order] o ON oi.OrderId = o.OrderId
+        WHERE o.UserID = ?
+        """;
+
+    /**
+     * Create a new order and return the generated OrderId
+     */
+    public static int createOrder(int userId, BigDecimal totalAmount) {
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQL_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, userId);
+            ps.setBigDecimal(2, totalAmount);
+            int affected = ps.executeUpdate();
+            if (affected > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
-    public static ArrayList<Order> getOrder() {
-        ArrayList<Order> list = new ArrayList<>();
+    /**
+     * Create order with items (transaction)
+     */
+    public static int createOrderWithItems(int userId, List<OrderItem> items) {
+        Connection con = null;
+        try {
+            con = DBConnect.getConnection();
+            con.setAutoCommit(false);
+
+            // Calculate total
+            BigDecimal total = BigDecimal.ZERO;
+            for (OrderItem item : items) {
+                total = total.add(item.getSubtotal());
+            }
+
+            // Insert order
+            PreparedStatement psOrder = con.prepareStatement(SQL_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS);
+            psOrder.setInt(1, userId);
+            psOrder.setBigDecimal(2, total);
+            psOrder.executeUpdate();
+
+            ResultSet rs = psOrder.getGeneratedKeys();
+            if (!rs.next()) {
+                con.rollback();
+                return -1;
+            }
+            int orderId = rs.getInt(1);
+
+            // Insert order items
+            PreparedStatement psItem = con.prepareStatement(OrderItemDao.SQL_INSERT_ITEM);
+            for (OrderItem item : items) {
+                psItem.setInt(1, orderId);
+                psItem.setInt(2, item.getProId());
+                psItem.setInt(3, item.getQuantity());
+                psItem.setBigDecimal(4, item.getUnitPrice());
+                psItem.addBatch();
+            }
+            psItem.executeBatch();
+
+            con.commit();
+            return orderId;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (con != null) {
+                try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            }
+            return -1;
+        } finally {
+            if (con != null) {
+                try { 
+                    con.setAutoCommit(true);
+                    con.close(); 
+                } catch (SQLException e) { e.printStackTrace(); }
+            }
+        }
+    }
+
+    /**
+     * Get all orders for current user
+     */
+    public static List<Order> getOrders() {
+        List<Order> orders = new ArrayList<>();
         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sqlGetOrder))
-        {
-            ps.setInt(1,userid);
+             PreparedStatement ps = con.prepareStatement(SQL_GET_ORDERS)) {
+            ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = new Order(
-                        rs.getInt(3),
-                        rs.getString(1),
-                        rs.getBigDecimal(2),
-                        rs.getTimestamp(4)
+                    rs.getInt("OrderId"),
+                    rs.getInt("UserID"),
+                    rs.getTimestamp("OrderTime"),
+                    rs.getBigDecimal("TotalAmount")
                 );
-                list.add(order);
+                orders.add(order);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return orders;
+    }
+
+    /**
+     * Get order items for a specific order
+     */
+    public static List<OrderItem> getOrderItems(int orderId) {
+        return OrderItemDao.getOrderItemsByOrderId(orderId);
+    }
+
+    /**
+     * Get all order items for statistics (legacy support)
+     */
+    public static List<Object[]> getAllOrderItemsForStats() {
+        List<Object[]> items = new ArrayList<>();
+        try (Connection con = DBConnect.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQL_GET_ORDER_ITEMS_ALL)) {
+            ps.setInt(1, userid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                items.add(new Object[]{
+                    rs.getInt("Quantity"),
+                    rs.getBigDecimal("UnitPrice"),
+                    rs.getTimestamp("OrderTime")
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return items;
     }
 }
