@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
     private JPanel pnNavigation, pnContent, pnHeader, pnCard;
     
     // Navigation buttons
-    private JButton btnProducts, btnCart, btnStatistics, btnHistory, btnLogout, btnMenu;
+    private JButton btnDashboard, btnProducts, btnCart, btnStatistics, btnHistory, btnLogout, btnMenu;
     
     // Header components
     private JLabel lblNameApp, lblAvatar, lblRole, lblUsername;
@@ -63,23 +63,26 @@ public class MainFrame extends JFrame {
         this.pnNavigation.add(this.lblNameApp);
 
         // Navigation buttons
-        this.btnProducts = UIStyle.setButtonDB(this.btnProducts, "San pham");
+        this.btnDashboard = UIStyle.setButtonDB(this.btnDashboard, "Tổng quan");
+        this.pnNavigation.add(this.btnDashboard);
+        
+        this.btnProducts = UIStyle.setButtonDB(this.btnProducts, "Sản phẩm");
         this.pnNavigation.add(this.btnProducts);
         
-        this.btnCart = UIStyle.setButtonDB(this.btnCart, "Gio hang");
+        this.btnCart = UIStyle.setButtonDB(this.btnCart, "Giỏ hàng");
         this.pnNavigation.add(this.btnCart);
         
-        this.btnStatistics = UIStyle.setButtonDB(this.btnStatistics, "Thong ke");
+        this.btnStatistics = UIStyle.setButtonDB(this.btnStatistics, "Thống kê");
         this.pnNavigation.add(this.btnStatistics);
         
-        this.btnHistory = UIStyle.setButtonDB(this.btnHistory, "Lich su ban hang");
+        this.btnHistory = UIStyle.setButtonDB(this.btnHistory, "Lịch sử bán hàng");
         this.pnNavigation.add(this.btnHistory);
 
         // Spacer
         this.pnNavigation.add(Box.createVerticalGlue());
 
         // Logout button
-        this.btnLogout = UIStyle.setButtonDB(this.btnLogout, "Dang xuat");
+        this.btnLogout = UIStyle.setButtonDB(this.btnLogout, "Đăng xuất");
         this.btnLogout.setFont(UIStyle.font16);
         this.btnLogout.setForeground(UIStyle.colorRed);
         this.pnNavigation.add(this.btnLogout);
@@ -160,13 +163,14 @@ public class MainFrame extends JFrame {
      */
     private void setupCardLayout() {
         this.pnCard = new JPanel(new CardLayout());
+        this.pnCard.add(new DashboardPanel(), "Dashboard");
         this.pnCard.add(new ProductListPanel(), "Products");
         this.pnCard.add(new StatisticsPanel(), "Statistics");
         this.pnCard.add(new HistoryPanel(), "History");
         this.pnCard.add(CartPanel.getInstance(), "Cart");
         
-        // Show products by default
-        showCard("Products");
+        // Show dashboard by default
+        showCard("Dashboard");
 
         this.pnContent.add(this.pnCard, BorderLayout.CENTER);
     }
@@ -175,6 +179,11 @@ public class MainFrame extends JFrame {
      * Setup action listeners for navigation buttons
      */
     private void setupNavigationActions() {
+        btnDashboard.addActionListener(e -> {
+            showCard("Dashboard");
+            hideNavigation();
+        });
+
         btnProducts.addActionListener(e -> {
             showCard("Products");
             hideNavigation();

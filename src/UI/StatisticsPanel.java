@@ -293,15 +293,15 @@ public class StatisticsPanel extends JPanel {
     }
 
     /**
-     * Chart 4: Low stock products
+     * Chart 4: Top customers by revenue
      */
     private void createStockStatusChart() {
-        DefaultCategoryDataset dataset = StatisticsServer.createStockStatusDataset(5);
+        DefaultCategoryDataset dataset = StatisticsServer.createTopCustomersDataset(5);
 
         fcStockStatus = ChartFactory.createBarChart(
-            "San Pham Ton Kho Thap",
-            "San pham",
-            "So luong",
+            "Top Khach Hang Doanh Thu Cao",
+            "Khach hang",
+            "Doanh thu (K VND)",
             dataset,
             PlotOrientation.VERTICAL,
             false, true, false
@@ -310,7 +310,7 @@ public class StatisticsPanel extends JPanel {
         customizeChart(fcStockStatus);
         CategoryPlot plot = fcStockStatus.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0, UIStyle.colorDanger);
+        renderer.setSeriesPaint(0, new Color(139, 92, 246)); // Purple for customers
         renderer.setDrawBarOutline(false);
 
         cpStockStatus = createChartPanel(fcStockStatus);

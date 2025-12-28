@@ -13,7 +13,7 @@ import static UI.LoginFrame.userid;
 public class OrderDao {
 
     public static final String SQL_GET_ORDERS = """
-        SELECT o.OrderId, o.UserID, o.OrderTime, o.TotalAmount,
+        SELECT o.OrderId, o.UserID, o.OrderTime, o.CustomerName, o.CustomerSdt, o.TotalAmount,
                (SELECT COUNT(*) FROM OrderItem oi WHERE oi.OrderId = o.OrderId) as ItemCount
         FROM [Order] o
         WHERE o.UserID = ?
@@ -29,7 +29,7 @@ public class OrderDao {
         """;
 
     public static final String SQL_INSERT_ORDER = 
-        "INSERT INTO [Order] (UserID, TotalAmount) VALUES (?, ?)";
+        "INSERT INTO [Order] (UserID, CustomerName, CustomerSdt, TotalAmount) VALUES (?, ?, ?, ?)";
 
     public static final String SQL_UPDATE_ORDER_TOTAL = 
         "UPDATE [Order] SET TotalAmount = ? WHERE OrderId = ?";
@@ -45,11 +45,13 @@ public class OrderDao {
     /**
      * Create a new order and return the generated OrderId
      */
-    public static int createOrder(int userId, BigDecimal totalAmount) {
+    public static int createOrder(int userId, String customerName, String customerSdt, BigDecimal totalAmount) {
         try (Connection con = DBConnect.getConnection();
              PreparedStatement ps = con.prepareStatement(SQL_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, userId);
-            ps.setBigDecimal(2, totalAmount);
+            ps.setString(2, customerName);
+            ps.setString(3, customerSdt);
+            ps.setBigDecimal(4, totalAmount);
             int affected = ps.executeUpdate();
             if (affected > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
@@ -65,8 +67,12 @@ public class OrderDao {
 
     /**
      * Create order with items (transaction)
+     * @param userId User ID
+     * @param items List of order items
+     * @param customerName Customer name (can be null or empty)
+     * @param customerSdt Customer phone (can be null or empty)
      */
-    public static int createOrderWithItems(int userId, List<OrderItem> items) {
+    public static int createOrderWithItems(int userId, List<OrderItem> items, String customerName, String customerSdt) {
         Connection con = null;
         try {
             con = DBConnect.getConnection();
@@ -78,10 +84,12 @@ public class OrderDao {
                 total = total.add(item.getSubtotal());
             }
 
-            // Insert order
+            // Insert order with customer info
             PreparedStatement psOrder = con.prepareStatement(SQL_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS);
             psOrder.setInt(1, userId);
-            psOrder.setBigDecimal(2, total);
+            psOrder.setString(2, customerName != null && !customerName.isEmpty() ? customerName : null);
+            psOrder.setString(3, customerSdt != null && !customerSdt.isEmpty() ? customerSdt : null);
+            psOrder.setBigDecimal(4, total);
             psOrder.executeUpdate();
 
             ResultSet rs = psOrder.getGeneratedKeys();
@@ -135,6 +143,8 @@ public class OrderDao {
                     rs.getInt("OrderId"),
                     rs.getInt("UserID"),
                     rs.getTimestamp("OrderTime"),
+                    rs.getString("CustomerName"),
+                    rs.getString("CustomerSdt"),
                     rs.getBigDecimal("TotalAmount")
                 );
                 orders.add(order);

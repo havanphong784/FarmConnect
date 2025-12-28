@@ -1,6 +1,8 @@
 package UI;
 
+import DBConnect.CustomerDAO;
 import DBConnect.ProductsDAO;
+import Model.Customer;
 import Model.OrderItem;
 import Server.OrderServer;
 
@@ -26,6 +28,10 @@ public class CartPanel extends JPanel {
     private JLabel lblTotal;
     private JButton btnCheckout;
     private JButton btnClear;
+    private JComboBox<Customer> cboCustomer;
+    private JTextField txtCustomerName;
+    private JTextField txtCustomerSdt;
+    private List<Customer> customerList;
     
     private List<CartItem> cartItems = new ArrayList<>();
     
@@ -105,13 +111,89 @@ public class CartPanel extends JPanel {
         });
         
         JScrollPane scrollPane = new JScrollPane(cartTable);
-        scrollPane.setPreferredSize(new Dimension(600, 300));
+        scrollPane.setPreferredSize(new Dimension(600, 250));
         add(scrollPane, BorderLayout.CENTER);
+        
+        // South Container (Customer Info + Bottom Panel)
+        JPanel southContainer = new JPanel();
+        southContainer.setLayout(new BoxLayout(southContainer, BoxLayout.Y_AXIS));
+        southContainer.setBackground(UIStyle.colorBg);
+        
+        // Customer Info Panel
+        JPanel customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        customerPanel.setBackground(UIStyle.colorBgDark);
+        customerPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 0, 1, 0, UIStyle.colorBorder),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        
+        // Customer combobox
+        JLabel lblSelectCustomer = new JLabel("Chọn KH:");
+        lblSelectCustomer.setFont(UIStyle.font14);
+        lblSelectCustomer.setForeground(UIStyle.colorText);
+        
+        customerList = CustomerDAO.getAllCustomers();
+        cboCustomer = new JComboBox<>();
+        cboCustomer.addItem(null); // Empty option for new customer
+        for (Customer c : customerList) {
+            cboCustomer.addItem(c);
+        }
+        cboCustomer.setFont(UIStyle.font14);
+        cboCustomer.setPreferredSize(new Dimension(200, 30));
+        cboCustomer.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value == null) {
+                    setText("-- Khách mới --");
+                } else {
+                    setText(((Customer) value).toString());
+                }
+                return this;
+            }
+        });
+        
+        // Auto-fill when customer selected
+        cboCustomer.addActionListener(e -> {
+            Customer selected = (Customer) cboCustomer.getSelectedItem();
+            if (selected != null) {
+                txtCustomerName.setText(selected.getCustomerName());
+                txtCustomerSdt.setText(selected.getCustomerSdt() != null ? selected.getCustomerSdt() : "");
+            } else {
+                txtCustomerName.setText("");
+                txtCustomerSdt.setText("");
+            }
+        });
+        
+        JLabel lblCustomerName = new JLabel("Tên:");
+        lblCustomerName.setFont(UIStyle.font14);
+        lblCustomerName.setForeground(UIStyle.colorText);
+        
+        txtCustomerName = new JTextField(12);
+        txtCustomerName.setFont(UIStyle.font14);
+        txtCustomerName.setPreferredSize(new Dimension(140, 30));
+        
+        JLabel lblCustomerSdt = new JLabel("SĐT:");
+        lblCustomerSdt.setFont(UIStyle.font14);
+        lblCustomerSdt.setForeground(UIStyle.colorText);
+        
+        txtCustomerSdt = new JTextField(10);
+        txtCustomerSdt.setFont(UIStyle.font14);
+        txtCustomerSdt.setPreferredSize(new Dimension(110, 30));
+        
+        customerPanel.add(lblSelectCustomer);
+        customerPanel.add(cboCustomer);
+        customerPanel.add(Box.createHorizontalStrut(10));
+        customerPanel.add(lblCustomerName);
+        customerPanel.add(txtCustomerName);
+        customerPanel.add(lblCustomerSdt);
+        customerPanel.add(txtCustomerSdt);
         
         // Bottom Panel
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         bottomPanel.setBackground(UIStyle.colorBg);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         
         lblTotal = new JLabel("Tổng cộng: 0 VND");
         lblTotal.setFont(UIStyle.font16Bold);
@@ -130,7 +212,9 @@ public class CartPanel extends JPanel {
         bottomPanel.add(Box.createHorizontalStrut(10));
         bottomPanel.add(btnCheckout);
         
-        add(bottomPanel, BorderLayout.SOUTH);
+        southContainer.add(customerPanel);
+        southContainer.add(bottomPanel);
+        add(southContainer, BorderLayout.SOUTH);
     }
     
     public void addToCart(int proId, String proName, BigDecimal unitPrice, int quantity) {
@@ -159,6 +243,9 @@ public class CartPanel extends JPanel {
     
     public void clearCart() {
         cartItems.clear();
+        cboCustomer.setSelectedIndex(0);
+        txtCustomerName.setText("");
+        txtCustomerSdt.setText("");
         refreshTable();
     }
     
@@ -199,14 +286,18 @@ public class CartPanel extends JPanel {
                 }
             }
             
+            // Get customer info
+            String customerName = txtCustomerName.getText().trim();
+            String customerSdt = txtCustomerSdt.getText().trim();
+            
             // Convert to OrderItem list
             List<OrderItem> orderItems = new ArrayList<>();
             for (CartItem item : cartItems) {
                 orderItems.add(new OrderItem(item.proId, item.quantity, item.unitPrice));
             }
             
-            // Create order
-            int orderId = OrderServer.createOrder(userid, orderItems);
+            // Create order with customer info
+            int orderId = OrderServer.createOrder(userid, orderItems, customerName, customerSdt);
             
             if (orderId > 0) {
                 JOptionPane.showMessageDialog(this, "Đặt hàng thành công! Mã đơn: " + orderId);

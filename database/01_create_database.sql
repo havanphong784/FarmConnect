@@ -1,6 +1,7 @@
 -- =============================================
--- FarmConnect Database Schema
--- SQL Server - Complete Setup (No Data)
+-- FarmConnect - Database Schema
+-- File 1: Create Database and Tables
+-- Run this FIRST
 -- =============================================
 
 USE master;
@@ -22,6 +23,7 @@ GO
 IF OBJECT_ID('dbo.OrderItem', 'U') IS NOT NULL DROP TABLE dbo.OrderItem;
 IF OBJECT_ID('dbo.[Order]', 'U') IS NOT NULL DROP TABLE dbo.[Order];
 IF OBJECT_ID('dbo.Product', 'U') IS NOT NULL DROP TABLE dbo.Product;
+IF OBJECT_ID('dbo.Customer', 'U') IS NOT NULL DROP TABLE dbo.Customer;
 IF OBJECT_ID('dbo.[User]', 'U') IS NOT NULL DROP TABLE dbo.[User];
 GO
 
@@ -29,7 +31,7 @@ GO
 -- CREATE TABLES
 -- =============================================
 
--- User table
+-- 1. User table
 CREATE TABLE dbo.[User] (
     [ID] INT IDENTITY(1,1) PRIMARY KEY,
     [Email] NVARCHAR(255) NOT NULL UNIQUE,
@@ -39,7 +41,20 @@ CREATE TABLE dbo.[User] (
 );
 GO
 
--- Product table
+-- 2. Customer table
+CREATE TABLE dbo.Customer (
+    [CustomerId] INT IDENTITY(1,1) PRIMARY KEY,
+    [CustomerName] NVARCHAR(100) NOT NULL,
+    [CustomerSdt] NVARCHAR(20),
+    [CustomerEmail] NVARCHAR(100),
+    [CustomerAddress] NVARCHAR(200),
+    [UserID] INT NOT NULL,
+    [CreatedDate] DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Customer_User FOREIGN KEY ([UserID]) REFERENCES dbo.[User]([ID])
+);
+GO
+
+-- 3. Product table
 CREATE TABLE dbo.Product (
     [ProId] INT IDENTITY(1,1) PRIMARY KEY,
     [ProName] NVARCHAR(255) NOT NULL,
@@ -56,22 +71,21 @@ CREATE TABLE dbo.Product (
 );
 GO
 
--- Order table
+-- 4. Order table
 CREATE TABLE dbo.[Order] (
     [OrderId] INT IDENTITY(1,1) PRIMARY KEY,
     [UserID] INT NOT NULL,
+    [CustomerId] INT NULL,
     [OrderTime] DATETIME DEFAULT GETDATE(),
-    [TotalAmount] DECIMAL(18, 2),
-    [ProId] INT NULL,
-    [OrderQuantity] INT NULL,
-    [CustomerName] NVARCHAR(255),
+    [CustomerName] NVARCHAR(100),
     [CustomerSdt] NVARCHAR(20),
-    [OrderPrice] DECIMAL(18, 2),
-    CONSTRAINT FK_Order_User FOREIGN KEY ([UserID]) REFERENCES dbo.[User]([ID])
+    [TotalAmount] DECIMAL(18, 2),
+    CONSTRAINT FK_Order_User FOREIGN KEY ([UserID]) REFERENCES dbo.[User]([ID]),
+    CONSTRAINT FK_Order_Customer FOREIGN KEY ([CustomerId]) REFERENCES dbo.Customer([CustomerId])
 );
 GO
 
--- OrderItem table
+-- 5. OrderItem table
 CREATE TABLE dbo.OrderItem (
     [ItemId] INT IDENTITY(1,1) PRIMARY KEY,
     [OrderId] INT NOT NULL,
@@ -87,11 +101,17 @@ GO
 -- CREATE INDEXES
 -- =============================================
 CREATE INDEX IX_Product_UserID ON dbo.Product([UserID]);
+CREATE INDEX IX_Customer_UserID ON dbo.Customer([UserID]);
 CREATE INDEX IX_Order_UserID ON dbo.[Order]([UserID]);
+CREATE INDEX IX_Order_CustomerId ON dbo.[Order]([CustomerId]);
 CREATE INDEX IX_OrderItem_OrderId ON dbo.OrderItem([OrderId]);
 CREATE INDEX IX_OrderItem_ProId ON dbo.OrderItem([ProId]);
 GO
 
-PRINT 'Database FarmConnect created successfully!';
-PRINT 'Tables: User, Product, Order, OrderItem';
+PRINT '';
+PRINT '=== DATABASE CREATED SUCCESSFULLY ===';
+PRINT 'Database: FarmConnect';
+PRINT 'Tables: User, Customer, Product, Order, OrderItem';
+PRINT '';
+PRINT 'Next: Run 02_insert_data.sql to add sample data';
 GO

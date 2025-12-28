@@ -14,8 +14,12 @@ public class OrderServer {
     /**
      * Create a new order with multiple items
      * Also updates product quantities in inventory
+     * @param userId User ID
+     * @param items List of order items
+     * @param customerName Customer name
+     * @param customerSdt Customer phone number
      */
-    public static int createOrder(int userId, List<OrderItem> items) {
+    public static int createOrder(int userId, List<OrderItem> items, String customerName, String customerSdt) {
         // First verify all items have valid quantities
         for (OrderItem item : items) {
             int currentQty = ProductsDAO.getProductQuantityById(item.getProId());
@@ -25,7 +29,7 @@ public class OrderServer {
         }
 
         // Create order with items
-        int orderId = OrderDao.createOrderWithItems(userId, items);
+        int orderId = OrderDao.createOrderWithItems(userId, items, customerName, customerSdt);
 
         if (orderId > 0) {
             // Update product quantities
@@ -40,11 +44,11 @@ public class OrderServer {
 
     /**
      * Get all orders for table display
-     * Returns: OrderId, Thời gian, Số sản phẩm, Tổng tiền
+     * Returns: OrderId, Thời gian, Khách hàng, Số sản phẩm, Tổng tiền
      */
     public static Object[][] ordersToTable() {
         List<Order> orders = OrderDao.getOrders();
-        Object[][] data = new Object[orders.size()][4];
+        Object[][] data = new Object[orders.size()][5];
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
             // Count items for this order
@@ -52,6 +56,7 @@ public class OrderServer {
             data[i] = new Object[]{
                 o.getOrderId(),
                 o.getOrderTime(),
+                o.getCustomerName() != null && !o.getCustomerName().isEmpty() ? o.getCustomerName() : "Khách lẻ",
                 items.size(),
                 o.getTotalAmount() != null ? o.getTotalAmount() : BigDecimal.ZERO
             };

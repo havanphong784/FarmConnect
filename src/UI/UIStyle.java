@@ -11,41 +11,41 @@ import java.awt.*;
 public class UIStyle {
     
     // =============================================
-    // COLOR PALETTE - Modern Green Theme
+    // COLOR PALETTE - Modern Premium Theme
     // =============================================
     
-    // Primary colors
-    public static Color colorPrimary = new Color(34, 139, 34);      // Forest Green
-    public static Color colorPrimaryDark = new Color(25, 100, 25);  // Darker green
-    public static Color colorPrimaryLight = new Color(144, 238, 144); // Light green
+    // Primary colors - Deep Teal/Emerald gradient
+    public static Color colorPrimary = new Color(16, 185, 129);       // Emerald 500
+    public static Color colorPrimaryDark = new Color(6, 95, 70);      // Emerald 800
+    public static Color colorPrimaryLight = new Color(167, 243, 208); // Emerald 200
     
-    // Background colors
-    public static Color colorBg = new Color(250, 252, 250);         // Very light green-white
-    public static Color colorBgDark = new Color(240, 245, 240);     // Slightly darker bg
-    public static Color colorBgCard = new Color(255, 255, 255);     // White for cards
+    // Background colors - Soft neutral tones
+    public static Color colorBg = new Color(249, 250, 251);           // Gray 50
+    public static Color colorBgDark = new Color(243, 244, 246);       // Gray 100
+    public static Color colorBgCard = new Color(255, 255, 255);       // Pure white
     
-    // Text colors
-    public static Color colorText = new Color(33, 37, 41);          // Dark gray for text
-    public static Color colorTextSecondary = new Color(108, 117, 125); // Gray for secondary text
-    public static Color colorLabel = new Color(73, 80, 87);         // Label color
+    // Text colors - High contrast
+    public static Color colorText = new Color(17, 24, 39);            // Gray 900
+    public static Color colorTextSecondary = new Color(107, 114, 128); // Gray 500
+    public static Color colorLabel = new Color(55, 65, 81);           // Gray 700
     
     // UI Element colors
-    public static Color colorTextField = new Color(248, 250, 252);  // Light input bg
-    public static Color colorBorder = new Color(206, 212, 218);     // Border color
-    public static Color colorHeader = new Color(248, 249, 250);     // Header bg
+    public static Color colorTextField = new Color(255, 255, 255);    // White input bg
+    public static Color colorBorder = new Color(209, 213, 219);       // Gray 300
+    public static Color colorHeader = new Color(243, 244, 246);       // Gray 100
     
-    // Status colors
-    public static Color colorSuccess = new Color(40, 167, 69);      // Success green
-    public static Color colorWarning = new Color(255, 193, 7);      // Warning yellow
-    public static Color colorDanger = new Color(220, 53, 69);       // Danger red
-    public static Color colorRed = new Color(220, 53, 69);          // Alias for red
-    public static Color colorInfo = new Color(23, 162, 184);        // Info blue
+    // Status colors - Vibrant and clear
+    public static Color colorSuccess = new Color(34, 197, 94);        // Green 500
+    public static Color colorWarning = new Color(245, 158, 11);       // Amber 500
+    public static Color colorDanger = new Color(239, 68, 68);         // Red 500
+    public static Color colorRed = new Color(239, 68, 68);            // Alias for red
+    public static Color colorInfo = new Color(59, 130, 246);          // Blue 500
     
-    // Table colors
-    public static Color colorTableHeader = new Color(233, 245, 233); // Light green header
+    // Table colors - Clean and readable
+    public static Color colorTableHeader = new Color(236, 253, 245);  // Emerald 50
     public static Color colorTableRowEven = new Color(255, 255, 255);
-    public static Color colorTableRowOdd = new Color(248, 252, 248);
-    public static Color colorTableSelected = new Color(200, 230, 200);
+    public static Color colorTableRowOdd = new Color(249, 250, 251);
+    public static Color colorTableSelected = new Color(167, 243, 208); // Emerald 200
 
     // =============================================
     // FONTS - Clean, Modern Typography
@@ -87,19 +87,30 @@ public class UIStyle {
     }
 
     /**
-     * Primary action button (green)
+     * Primary action button (emerald green with rounded corners)
      */
     public static JButton setBtnActive(JButton btn, String text) {
-        btn = new JButton(text);
-        btn.setPreferredSize(new Dimension(300, 45));
-        btn.setForeground(Color.WHITE);
-        btn.setBackground(colorPrimary);
-        btn.setFocusPainted(false);
-        btn.setBorderPainted(false);
-        btn.setFont(font16Bold);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        return btn;
+        final JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(300, 45));
+        button.setForeground(Color.WHITE);
+        button.setBackground(colorPrimary);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setFont(font16Bold);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
+        button.setOpaque(true);
+        
+        // Hover effect
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(colorPrimaryDark);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(colorPrimary);
+            }
+        });
+        return button;
     }
 
     /**
@@ -118,25 +129,38 @@ public class UIStyle {
     }
 
     /**
-     * Danger button (red)
+     * Danger button (red with hover effect)
      */
     public static JButton setBtnDanger(JButton btn, String text) {
-        btn = new JButton(text);
-        btn.setPreferredSize(new Dimension(300, 45));
-        btn.setForeground(Color.WHITE);
-        btn.setBackground(colorDanger);
-        btn.setFocusPainted(false);
-        btn.setBorderPainted(false);
-        btn.setFont(font16Bold);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        return btn;
+        final JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(300, 45));
+        button.setForeground(Color.WHITE);
+        button.setBackground(colorDanger);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setFont(font16Bold);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
+        button.setOpaque(true);
+        
+        // Hover effect
+        final Color hoverColor = new Color(220, 38, 38); // Red 600
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(hoverColor);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(colorDanger);
+            }
+        });
+        return button;
     }
 
     /**
-     * Navigation button (sidebar)
+     * Navigation button (sidebar with hover effect)
      */
-    public static JButton setButtonDB(JButton button, String text) {
-        button = new JButton(text);
+    public static JButton setButtonDB(JButton btn, String text) {
+        final JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(250, 50));
         button.setMaximumSize(new Dimension(250, 50));
         button.setFocusPainted(false);
@@ -147,6 +171,17 @@ public class UIStyle {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setHorizontalAlignment(JButton.LEFT);
         button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setOpaque(true);
+        
+        // Hover effect
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(colorPrimaryDark);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(colorPrimary);
+            }
+        });
         return button;
     }
 

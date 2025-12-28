@@ -22,7 +22,7 @@ public class HistoryPanel extends ProductListPanel {
     private static DefaultTableModel modelItems;
     private JButton btnExport;
     
-    public static String[] columnOrders = {"Mã ĐH", "Thời Gian", "Số SP", "Tổng Tiền"};
+    public static String[] columnOrders = {"Mã ĐH", "Thời Gian", "Khách Hàng", "Số SP", "Tổng Tiền"};
     public static String[] columnItems = {"Tên Sản Phẩm", "Đơn Giá", "Số Lượng", "Thành Tiền"};
     
     public HistoryPanel() {

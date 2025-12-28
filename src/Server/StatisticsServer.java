@@ -62,19 +62,19 @@ public class StatisticsServer {
     }
 
     /**
-     * Tạo dataset cho biểu đồ tình trạng tồn kho (BarChart)
+     * Tạo dataset cho biểu đồ khách hàng doanh thu cao (BarChart)
      */
-    public static DefaultCategoryDataset createStockStatusDataset(int limit) {
+    public static DefaultCategoryDataset createTopCustomersDataset(int limit) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        Map<String, Integer> lowStock = StatisticsDAO.getLowStockProducts(limit);
+        Map<String, java.math.BigDecimal> topCustomers = DBConnect.CustomerDAO.getTopCustomersByRevenue(limit);
         
-        for (Map.Entry<String, Integer> entry : lowStock.entrySet()) {
-            // Cắt ngắn tên sản phẩm nếu quá dài
+        for (Map.Entry<String, java.math.BigDecimal> entry : topCustomers.entrySet()) {
+            // Cắt ngắn tên khách hàng nếu quá dài
             String name = entry.getKey();
             if (name != null && name.length() > 15) {
                 name = name.substring(0, 12) + "...";
             }
-            dataset.addValue(entry.getValue(), "Tồn kho", name);
+            dataset.addValue(entry.getValue().divide(java.math.BigDecimal.valueOf(1000)), "Doanh thu (nghìn VND)", name);
         }
         
         return dataset;

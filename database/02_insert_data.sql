@@ -1,7 +1,7 @@
 -- =============================================
--- FarmConnect - Seed Data
--- 10 Users, 100 Products, 50 Orders
--- Realistic data with uneven distribution
+-- FarmConnect - Insert Sample Data
+-- File 2: Insert Data into Tables
+-- Run this AFTER 01_create_database.sql
 -- =============================================
 
 USE FarmConnect;
@@ -24,10 +24,31 @@ INSERT INTO dbo.[User] ([Email], [Name], [Address], [Password]) VALUES
 GO
 
 -- =============================================
--- 2. INSERT 100 PRODUCTS (Uneven distribution)
+-- 2. INSERT 15 CUSTOMERS (Vietnamese names)
+-- =============================================
+INSERT INTO dbo.Customer ([CustomerName], [CustomerSdt], [CustomerEmail], [CustomerAddress], [UserID]) VALUES
+(N'Nguyễn Văn An', N'0901234567', N'nguyenvanan@gmail.com', N'123 Nguyễn Huệ, Q.1, TP.HCM', 1),
+(N'Trần Thị Bình', N'0912345678', N'tranthbinh@gmail.com', N'456 Lê Lợi, Q.3, TP.HCM', 1),
+(N'Lê Văn Cường', N'0923456789', N'levancuong@gmail.com', N'789 Hai Bà Trưng, Q.1, TP.HCM', 1),
+(N'Phạm Thị Dung', N'0934567890', N'phamthidung@gmail.com', N'321 Võ Văn Tần, Q.3, TP.HCM', 1),
+(N'Hoàng Văn Em', N'0945678901', N'hoangvanem@gmail.com', N'654 Điện Biên Phủ, Q.Bình Thạnh, TP.HCM', 1),
+(N'Võ Thị Phương', N'0956789012', N'vothiphuong@gmail.com', N'987 Cách Mạng Tháng 8, Q.10, TP.HCM', 1),
+(N'Đặng Văn Giang', N'0967890123', N'dangvangiang@gmail.com', N'147 Trường Chinh, Q.Tân Bình, TP.HCM', 1),
+(N'Bùi Thị Hạnh', N'0978901234', N'buithihanh@gmail.com', N'258 Lý Thường Kiệt, Q.10, TP.HCM', 1),
+(N'Ngô Văn Kiên', N'0989012345', N'ngovankien@gmail.com', N'369 Nguyễn Đình Chiểu, Q.3, TP.HCM', 1),
+(N'Lý Thị Lan', N'0990123456', N'lythilan@gmail.com', N'159 Pasteur, Q.1, TP.HCM', 1),
+(N'Đỗ Văn Minh', N'0381234567', N'dovanminh@gmail.com', N'753 Hoàng Văn Thụ, Q.Tân Bình, TP.HCM', 1),
+(N'Vũ Thị Ngọc', N'0392345678', N'vuthingoc@gmail.com', N'852 Nguyễn Thị Minh Khai, Q.3, TP.HCM', 1),
+(N'Trịnh Văn Phong', N'0703456789', N'trinhvanphong@gmail.com', N'951 Xô Viết Nghệ Tĩnh, Q.Bình Thạnh, TP.HCM', 1),
+(N'Mai Thị Quỳnh', N'0794567890', N'maithiquynh@gmail.com', N'357 Phan Xích Long, Q.Phú Nhuận, TP.HCM', 1),
+(N'Hồ Văn Sơn', N'0865678901', N'hovanson@gmail.com', N'468 Nguyễn Văn Trỗi, Q.Phú Nhuận, TP.HCM', 1);
+GO
+
+-- =============================================
+-- 3. INSERT 100+ PRODUCTS
 -- =============================================
 
--- RAU CU - 25 san pham (so luong cao 100-500, gia thap 5K-40K)
+-- RAU CU - 25 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Rau muong', N'Rau muong huu co', 450, 8000, N'Bo', N'Rau cu', DATEADD(DAY, 3, GETDATE()), 0, 1),
 (N'Cai ngot', N'Cai ngot Da Lat', 380, 12000, N'Kg', N'Rau cu', DATEADD(DAY, 4, GETDATE()), 0, 1),
@@ -56,7 +77,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Rau ram', N'Rau ram thom', 120, 12000, N'Bo', N'Rau cu', DATEADD(DAY, 3, GETDATE()), 0, 1);
 GO
 
--- TRAI CAY - 20 san pham (so luong trung binh 50-400, gia 15K-200K)
+-- TRAI CAY - 20 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Cam sanh', N'Cam sanh Vinh Long', 400, 28000, N'Kg', N'Trai cay', DATEADD(DAY, 14, GETDATE()), 0, 1),
 (N'Cam xoan', N'Cam xoan Tuyen Quang', 250, 35000, N'Kg', N'Trai cay', DATEADD(DAY, 10, GETDATE()), 0, 1),
@@ -80,7 +101,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Bo', N'Bo sap Dak Lak', 120, 55000, N'Kg', N'Trai cay', DATEADD(DAY, 5, GETDATE()), 0, 1);
 GO
 
--- THIT - 15 san pham (so luong thap 20-100, gia cao 70K-350K)
+-- THIT - 15 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Thit heo ba roi', N'Thit heo sach', 65, 135000, N'Kg', N'Thit', DATEADD(DAY, 3, GETDATE()), 0, 1),
 (N'Thit heo nac vai', N'Thit nac tuoi', 80, 145000, N'Kg', N'Thit', DATEADD(DAY, 3, GETDATE()), 0, 1),
@@ -99,7 +120,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Thit tho', N'Tho tuoi', 25, 180000, N'Kg', N'Thit', DATEADD(DAY, 2, GETDATE()), 0, 1);
 GO
 
--- HAI SAN - 15 san pham (so luong thap 10-80, gia cao 50K-500K)
+-- HAI SAN - 15 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Ca hoi', N'Ca hoi Na Uy', 15, 450000, N'Kg', N'Hai san', DATEADD(DAY, 3, GETDATE()), 0, 1),
 (N'Ca ngu', N'Ca ngu dai duong', 20, 380000, N'Kg', N'Hai san', DATEADD(DAY, 2, GETDATE()), 0, 1),
@@ -109,7 +130,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Muc ong', N'Muc ong tuoi', 35, 180000, N'Kg', N'Hai san', DATEADD(DAY, 2, GETDATE()), 0, 1),
 (N'Muc la', N'Muc la mot nang', 25, 350000, N'Kg', N'Hai san', DATEADD(DAY, 30, GETDATE()), 0, 1),
 (N'Cua bien', N'Cua gach', 18, 450000, N'Kg', N'Hai san', DATEADD(DAY, 1, GETDATE()), 0, 1),
-(N'Ghẹ', N'Ghe xanh', 30, 280000, N'Kg', N'Hai san', DATEADD(DAY, 1, GETDATE()), 0, 1),
+(N'Ghe', N'Ghe xanh', 30, 280000, N'Kg', N'Hai san', DATEADD(DAY, 1, GETDATE()), 0, 1),
 (N'Ca nuc', N'Ca nuc bien', 80, 55000, N'Kg', N'Hai san', DATEADD(DAY, 2, GETDATE()), 0, 1),
 (N'Ca basa', N'Ca basa fillet', 100, 65000, N'Kg', N'Hai san', DATEADD(DAY, 3, GETDATE()), 0, 1),
 (N'Ca dieu hong', N'Ca dieu hong tuoi', 50, 85000, N'Kg', N'Hai san', DATEADD(DAY, 2, GETDATE()), 0, 1),
@@ -118,7 +139,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Hau sua', N'Hau sua Vung Tau', 35, 150000, N'Kg', N'Hai san', DATEADD(DAY, 1, GETDATE()), 0, 1);
 GO
 
--- GAO - 10 san pham (so luong rat cao 300-1000, gia trung binh 20K-60K)
+-- GAO - 10 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Gao ST25', N'Gao ST25 chinh goc', 800, 42000, N'Kg', N'Gao', DATEADD(DAY, 180, GETDATE()), 0, 1),
 (N'Gao ST24', N'Gao ST24 thom', 600, 38000, N'Kg', N'Gao', DATEADD(DAY, 180, GETDATE()), 0, 1),
@@ -132,7 +153,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Gao thom Campuchia', N'Gao nhap', 400, 25000, N'Kg', N'Gao', DATEADD(DAY, 180, GETDATE()), 0, 1);
 GO
 
--- TRUNG - 8 san pham (so luong rat cao 300-1500, gia thap 1K-6K)
+-- TRUNG - 8 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Trung ga ta', N'Trung ga nuoi tu nhien', 1200, 4500, N'Qua', N'Trung', DATEADD(DAY, 21, GETDATE()), 0, 1),
 (N'Trung ga cong nghiep', N'Trung ga CP', 1500, 3200, N'Qua', N'Trung', DATEADD(DAY, 21, GETDATE()), 0, 1),
@@ -144,7 +165,7 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Trung ga Ac', N'Trung ga Ac bo duong', 300, 6000, N'Qua', N'Trung', DATEADD(DAY, 14, GETDATE()), 0, 1);
 GO
 
--- GIA VI & KHAC - 7 san pham (so luong trung binh 100-300)
+-- GIA VI - 7 san pham
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Nuoc mam Phu Quoc', N'Nuoc mam 40 do', 150, 85000, N'Chai', N'Gia vi', DATEADD(DAY, 365, GETDATE()), 0, 1),
 (N'Nuoc tuong', N'Nuoc tuong Maggi', 200, 25000, N'Chai', N'Gia vi', DATEADD(DAY, 365, GETDATE()), 0, 1),
@@ -155,21 +176,13 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 (N'Hat nem', N'Hat nem Knorr', 180, 35000, N'Goi', N'Gia vi', DATEADD(DAY, 365, GETDATE()), 0, 1);
 GO
 
--- =============================================
--- 2B. SAN PHAM HET HAN VA SAP HET HAN (for statistics)
--- =============================================
-
--- San pham DA HET HAN (ExpirationDate < today)
+-- SAN PHAM HET HAN VA SAP HET HAN (for testing)
 INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
 (N'Sua tuoi Vinamilk', N'Sua tuoi tiet trung', 50, 32000, N'Hop', N'Sua', DATEADD(DAY, -5, GETDATE()), 0, 1),
-(N'Thit heo ba chi', N'Thit heo ba chi tuoi', 20, 125000, N'Kg', N'Thit', DATEADD(DAY, -3, GETDATE()), 0, 1),
-(N'Rau muong huu co', N'Rau muong sach', 30, 8000, N'Bo', N'Rau cu', DATEADD(DAY, -2, GETDATE()), 0, 1),
+(N'Thit heo ba chi cu', N'Thit heo ba chi tuoi', 20, 125000, N'Kg', N'Thit', DATEADD(DAY, -3, GETDATE()), 0, 1),
+(N'Rau muong huu co cu', N'Rau muong sach', 30, 8000, N'Bo', N'Rau cu', DATEADD(DAY, -2, GETDATE()), 0, 1),
 (N'Ca hoi Nauy', N'Ca hoi tuoi fillet', 10, 450000, N'Kg', N'Hai san', DATEADD(DAY, -1, GETDATE()), 0, 1),
-(N'Trung ga sach', N'Trung ga nuoi tu nhien', 100, 4500, N'Qua', N'Trung', DATEADD(DAY, -7, GETDATE()), 0, 1);
-GO
-
--- San pham SAP HET HAN (ExpirationDate = today or tomorrow)
-INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], [ExpirationDate], [PricePercent], [UserID]) VALUES
+(N'Trung ga sach', N'Trung ga nuoi tu nhien', 100, 4500, N'Qua', N'Trung', DATEADD(DAY, -7, GETDATE()), 0, 1),
 (N'Sua chua TH True Milk', N'Sua chua vi dau', 80, 28000, N'Loc', N'Sua', DATEADD(DAY, 1, GETDATE()), 0, 1),
 (N'Thit bo Uc nhap khau', N'Thit bo loai 1', 15, 320000, N'Kg', N'Thit', DATEADD(DAY, 2, GETDATE()), 0, 1),
 (N'Tom su trang', N'Tom su Phu Yen tuoi', 25, 280000, N'Kg', N'Hai san', DATEADD(DAY, 1, GETDATE()), 0, 1),
@@ -178,11 +191,8 @@ INSERT INTO dbo.Product ([ProName], [Des], [Quantity], [Price], [Unit], [Type], 
 GO
 
 -- =============================================
--- 3. INSERT 50 ORDERS WITH ORDER ITEMS
--- (Distributed across different dates)
+-- 4. INSERT 50 ORDERS WITH ORDER ITEMS
 -- =============================================
-
--- Orders from 90 days ago to today
 DECLARE @i INT = 1;
 DECLARE @OrderDate DATETIME;
 DECLARE @RandomHour INT;
@@ -193,23 +203,30 @@ DECLARE @RandomQty INT;
 DECLARE @UnitPrice DECIMAL(18,2);
 DECLARE @OrderId INT;
 DECLARE @TotalAmount DECIMAL(18,2);
+DECLARE @CustomerIndex INT;
 
 WHILE @i <= 50
 BEGIN
-    -- Random date in last 90 days, more recent orders are more frequent
+    -- Random date in last 90 days
     IF @i <= 10
-        SET @OrderDate = DATEADD(DAY, -(@i * 8), GETDATE()) -- Older orders (80-8 days ago)
+        SET @OrderDate = DATEADD(DAY, -(@i * 8), GETDATE())
     ELSE IF @i <= 25
-        SET @OrderDate = DATEADD(DAY, -((@i - 10) * 3), GETDATE()) -- Medium (45-3 days ago)
+        SET @OrderDate = DATEADD(DAY, -((@i - 10) * 3), GETDATE())
     ELSE
-        SET @OrderDate = DATEADD(DAY, -(50 - @i), GETDATE()) -- Recent (25-0 days ago)
+        SET @OrderDate = DATEADD(DAY, -(50 - @i), GETDATE())
     
-    SET @RandomHour = CAST(RAND() * 12 + 7 AS INT); -- 7 AM to 7 PM
+    SET @RandomHour = CAST(RAND() * 12 + 7 AS INT);
     SET @OrderDate = DATEADD(HOUR, @RandomHour, @OrderDate);
     
+    -- Random customer (80% have customer, 20% are walk-in)
+    IF RAND() < 0.8
+        SET @CustomerIndex = CAST(RAND() * 15 + 1 AS INT)
+    ELSE
+        SET @CustomerIndex = NULL;
+    
     -- Insert Order
-    INSERT INTO dbo.[Order] ([UserID], [OrderTime], [TotalAmount])
-    VALUES (1, @OrderDate, 0);
+    INSERT INTO dbo.[Order] ([UserID], [CustomerId], [OrderTime], [TotalAmount])
+    VALUES (1, @CustomerIndex, @OrderDate, 0);
     
     SET @OrderId = SCOPE_IDENTITY();
     SET @TotalAmount = 0;
@@ -220,18 +237,13 @@ BEGIN
     
     WHILE @ItemIndex <= @NumItems
     BEGIN
-        -- Random product (ID 1-100)
         SET @RandomProId = CAST(RAND() * 100 + 1 AS INT);
-        
-        -- Random quantity (1-10)
         SET @RandomQty = CAST(RAND() * 10 + 1 AS INT);
         
-        -- Get unit price
         SELECT @UnitPrice = [Price] FROM dbo.Product WHERE [ProId] = @RandomProId;
         
         IF @UnitPrice IS NOT NULL
         BEGIN
-            -- Insert OrderItem
             INSERT INTO dbo.OrderItem ([OrderId], [ProId], [Quantity], [UnitPrice])
             VALUES (@OrderId, @RandomProId, @RandomQty, @UnitPrice);
             
@@ -251,7 +263,8 @@ GO
 PRINT '';
 PRINT '=== DATA INSERTED SUCCESSFULLY ===';
 PRINT 'Users: 10';
-PRINT 'Products: 100 (Rau cu: 25, Trai cay: 20, Thit: 15, Hai san: 15, Gao: 10, Trung: 8, Gia vi: 7)';
+PRINT 'Customers: 15';
+PRINT 'Products: 110 (Rau cu, Trai cay, Thit, Hai san, Gao, Trung, Gia vi)';
 PRINT 'Orders: 50 (with multiple items each)';
 PRINT '';
 PRINT 'Login: admin@gmail.com / 123456';
