@@ -12,7 +12,7 @@ import java.awt.*;
  * Master table: List of orders
  * Detail table: List of items in selected order
  */
-public class HistoryPanel extends ProductListPanel {
+public class HistoryPanel extends JPanel {
     
     private static JTable tableOrders;
     private static JTable tableItems;
@@ -26,29 +26,51 @@ public class HistoryPanel extends ProductListPanel {
     public static String[] columnItems = {"Tên Sản Phẩm", "Đơn Giá", "Số Lượng", "Thành Tiền"};
     
     public HistoryPanel() {
-        super();
+        setLayout(new BorderLayout(10, 10));
+        setBackground(UIStyle.colorBg);
+        setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
         
-        // Setup Top Panel
-        pnTop.removeAll();
-        JLabel label = new JLabel("Lịch Sử Bán Hàng");
-        label.setPreferredSize(new Dimension(900, 50));
-        label.setBackground(UIStyle.colorBg);
-        label.setFont(UIStyle.font20);
-        label.setForeground(UIStyle.colorText);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        pnTop.add(label);
-        add(pnTop, BorderLayout.NORTH);
+        initHeader();
+        initMasterDetailPanel();
+        initBottomPanel();
+    }
+    
+    /**
+     * Header with title
+     */
+    private void initHeader() {
+        JPanel pnHeader = new JPanel(new BorderLayout());
+        pnHeader.setBackground(UIStyle.colorBg);
+        pnHeader.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         
-        // Setup Center Panel with Master-Detail
-        pnBottom.removeAll();
-        pnCenter.removeAll();
-        pnCenter.setLayout(new BorderLayout(10, 10));
+        JLabel lblTitle = new JLabel("Lịch Sử Bán Hàng");
+        lblTitle.setFont(UIStyle.font24Bold);
+        lblTitle.setForeground(UIStyle.colorText);
+        pnHeader.add(lblTitle, BorderLayout.WEST);
         
+        // Order count
+        Object[][] orders = OrderServer.ordersToTable();
+        JLabel lblCount = new JLabel("Tổng: " + orders.length + " đơn hàng");
+        lblCount.setFont(UIStyle.font14);
+        lblCount.setForeground(UIStyle.colorTextSecondary);
+        pnHeader.add(lblCount, BorderLayout.EAST);
+        
+        add(pnHeader, BorderLayout.NORTH);
+    }
+    
+    /**
+     * Master-Detail panel with split pane
+     */
+    private void initMasterDetailPanel() {
         // Master Panel (Orders List)
-        JPanel masterPanel = new JPanel(new BorderLayout());
-        masterPanel.setBackground(UIStyle.colorBg);
+        JPanel masterPanel = new JPanel(new BorderLayout(5, 5));
+        masterPanel.setBackground(UIStyle.colorBgCard);
+        masterPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(UIStyle.colorBorder, 1),
+            BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
         
-        JLabel lblOrders = new JLabel("Danh sách đơn hàng");
+        JLabel lblOrders = new JLabel("Danh Sách Đơn Hàng");
         lblOrders.setFont(UIStyle.font16Bold);
         lblOrders.setForeground(UIStyle.colorText);
         masterPanel.add(lblOrders, BorderLayout.NORTH);
@@ -66,20 +88,20 @@ public class HistoryPanel extends ProductListPanel {
         tableOrders.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         scrollOrders = new JScrollPane(tableOrders);
-        scrollOrders.setPreferredSize(new Dimension(1400, 300));
+        scrollOrders.setBorder(BorderFactory.createEmptyBorder());
         masterPanel.add(scrollOrders, BorderLayout.CENTER);
         
-        // Detail Panel (Order Items) - different color for distinction
-        JPanel detailPanel = new JPanel(new BorderLayout());
+        // Detail Panel (Order Items)
+        JPanel detailPanel = new JPanel(new BorderLayout(5, 5));
         detailPanel.setBackground(new Color(240, 248, 255)); // Light blue background
         detailPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(2, 0, 0, 0, UIStyle.colorPrimary),
+            BorderFactory.createLineBorder(UIStyle.colorInfo, 1),
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
         
-        JLabel lblItems = new JLabel("Chi tiet don hang");
+        JLabel lblItems = new JLabel("Chi Tiết Đơn Hàng");
         lblItems.setFont(UIStyle.font16Bold);
-        lblItems.setForeground(UIStyle.colorPrimary);
+        lblItems.setForeground(UIStyle.colorInfo);
         detailPanel.add(lblItems, BorderLayout.NORTH);
         
         modelItems = new DefaultTableModel(new Object[0][4], columnItems) {
@@ -91,14 +113,14 @@ public class HistoryPanel extends ProductListPanel {
         
         tableItems = new JTable(modelItems);
         UIStyle.styleTable(tableItems);
-        tableItems.setBackground(UIStyle.colorBgDark); // Slightly different color
-        tableItems.getTableHeader().setBackground(UIStyle.colorPrimaryLight);
+        tableItems.setBackground(UIStyle.colorBgDark);
+        tableItems.getTableHeader().setBackground(new Color(200, 220, 255));
         
         scrollItems = new JScrollPane(tableItems);
-        scrollItems.setPreferredSize(new Dimension(1400, 300));
+        scrollItems.setBorder(BorderFactory.createEmptyBorder());
         detailPanel.add(scrollItems, BorderLayout.CENTER);
         
-        // Add selection listener to master table
+        // Selection listener for master table
         tableOrders.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -115,17 +137,63 @@ public class HistoryPanel extends ProductListPanel {
         // Split pane for master-detail
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, masterPanel, detailPanel);
         splitPane.setResizeWeight(0.5);
-        splitPane.setDividerLocation(350);
-        pnCenter.add(splitPane, BorderLayout.CENTER);
+        splitPane.setDividerSize(8);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setBorder(null);
         
-        // Bottom Panel with Export Button
-        btnExport = UIStyle.setBtnActive(btnExport, "Xuat hoa don");
-        btnExport.setBorder(BorderFactory.createEmptyBorder(6, 16, 6, 16));
+        add(splitPane, BorderLayout.CENTER);
+    }
+    
+    /**
+     * Bottom panel with export button
+     */
+    private void initBottomPanel() {
+        JPanel pnBottom = new JPanel();
+        pnBottom.setBackground(UIStyle.colorBgCard);
+        pnBottom.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(UIStyle.colorBorder, 1),
+            BorderFactory.createEmptyBorder(12, 15, 12, 15)
+        ));
+        pnBottom.setLayout(new BoxLayout(pnBottom, BoxLayout.X_AXIS));
+        
+        JLabel lblInfo = new JLabel("Chọn đơn hàng để xem chi tiết hoặc xuất hóa đơn");
+        lblInfo.setFont(UIStyle.font14);
+        lblInfo.setForeground(UIStyle.colorTextSecondary);
+        pnBottom.add(lblInfo);
+        
         pnBottom.add(Box.createHorizontalGlue());
-        pnBottom.add(btnExport);
-        pnBottom.add(Box.createHorizontalStrut(40));
         
+        btnExport = createButton("Xuất Hóa Đơn PDF", UIStyle.colorPrimary);
         btnExport.addActionListener(e -> exportInvoice());
+        pnBottom.add(btnExport);
+        
+        add(pnBottom, BorderLayout.SOUTH);
+    }
+    
+    /**
+     * Create styled button
+     */
+    private JButton createButton(String text, Color bgColor) {
+        JButton btn = new JButton(text);
+        btn.setPreferredSize(new Dimension(180, 42));
+        btn.setFont(UIStyle.font14);
+        btn.setBackground(bgColor);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        final Color hoverColor = bgColor.darker();
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(hoverColor);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(bgColor);
+            }
+        });
+        
+        return btn;
     }
     
     private void exportInvoice() {

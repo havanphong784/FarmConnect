@@ -5,48 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efffa980-f12c-46ce-8c1e-312a957b14f2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d/storage_v2/_src_/database/FarmConnect.tFejIw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d/storage_v2/_src_/database/FarmConnect.tFejIw/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/843af68c-be25-4f01-985d-f6c4792dc39d/storage_v2/_src_/database/FarmConnect.tFejIw/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/itextpdf_5_5_13_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jcommon_1_0_23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jfreechart_1_0_19.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/mssql_jdbc_13_2_1_jre11.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/queries/Query.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FarmConnect.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FarmConnect.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_seed.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_seed.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_setup.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bill/hoa_don.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bill/hoa_don.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBConnect/DBConnect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/DBConnect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBConnect/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/OrderDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBConnect/ProductsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/ProductsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DBConnect/StatisticsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DBConnect/StatisticsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/InvoicePDFUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/InvoicePDFUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/OrderServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/OrderServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/CartPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/CartPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/DashboardPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/DashboardPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/HistoryPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HistoryPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/LoginFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/MainFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/ProductListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductListPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/ProductsFormSell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductsFormSell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/ProductsFormUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductsFormUpdate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/ProductsFromInsert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/ProductsFromInsert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/RegisterFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/RegisterFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/StatisticsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/StatisticsPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/UIStyle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/UIStyle.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,30 +30,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.App.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Code/Java/Project/FarmConnect",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Code/Java/Project/FarmConnect&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="App" />
@@ -121,6 +86,7 @@
       <workItem from="1766579270137" duration="2814000" />
       <workItem from="1766680769668" duration="45000" />
       <workItem from="1766885357985" duration="1832000" />
+      <workItem from="1767063280912" duration="2257000" />
     </task>
     <servers />
   </component>

@@ -4,26 +4,32 @@ import DBConnect.StatisticsDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.Map;
 
 /**
- * Dashboard Panel - Overview with key metrics and quick actions
+ * Dashboard Panel - Overview with key metrics and expired products table
  * Displayed when the app first opens
  */
 public class DashboardPanel extends JPanel {
     
+    // Static instance for external refresh
+    private static DashboardPanel instance;
+    
     private JPanel pnCards;
-    private JPanel pnQuickActions;
-    private JPanel pnAlerts;
+    private JPanel pnExpired;
+    private JTable tableExpired;
+    private DefaultTableModel modelExpired;
     
     public DashboardPanel() {
+        instance = this;
         setLayout(new BorderLayout(15, 15));
         setBackground(UIStyle.colorBg);
-        setBorder(new EmptyBorder(20, 20, 20, 20));
+        setBorder(new EmptyBorder(15, 15, 15, 15));
         
         initUI();
     }
@@ -55,14 +61,9 @@ public class DashboardPanel extends JPanel {
         pnMain.add(pnCards);
         pnMain.add(Box.createVerticalStrut(20));
         
-        // Quick Actions Section
-        createQuickActions();
-        pnMain.add(pnQuickActions);
-        pnMain.add(Box.createVerticalStrut(20));
-        
-        // Alerts Section
-        createAlertsSection();
-        pnMain.add(pnAlerts);
+        // Expired Products Table Section
+        createExpiredProductsPanel();
+        pnMain.add(pnExpired);
         
         JScrollPane scrollPane = new JScrollPane(pnMain);
         scrollPane.setBorder(null);
@@ -92,7 +93,7 @@ public class DashboardPanel extends JPanel {
             "Tổng Doanh Thu",
             vnd.format(totalRevenue) + " VNĐ",
             new Color(16, 185, 129),  // Emerald
-            "💰"
+            "$"
         ));
         
         // Card 2: Total Orders
@@ -100,7 +101,7 @@ public class DashboardPanel extends JPanel {
             "Đơn Hàng",
             String.valueOf(totalOrders),
             new Color(59, 130, 246),  // Blue
-            "📦"
+            "#"
         ));
         
         // Card 3: Products in Stock
@@ -108,7 +109,7 @@ public class DashboardPanel extends JPanel {
             "Sản Phẩm Tồn Kho",
             String.valueOf(totalProducts),
             new Color(139, 92, 246),  // Purple
-            "🏷️"
+            "*"
         ));
         
         // Card 4: Expiring Products (warning)
@@ -116,7 +117,7 @@ public class DashboardPanel extends JPanel {
             "Sắp Hết Hạn",
             String.valueOf(expiredProducts.length),
             expiredProducts.length > 0 ? new Color(239, 68, 68) : new Color(34, 197, 94),  // Red or Green
-            "⚠️"
+            "!"
         ));
     }
     
@@ -129,15 +130,16 @@ public class DashboardPanel extends JPanel {
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(229, 231, 235), 1),
-            new EmptyBorder(20, 20, 20, 20)
+            new EmptyBorder(15, 15, 15, 15)
         ));
         
-        // Emoji
-        JLabel lblEmoji = new JLabel(emoji);
-        lblEmoji.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 28));
-        lblEmoji.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.add(lblEmoji);
-        card.add(Box.createVerticalStrut(10));
+        // Icon symbol
+        JLabel lblIcon = new JLabel(emoji);
+        lblIcon.setFont(UIStyle.font24Bold);
+        lblIcon.setForeground(accentColor);
+        lblIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.add(lblIcon);
+        card.add(Box.createVerticalStrut(8));
         
         // Title
         JLabel lblTitle = new JLabel(title);
@@ -149,7 +151,7 @@ public class DashboardPanel extends JPanel {
         
         // Value
         JLabel lblValue = new JLabel(value);
-        lblValue.setFont(UIStyle.font24Bold);
+        lblValue.setFont(UIStyle.font20);
         lblValue.setForeground(accentColor);
         lblValue.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(lblValue);
@@ -158,163 +160,130 @@ public class DashboardPanel extends JPanel {
     }
     
     /**
-     * Create quick action buttons
+     * Create expired products table panel
      */
-    private void createQuickActions() {
-        pnQuickActions = new JPanel(new BorderLayout(10, 10));
-        pnQuickActions.setBackground(UIStyle.colorBg);
-        pnQuickActions.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
-        
-        JLabel lblTitle = new JLabel("Thao Tác Nhanh");
-        lblTitle.setFont(UIStyle.font18Bold);
-        lblTitle.setForeground(UIStyle.colorText);
-        pnQuickActions.add(lblTitle, BorderLayout.NORTH);
-        
-        JPanel pnButtons = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
-        pnButtons.setBackground(UIStyle.colorBg);
-        
-        // Quick action buttons - note: these need MainFrame reference to navigate
-        JButton btnAddProduct = createQuickButton("Thêm Sản Phẩm", new Color(16, 185, 129));
-        JButton btnSell = createQuickButton("Bán Hàng", new Color(59, 130, 246));
-        JButton btnViewHistory = createQuickButton("Lịch Sử", new Color(139, 92, 246));
-        JButton btnStatistics = createQuickButton("Thống Kê", new Color(245, 158, 11));
-        
-        // Add tooltips to explain functionality
-        btnAddProduct.setToolTipText("Mở Menu > Sản phẩm để thêm sản phẩm mới");
-        btnSell.setToolTipText("Mở Menu > Giỏ hàng để bán hàng");
-        btnViewHistory.setToolTipText("Mở Menu > Lịch sử bán hàng");
-        btnStatistics.setToolTipText("Mở Menu > Thống kê");
-        
-        pnButtons.add(btnAddProduct);
-        pnButtons.add(btnSell);
-        pnButtons.add(btnViewHistory);
-        pnButtons.add(btnStatistics);
-        
-        pnQuickActions.add(pnButtons, BorderLayout.CENTER);
-    }
-    
-    /**
-     * Create a quick action button
-     */
-    private JButton createQuickButton(String text, Color bgColor) {
-        JButton btn = new JButton(text);
-        btn.setFont(UIStyle.font14);
-        btn.setForeground(Color.WHITE);
-        btn.setBackground(bgColor);
-        btn.setFocusPainted(false);
-        btn.setBorderPainted(false);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setPreferredSize(new Dimension(140, 45));
-        btn.setOpaque(true);
-        
-        // Hover effect
-        final Color hoverColor = bgColor.darker();
-        btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn.setBackground(hoverColor);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn.setBackground(bgColor);
-            }
-        });
-        
-        return btn;
-    }
-    
-    /**
-     * Create alerts section for expiring/low stock products
-     */
-    private void createAlertsSection() {
-        pnAlerts = new JPanel(new BorderLayout(10, 10));
-        pnAlerts.setBackground(Color.WHITE);
-        pnAlerts.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(254, 202, 202), 1),
-            new EmptyBorder(15, 15, 15, 15)
+    private void createExpiredProductsPanel() {
+        pnExpired = new JPanel(new BorderLayout(10, 10));
+        pnExpired.setBackground(new Color(255, 248, 245)); // Warm seashell color
+        pnExpired.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
+        pnExpired.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(255, 200, 180), 1),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
-        pnAlerts.setMaximumSize(new Dimension(Integer.MAX_VALUE, 250));
-        
+
         // Header
-        JLabel lblTitle = new JLabel("⚠️ Cảnh Báo");
+        JLabel lblTitle = new JLabel("  [!] Sản Phẩm Hết Hạn / Sắp Hết Hạn");
         lblTitle.setFont(UIStyle.font18Bold);
         lblTitle.setForeground(UIStyle.colorDanger);
-        pnAlerts.add(lblTitle, BorderLayout.NORTH);
-        
-        // Content
-        JPanel pnContent = new JPanel();
-        pnContent.setLayout(new BoxLayout(pnContent, BoxLayout.Y_AXIS));
-        pnContent.setBackground(Color.WHITE);
-        
-        // Get expired products
-        Object[][] expiredProducts = StatisticsDAO.getExpiredProducts();
-        
-        if (expiredProducts.length == 0) {
-            JLabel lblNoAlerts = new JLabel("Không có cảnh báo nào. Tất cả sản phẩm đều trong trạng thái tốt!");
-            lblNoAlerts.setFont(UIStyle.font14);
-            lblNoAlerts.setForeground(UIStyle.colorSuccess);
-            pnContent.add(lblNoAlerts);
-        } else {
-            // Show up to 5 items
-            int count = Math.min(expiredProducts.length, 5);
-            for (int i = 0; i < count; i++) {
-                Object[] product = expiredProducts[i];
-                String name = (String) product[0];
-                String expDate = (String) product[3];
-                String status = (String) product[4];
-                
-                JPanel pnItem = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-                pnItem.setBackground(Color.WHITE);
-                pnItem.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-                
-                JLabel lblIcon = new JLabel(status.equals("expired") ? "🔴" : "🟡");
-                JLabel lblName = new JLabel(name);
-                lblName.setFont(UIStyle.font14);
-                lblName.setForeground(UIStyle.colorText);
-                
-                JLabel lblExp = new JLabel("- Hết hạn: " + expDate);
-                lblExp.setFont(UIStyle.font12);
-                lblExp.setForeground(status.equals("expired") ? UIStyle.colorDanger : UIStyle.colorWarning);
-                
-                pnItem.add(lblIcon);
-                pnItem.add(lblName);
-                pnItem.add(lblExp);
-                pnContent.add(pnItem);
+        pnExpired.add(lblTitle, BorderLayout.NORTH);
+
+        // Table with hidden status column
+        String[] columns = {"Tên Sản Phẩm", "Số Lượng", "Đơn Vị", "Ngày Hết Hạn", "Status"};
+        Object[][] data = StatisticsDAO.getExpiredProducts();
+
+        modelExpired = new DefaultTableModel(data, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
             }
-            
-            if (expiredProducts.length > 5) {
-                JLabel lblMore = new JLabel("... và " + (expiredProducts.length - 5) + " sản phẩm khác");
-                lblMore.setFont(UIStyle.font12);
-                lblMore.setForeground(UIStyle.colorTextSecondary);
-                lblMore.setBorder(new EmptyBorder(5, 30, 0, 0));
-                pnContent.add(lblMore);
-            }
-        }
-        
-        // Low stock warning
-        Map<String, Integer> lowStock = StatisticsDAO.getLowStockProducts(3);
-        if (!lowStock.isEmpty()) {
-            pnContent.add(Box.createVerticalStrut(15));
-            
-            JLabel lblLowStock = new JLabel("📉 Sản phẩm sắp hết hàng:");
-            lblLowStock.setFont(UIStyle.font14);
-            lblLowStock.setForeground(UIStyle.colorWarning);
-            pnContent.add(lblLowStock);
-            
-            for (Map.Entry<String, Integer> entry : lowStock.entrySet()) {
-                if (entry.getValue() < 20) {
-                    JPanel pnItem = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 3));
-                    pnItem.setBackground(Color.WHITE);
-                    pnItem.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        };
+
+        tableExpired = new JTable(modelExpired);
+        UIStyle.styleTable(tableExpired);
+        tableExpired.getTableHeader().setBackground(new Color(255, 230, 230));
+        tableExpired.getTableHeader().setForeground(UIStyle.colorDanger);
+        tableExpired.setSelectionBackground(new Color(255, 220, 220));
+
+        // Hide the status column (column index 4) - only if table has data
+        if (data.length > 0) {
+            tableExpired.getColumnModel().getColumn(4).setMinWidth(0);
+            tableExpired.getColumnModel().getColumn(4).setMaxWidth(0);
+            tableExpired.getColumnModel().getColumn(4).setWidth(0);
+
+            // Custom cell renderer for color coding
+            Color colorExpired = new Color(220, 53, 69);      // Red - đã hết hạn
+            Color colorExpiring = new Color(255, 152, 0);     // Orange - sắp hết hạn
+            Color colorExpiredBg = new Color(255, 235, 238);  // Light red background
+            Color colorExpiringBg = new Color(255, 243, 224); // Light orange background
+
+            DefaultTableCellRenderer colorRenderer = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     
-                    JLabel lblName = new JLabel("• " + entry.getKey() + " - Còn: " + entry.getValue());
-                    lblName.setFont(UIStyle.font12);
-                    lblName.setForeground(UIStyle.colorTextSecondary);
-                    pnItem.add(lblName);
-                    pnContent.add(pnItem);
+                    // Get status from hidden column (column 4)
+                    String status = (String) table.getModel().getValueAt(row, 4);
+                    
+                    if (!isSelected) {
+                        if ("expired".equals(status)) {
+                            c.setBackground(colorExpiredBg);
+                            c.setForeground(colorExpired);
+                        } else {
+                            c.setBackground(colorExpiringBg);
+                            c.setForeground(colorExpiring);
+                        }
+                    }
+                    
+                    // Center alignment for numeric columns
+                    if (column == 1 || column == 2) {
+                        setHorizontalAlignment(SwingConstants.CENTER);
+                    } else {
+                        setHorizontalAlignment(SwingConstants.LEFT);
+                    }
+                    
+                    return c;
                 }
+            };
+
+            // Apply renderer to visible columns (0-3)
+            for (int i = 0; i < 4; i++) {
+                tableExpired.getColumnModel().getColumn(i).setCellRenderer(colorRenderer);
             }
         }
-        
-        pnAlerts.add(pnContent, BorderLayout.CENTER);
+
+        JScrollPane scrollPane = new JScrollPane(tableExpired);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setPreferredSize(new Dimension(0, 250));
+
+        if (data.length == 0) {
+            JLabel lblNoData = new JLabel("Không có sản phẩm hết hạn - Tất cả sản phẩm đều tốt!", JLabel.CENTER);
+            lblNoData.setFont(UIStyle.font16);
+            lblNoData.setForeground(UIStyle.colorSuccess);
+            pnExpired.add(lblNoData, BorderLayout.CENTER);
+        } else {
+            pnExpired.add(scrollPane, BorderLayout.CENTER);
+            
+            // Count expired vs expiring
+            int expiredCount = 0;
+            int expiringCount = 0;
+            for (Object[] row : data) {
+                if ("expired".equals(row[4])) expiredCount++;
+                else expiringCount++;
+            }
+            
+            JPanel pnFooter = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+            pnFooter.setBackground(new Color(255, 248, 245));
+            pnFooter.setBorder(new EmptyBorder(10, 0, 0, 0));
+            
+            JLabel lblExpired = new JLabel("[X] Đã hết hạn: " + expiredCount);
+            lblExpired.setFont(UIStyle.font14);
+            lblExpired.setForeground(new Color(220, 53, 69));
+            
+            JLabel lblExpiring = new JLabel("[!] Sắp hết hạn: " + expiringCount);
+            lblExpiring.setFont(UIStyle.font14);
+            lblExpiring.setForeground(new Color(255, 152, 0));
+            
+            JLabel lblTotal = new JLabel("| Tổng: " + data.length + " sản phẩm");
+            lblTotal.setFont(UIStyle.font14);
+            lblTotal.setForeground(UIStyle.colorTextSecondary);
+            
+            pnFooter.add(lblExpired);
+            pnFooter.add(lblExpiring);
+            pnFooter.add(lblTotal);
+            
+            pnExpired.add(pnFooter, BorderLayout.SOUTH);
+        }
     }
     
     /**
@@ -325,5 +294,15 @@ public class DashboardPanel extends JPanel {
         initUI();
         revalidate();
         repaint();
+    }
+    
+    /**
+     * Static method to refresh dashboard from other panels
+     * Call this after performing operations like checkout, add/update/delete products
+     */
+    public static void refreshDashboard() {
+        if (instance != null) {
+            instance.refresh();
+        }
     }
 }
